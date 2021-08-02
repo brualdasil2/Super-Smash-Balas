@@ -43,6 +43,8 @@ public class GameState extends State {
 	
 	private int p1wins = 0;
 	private int p2wins = 0;
+	
+	private ComboCounter comboCounter = new ComboCounter();
 
 
 	
@@ -241,6 +243,8 @@ public class GameState extends State {
 					
 					if (gameSpeed != 3 || playFrame) {
 						
+						
+						
 						player1.measureCollision();
 						player2.measureCollision();
 						player1.getInput();
@@ -330,6 +334,8 @@ public class GameState extends State {
 						player1.projectileHitDetection();
 						player2.hitDetection();
 						player2.projectileHitDetection();
+						
+						comboCounter.tick(player1, player2);
 					}
 				}
 				else {
@@ -713,9 +719,9 @@ public class GameState extends State {
 			else if (winner < 0) {
 				
 				if (map == 2 || map == 3)
-					Text.drawString(g, "EMPATE! MORTE SÚBITA INICIANDO...", 640, 190, true, Color.white, Assets.font30);
+					Text.drawString(g, "EMPATE! MORTE Sï¿½BITA INICIANDO...", 640, 190, true, Color.white, Assets.font30);
 				else
-					Text.drawString(g, "EMPATE! MORTE SÚBITA INICIANDO...", 640, 190, true, Color.black, Assets.font30);
+					Text.drawString(g, "EMPATE! MORTE Sï¿½BITA INICIANDO...", 640, 190, true, Color.black, Assets.font30);
 			}
 			
 		}
@@ -737,6 +743,8 @@ public class GameState extends State {
 			resetButton.drawButton(g);
 			hitboxButton.drawButton(g);
 			speedButton.drawButton(g);
+			
+			comboCounter.render(g);
 
 			if (gameSpeed == 1) {
 				
