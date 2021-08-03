@@ -34,10 +34,32 @@ public class ComboCounter {
 		GameState.screenRefreshManager.setChange(1180, 0, 70, 120);
 	}
 	
+	private void checkIfHit(Player player) {
+		int playerHealth;
+		if (player.playerNumb == 1)
+			playerHealth = p1Health;
+		else
+			playerHealth = p2Health;
+		
+		if (player.getHealth() < playerHealth) {
+			GameState.screenRefreshManager.setChange(1180, 0, 70, 120);
+			playerComboed = (player.playerNumb);
+			comboDamage += (playerHealth - player.getHealth());
+			displayComboDamage = comboDamage;
+			comboCounter++;
+			displayComboCounter = comboCounter;
+			delayFramesCounter = 0;
+		}
+	}
+	
 	public void tick(Player p1, Player p2) {
 		
 		countDelayFrames();
 		
+		
+		checkIfHit(p1);
+		checkIfHit(p2);
+
 		if (playerComboed != 0) {
 			if (playerComboed == 1) {
 				if (p1.getHitstunFrames() == 0) {
@@ -50,22 +72,6 @@ public class ComboCounter {
 				}
 			}
 		}
-		
-		if (p1.getHealth() < p1Health) {
-			GameState.screenRefreshManager.setChange(1180, 0, 70, 120);
-			playerComboed = 1;
-			comboDamage += (p1Health - p1.getHealth()); 
-			comboCounter++;
-		}
-		else if (p2.getHealth() < p2Health) {
-			GameState.screenRefreshManager.setChange(1180, 0, 70, 120);
-			playerComboed = 2;
-			comboDamage += (p2Health - p2.getHealth()); 
-			displayComboDamage = comboDamage;
-			comboCounter++;
-			displayComboCounter = comboCounter;
-		}
-
 		
 		p1Health = p1.getHealth();
 		p2Health = p2.getHealth();
