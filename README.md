@@ -9,8 +9,11 @@ Menu inicial:
 ![image](https://user-images.githubusercontent.com/73000207/127052599-f15e37bd-ae7c-4d95-b8ac-104d82981df1.png)
 
 # Como executar o jogo
-- Instalar Java versão 8
+- Instalar Java JRE de alguma das versões mais recentes
 - Executar o arquivo SuperSmashBalas.jar
+
+# Renderização da tela
+  - Para otimizar o processo de atualizar a tela a 60 fps, ela foi dividida em uma grade, na qual só são atualizados os quadrados nos quais algo se moveu ou mudou. Cada objeto que se move ou altera seu estado visual chama uma função que "marca" quais quadrados devem ser atualizados naquele frame. Desse modo, só se gasta processamento atualizando as partes da tela que são necessárias.
 
 # Personagens
 - Bruno: O personagem mais básico, tem golpes de médio alcance, um projétil, e bom potencial para combos.
