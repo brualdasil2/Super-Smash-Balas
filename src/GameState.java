@@ -26,7 +26,7 @@ public class GameState extends State {
 	private static int parryFreezeCounter = 0;
 	public static ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 	public static MagicBall magicBall;
-	private Button hitboxButton, resetButton, speedButton, frameButton, menuButton, characterButton, resumeButton;
+	private Button hitboxButton, resetButton, speedButton, frameButton, trainingBotButton, botBehaviorButton, botEscapeButton, menuButton, characterButton, resumeButton;
 	private boolean showBoxes = false;
 	private boolean paused;
 	private int mode;
@@ -43,6 +43,10 @@ public class GameState extends State {
 	
 	private int p1wins = 0;
 	private int p2wins = 0;
+	
+	private boolean trainingBotOn = false;
+	private int botBehavior = 0;
+	private int botEscape = 0;
 	
 	private ComboCounter comboCounter = new ComboCounter();
 
@@ -87,7 +91,7 @@ public class GameState extends State {
 			
 			player1 = new Player(game, 1, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer1Char(), 240, floorY - 200, "JOGADOR 1");
 			player2 = new Player(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), 840, floorY - 200, "JOGADOR 2");
-			//player2 = new BrunoBotHard(game, 2, new Bruno(1), 840, floorY - 200);
+			
 			
 		}
 		else if (mode >= 3) {
@@ -150,6 +154,9 @@ public class GameState extends State {
 			hitboxButton = new Button(game, 10, 60, 120, 40, Color.darkGray, "MOSTRAR HITBOXES", Assets.font10, null, true);
 			speedButton = new Button(game, 10, 110, 120, 40, Color.darkGray, "MUDAR VELOCIDADE", Assets.font10, null, true);
 			frameButton = new Button(game, 10, 160, 120, 40, Color.darkGray, "PASSAR FRAME", Assets.font10, null, true);
+			trainingBotButton = new Button(game, 10, 210, 120, 40, Color.darkGray, "LIGAR/DESLIGAR", Assets.font10, null, true);
+			botBehaviorButton = new Button(game, 10, 260, 120, 40, Color.darkGray, "COMPORTAMENTO", Assets.font10, null, true);
+			botEscapeButton = new Button(game, 10, 310, 120, 40, Color.darkGray, "ESCAPAR COMBO", Assets.font10, null, true);
 		}
 		
 	}
@@ -317,6 +324,109 @@ public class GameState extends State {
 							
 						}
 						
+						if (trainingBotButton.buttonPressed()) {
+							trainingBotOn = !trainingBotOn;
+							screenRefreshManager.setChange(10, 160, 200, 200);
+							screenRefreshManager.setChange(0, 0, 1280, 30);
+							screenRefreshManager.setChange(0, 0, 300, 500);
+							double p2X = player2.getX();
+							double p2Y = player2.getY();
+							if (trainingBotOn) {
+								player2 = new TrainingBot(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+								player2.setOpponent(player1);
+								player1.setOpponent(player2);
+								((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char().resetAttackCounters();
+							}
+							else {
+								player2 = new Player(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y, "JOGADOR 2");
+								player2.setOpponent(player1);
+								player1.setOpponent(player2);
+								((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char().resetAttackCounters();
+								botBehavior = 0;
+								botEscape = 0;
+							}
+						}
+						
+						if (trainingBotOn) {
+							if (botBehaviorButton.buttonPressed()) {
+								double p2X = player2.getX();
+								double p2Y = player2.getY();
+								screenRefreshManager.setChange(0, 0, 300, 500);
+								screenRefreshManager.setChange(0, 0, 1280, 30);
+								botBehavior++;
+								if (botBehavior > 7) {
+									botBehavior = 0;
+									player2 = new TrainingBot(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+									player2.setOpponent(player1);
+									player1.setOpponent(player2);
+									((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char().resetAttackCounters();
+								}
+								if (botBehavior <= 4) {
+									((TrainingBot)(player2)).setBehaviorOption(botBehavior);
+								}
+								else if (botBehavior == 5) {
+									if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Bruno) {
+										player2 = new BrunoBotEasy(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+									}
+									else if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Carol) {
+										player2 = new CarolBotEasy(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+									}
+									else if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Lacerda) {
+										player2 = new LacerdaBotEasy(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+									}
+									else if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Obino) {
+										player2 = new ObinoBotEasy(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+									}
+									player2.setOpponent(player1);
+									player1.setOpponent(player2);
+									((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char().resetAttackCounters();
+								}
+								else if (botBehavior == 6) {
+									if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Bruno) {
+										player2 = new BrunoBotMedium(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+									}
+									else if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Carol) {
+										player2 = new CarolBotMedium(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+									}
+									else if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Lacerda) {
+										player2 = new LacerdaBotMedium(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+									}
+									else if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Obino) {
+										player2 = new ObinoBotMedium(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+									}
+									player2.setOpponent(player1);
+									player1.setOpponent(player2);
+									((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char().resetAttackCounters();
+								}
+								else if (botBehavior == 7) {
+									if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Bruno) {
+										player2 = new BrunoBotHard(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+									}
+									else if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Carol) {
+										player2 = new CarolBotHard(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+									}
+									else if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Lacerda) {
+										player2 = new LacerdaBotHard(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+									}
+									else if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Obino) {
+										player2 = new ObinoBotHard(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+									}
+									player2.setOpponent(player1);
+									player1.setOpponent(player2);
+									((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char().resetAttackCounters();
+								}
+							}
+							if (botBehavior <= 4) {
+								if (botEscapeButton.buttonPressed()) {
+									screenRefreshManager.setChange(0, 0, 300, 500);
+									botEscape++;
+									if (botEscape > 4) {
+										botEscape = 0;
+									}
+									((TrainingBot)(player2)).setEscapeOption(botEscape);
+								}
+							}
+						}
 
 					}
 					
@@ -646,32 +756,6 @@ public class GameState extends State {
 				g.drawOval(800 + 12*i, 6, 8, 8);
 			}
 			
-			/*if (player1.getScore() >= 1) {
-				
-				g.setColor(Color.green);
-				g.fillOval(475, 6, 8, 8);
-			}
-			if (player1.getScore() >= 2) {
-				
-				g.setColor(Color.green);
-				g.fillOval(463, 6, 8, 8);
-			}
-			if (player2.getScore() >= 1) {
-				
-				g.setColor(Color.green);
-				g.fillOval(800, 6, 8, 8);
-			}
-			if (player2.getScore() >= 2) {
-				
-				g.setColor(Color.green);
-				g.fillOval(812, 6, 8, 8);
-			}
-			
-			g.setColor(Color.black);
-			g.drawOval(475, 6, 8, 8);
-			g.drawOval(463, 6, 8, 8);
-			g.drawOval(800, 6, 8, 8);
-			g.drawOval(812, 6, 8, 8);*/
 		}
 	
 		
@@ -743,6 +827,116 @@ public class GameState extends State {
 			resetButton.drawButton(g);
 			hitboxButton.drawButton(g);
 			speedButton.drawButton(g);
+			
+			if (map == 2 || map == 3)
+				Text.drawString(g, "Bot de treino:", 70, 190, true, Color.white, Assets.font20);
+			else
+				Text.drawString(g, "Bot de treino:", 70, 190, true, Color.black, Assets.font20);
+			
+			trainingBotButton.drawButton(g);
+			
+			if (trainingBotOn) {
+				botBehaviorButton.drawButton(g);
+				
+				switch (botBehavior) {
+					case 0:
+						if (map == 2 || map == 3)
+							Text.drawString(g, "Controlar", 140, 290, false, Color.white, Assets.font20);
+						else
+							Text.drawString(g, "Controlar", 140, 290, false, Color.black, Assets.font20);
+						break;
+					case 1:
+						if (map == 2 || map == 3)
+							Text.drawString(g, "Pular", 140, 290, false, Color.white, Assets.font20);
+						else
+							Text.drawString(g, "Pular", 140, 290, false, Color.black, Assets.font20);
+						break;
+					case 2:
+						if (map == 2 || map == 3)
+							Text.drawString(g, "Golpe Neutro", 140, 290, false, Color.white, Assets.font20);
+						else
+							Text.drawString(g, "Golpe Neutro", 140, 290, false, Color.black, Assets.font20);
+						break;
+					case 3:
+						if (map == 2 || map == 3)
+							Text.drawString(g, "Golpe pro Lado", 140, 290, false, Color.white, Assets.font20);
+						else
+							Text.drawString(g, "Golpe pro Lado", 140, 290, false, Color.black, Assets.font20);
+						break;
+					case 4:
+						if (map == 2 || map == 3)
+							Text.drawString(g, "Golpe pra Cima", 140, 290, false, Color.white, Assets.font20);
+						else
+							Text.drawString(g, "Golpe pra Cima", 140, 290, false, Color.black, Assets.font20);
+						break;
+					case 5:
+						if (map == 2 || map == 3)
+							Text.drawString(g, "Bot Fácil", 140, 290, false, Color.white, Assets.font20);
+						else
+							Text.drawString(g, "Bot Fácil", 140, 290, false, Color.black, Assets.font20);
+						break;
+					case 6:
+						if (map == 2 || map == 3)
+							Text.drawString(g, "Bot Médio", 140, 290, false, Color.white, Assets.font20);
+						else
+							Text.drawString(g, "Bot Médio", 140, 290, false, Color.black, Assets.font20);
+						break;
+					case 7:
+						if (map == 2 || map == 3)
+							Text.drawString(g, "Bot Difícil", 140, 290, false, Color.white, Assets.font20);
+						else
+							Text.drawString(g, "Bot Difícil", 140, 290, false, Color.black, Assets.font20);
+						break;
+				}
+				
+				if (botBehavior <= 4) {
+					botEscapeButton.drawButton(g);
+					switch (botEscape) {
+						case 0:
+							if (map == 2 || map == 3)
+								Text.drawString(g, "Nada", 140, 340, false, Color.white, Assets.font20);
+							else
+								Text.drawString(g, "Nada", 140, 340, false, Color.black, Assets.font20);
+							break;
+						case 1:
+							if (map == 2 || map == 3)
+								Text.drawString(g, "Pular", 140, 340, false, Color.white, Assets.font20);
+							else
+								Text.drawString(g, "Pular", 140, 340, false, Color.black, Assets.font20);
+							break;
+						case 2:
+							if (map == 2 || map == 3)
+								Text.drawString(g, "Aéreo pra Frente", 140, 340, false, Color.white, Assets.font20);
+							else
+								Text.drawString(g, "Aéreo pra Frente", 140, 340, false, Color.black, Assets.font20);
+							break;
+						case 3:
+							if (map == 2 || map == 3)
+								Text.drawString(g, "Aéreo pra Cima", 140, 340, false, Color.white, Assets.font20);
+							else
+								Text.drawString(g, "Aéreo pra Cima", 140, 340, false, Color.black, Assets.font20);
+							break;
+						case 4:
+							if (map == 2 || map == 3)
+								Text.drawString(g, "Especial Neutro", 140, 340, false, Color.white, Assets.font20);
+							else
+								Text.drawString(g, "Especial Neutro", 140, 340, false, Color.black, Assets.font20);
+							break;
+					}
+				}
+				
+				if (map == 2 || map == 3)
+					Text.drawString(g, "Ligado", 140, 240, false, Color.white, Assets.font20);
+				else
+					Text.drawString(g, "Ligado", 140, 240, false, Color.black, Assets.font20);
+			}
+			else {
+				if (map == 2 || map == 3)
+					Text.drawString(g, "Desligado", 140, 240, false, Color.white, Assets.font20);
+				else
+					Text.drawString(g, "Desligado", 140, 240, false, Color.black, Assets.font20);
+			}
+			
 			
 			comboCounter.render(g);
 
