@@ -25,14 +25,14 @@ public class ChooseBotState extends State{
 		botCarolButton = new Button(game, 860, 100, 120, 40, Color.black, "CAROL", Assets.font15, null, true);
 		botLacerdaButton = new Button(game, 720, 160, 120, 40, Color.black, "LACERDA", Assets.font15, null, true);
 		botObinoButton = new Button(game, 860, 160, 120, 40, Color.black, "OBINO", Assets.font15, null, true);
-		easyButton = new Button(game, 500, 600, 80, 40, Color.black, "F¡CIL", Assets.font15, null, true);
-		mediumButton = new Button(game, 600, 600, 80, 40, Color.black, "M…DIO", Assets.font15, null, true);
-		hardButton = new Button(game, 700, 600, 80, 40, Color.black, "DIFÕCIL", Assets.font15, null, true);
+		easyButton = new Button(game, 500, 600, 80, 40, Color.black, "F√ÅCIL", Assets.font15, null, true);
+		mediumButton = new Button(game, 600, 600, 80, 40, Color.black, "M√âDIO", Assets.font15, null, true);
+		hardButton = new Button(game, 700, 600, 80, 40, Color.black, "DIF√çCIL", Assets.font15, null, true);
 		backButton = new Button(game, 0, 0, 100, 50, Color.black, "<- VOLTAR", Assets.font15, null, false);
 		player1Button = new Button(game, 525, 300, 100, 40, Color.black, "JOGADOR 1", Assets.font15, null, false);
 		player2Button = new Button(game, 660, 300, 100, 40, Color.black, "JOGADOR 2", Assets.font15, null, false);
 		suddenDeathYesButton = new Button(game, 550, 440, 80, 40, Color.black, "SIM", Assets.font15, null, false);
-		suddenDeathNoButton = new Button(game, 650, 440, 80, 40, Color.black, "N√O", Assets.font15, null, false);
+		suddenDeathNoButton = new Button(game, 650, 440, 80, 40, Color.black, "N√ÉO", Assets.font15, null, false);
 		playAs = 1;
 		playerChar = 1;
 		botChar = 1;
@@ -293,7 +293,7 @@ public class ChooseBotState extends State{
 			Text.drawString(g, "Jogar como:", 640, 250, true, Color.black, Assets.font20);
 			Text.drawString(g, "Seu personagem:", 430, 50, true, Color.black, Assets.font20);
 			Text.drawString(g, "Personagem do BOT:", 860, 50, true, Color.black, Assets.font20);
-			Text.drawString(g, "Morte S˙bita:", 640, 390, true, Color.black, Assets.font20);
+			Text.drawString(g, "Morte S√∫bita:", 640, 390, true, Color.black, Assets.font20);
 			
 			if (playAs == 1) {
 				

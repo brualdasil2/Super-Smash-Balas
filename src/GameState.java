@@ -212,6 +212,9 @@ public class GameState extends State {
 						KOscreenTimer = 0;
 						countdownTimer = 0;
 						parryFreezeCounter = 0;
+						botBehavior = 0;
+						botEscape = 0;
+						trainingBotOn = false;
 						State.setState(game.getCharacterSelectState());
 						((CharacterSelectState)(game.getCharacterSelectState())).init();
 					}
@@ -227,6 +230,9 @@ public class GameState extends State {
 					KOscreenTimer = 0;
 					countdownTimer = 0;
 					parryFreezeCounter = 0;
+					botBehavior = 0;
+					botEscape = 0;
+					trainingBotOn = false;
 					State.setState(game.getMenuState());
 					((MenuState)(game.getMenuState())).init();
 				}
@@ -360,6 +366,7 @@ public class GameState extends State {
 									player2.setOpponent(player1);
 									player1.setOpponent(player2);
 									((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char().resetAttackCounters();
+									((TrainingBot)(player2)).setEscapeOption(botEscape);
 								}
 								if (botBehavior <= 4) {
 									((TrainingBot)(player2)).setBehaviorOption(botBehavior);
@@ -420,7 +427,7 @@ public class GameState extends State {
 								if (botEscapeButton.buttonPressed()) {
 									screenRefreshManager.setChange(0, 0, 300, 500);
 									botEscape++;
-									if (botEscape > 4) {
+									if (botEscape > 5) {
 										botEscape = 0;
 									}
 									((TrainingBot)(player2)).setEscapeOption(botEscape);
@@ -921,6 +928,12 @@ public class GameState extends State {
 								Text.drawString(g, "Especial Neutro", 140, 340, false, Color.white, Assets.font20);
 							else
 								Text.drawString(g, "Especial Neutro", 140, 340, false, Color.black, Assets.font20);
+							break;
+						case 5:
+							if (map == 2 || map == 3)
+								Text.drawString(g, "Escudo Antes", 140, 340, false, Color.white, Assets.font20);
+							else
+								Text.drawString(g, "Escudo Antes", 140, 340, false, Color.black, Assets.font20);
 							break;
 					}
 				}

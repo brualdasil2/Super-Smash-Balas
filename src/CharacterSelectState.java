@@ -25,7 +25,7 @@ public class CharacterSelectState extends State {
 		obinoButton = new Button(game, 815, 150, 100, 100, null, null, null, null, true);
 		fightButton = new Button(game, 540, 450, 200, 100, Color.black, "LUTAR!", Assets.font30, null, false);
 		trainingButton = new Button(game, 590, 585, 100, 50, Color.black, "TREINAR", Assets.font20, null, false);
-		suddenDeathButton = new Button(game, 565, 670, 150, 30, Color.black, "MORTE SÚBITA", Assets.font15, null, false);
+		suddenDeathButton = new Button(game, 565, 670, 150, 30, Color.black, "MORTE SÃšBITA", Assets.font15, null, false);
 		backButton = new Button(game, 0, 0, 100, 50, Color.black, "<- VOLTAR", Assets.font15, null, false);
 		skin0Button = new Button(game, 550, 90, 70, 40, Color.black, "SKIN 1", Assets.font15, null, false);
 		skin1Button = new Button(game, 660, 90, 70, 40, Color.black, "SKIN 2", Assets.font15, null, false);
@@ -324,7 +324,7 @@ public class CharacterSelectState extends State {
 				
 				case 3:
 					g.drawImage(Assets.dojoSmall, 462, 100, 356, 200, null);
-					Text.drawString(g, "Dojô Ninja", 640, 320, true, Color.white, Assets.font20);
+					Text.drawString(g, "DojÃ´ Ninja", 640, 320, true, Color.white, Assets.font20);
 					break;
 				case 4:
 					g.drawImage(Assets.shipSmall, 462, 100, 356, 200, null);

@@ -17,6 +17,7 @@ public class TrainingBot extends Player {
 	private void checkState() {
 		opponentOnLeft = (opponent.x - x < 0);
 		opponentOnRight = (opponent.x - x > 0);
+		opponentAttacking = opponent.attacking;
 	}
 	
 	private void pressNothing() {
@@ -412,21 +413,28 @@ public class TrainingBot extends Player {
 				gotHit = false;
 			}
 		}
+		else if (escapeOption == 5) {
+			if (opponentAttacking) {
+				pressingShield = true;
+			}
+		}
 	}
 	
 	private void normalBehaviorOptions() {
 		
-		if (behaviorOption == 1) {
-			timedJump();
-		}
-		else if (behaviorOption == 2) {
-			mashJab();
-		}
-		else if (behaviorOption == 3) {
-			mashDash();
-		}
-		else if (behaviorOption == 4) {
-			mashUpTilt();
+		if (!(escapeOption == 5 && opponentAttacking)) {
+			if (behaviorOption == 1) {
+				timedJump();
+			}
+			else if (behaviorOption == 2) {
+				mashJab();
+			}
+			else if (behaviorOption == 3) {
+				mashDash();
+			}
+			else if (behaviorOption == 4) {
+				mashUpTilt();
+			}
 		}
 	}
 	

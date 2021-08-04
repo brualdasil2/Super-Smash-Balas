@@ -22,7 +22,7 @@ public class MinigamesState extends State {
 		playAs = 1;
 		
 		targetsButton = new Button(game, 510, 550, 120, 40, Color.black, "ALVOS", Assets.font15, null, false);
-		survivalButton = new Button(game, 650, 550, 120, 40, Color.black, "SOBREVIVÊNCIA", Assets.font13, null, false);
+		survivalButton = new Button(game, 650, 550, 120, 40, Color.black, "SOBREVIVÃŠNCIA", Assets.font13, null, false);
 		backButton = new Button(game, 0, 0, 100, 50, Color.black, "<- VOLTAR", Assets.font15, null, false);
 		brunoButton = new Button(game, 360, 200, 120, 40, Color.black, "BRUNO BALAS", Assets.font15, null, true);
 		carolButton = new Button(game, 500, 200, 120, 40, Color.black, "CAROL", Assets.font15, null, true);
