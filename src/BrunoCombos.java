@@ -93,6 +93,65 @@ public class BrunoCombos {
 		}
 	}
 	
+	private void risingFairUairCombo() {
+		
+		//System.out.println(frameCounter);
+		
+		if (droppingShield) {
+			dropShield();
+		}
+		else {
+			
+			if (frameCounter <= 2) {
+				player.pressingJump = true;
+				player.pressingAttack = true;
+				turnToOpponent();
+			}
+			else if (frameCounter <= 10) {
+				turnToOpponent();
+			}
+			else if (frameCounter <= 33) {
+				if (player.opponent.getHitstunFrames() == 0) {
+					endCombo();
+				}
+				
+				player.pressingJump = true;
+				player.pressingAttack = true;
+				turnToOpponent();
+			}
+			else if (frameCounter <= 50) {
+				turnToOpponent();
+			}
+			else if (frameCounter <= 60) {
+				player.pressingUp = true;
+				player.pressingAttack = true;
+				turnToOpponent();
+			}
+			else if (frameCounter <= 65) {
+				player.pressingShield = true;
+				turnToOpponent();
+			}
+			else if (frameCounter <= 77) {
+				turnToOpponent();
+				player.pressingJump = true;
+			}
+			else if (frameCounter <= 79) {
+				turnToOpponent();
+			}
+			else if (frameCounter <= 82) {
+				player.pressingAttack = true;
+				player.pressingJump = true;
+				player.pressingUp = true;
+			}
+			else if (frameCounter <= 100) {
+				player.pressingShield = true;
+			}
+			else {
+				endCombo();
+			}
+		}
+	}
+	
 	public void tick() {
 		
 		frameCounter++;
@@ -102,6 +161,9 @@ public class BrunoCombos {
 		switch(combo) {
 			case 1:
 				risingFairCombo();
+				break;
+			case 2:
+				risingFairUairCombo();
 				break;
 			default:
 				endCombo();

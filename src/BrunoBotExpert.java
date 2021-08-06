@@ -396,7 +396,7 @@ public class BrunoBotExpert extends Player{
 						setState(0);
 						randomize(10);
 	
-						combos.startCombo(1);
+						combos.startCombo(2);
 						/*
 						if (rand <= 3)
 							jab();

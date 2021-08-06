@@ -5,6 +5,9 @@ public class TrainingBot extends Player {
 	private boolean opponentNear, opponentOnAir, opponentOnTop, opponentOnLeft, opponentOnRight, opponentAttacking, opponentShielding, opponentCandyComing,
 					onCenter, gotHit = false;
 	
+	private boolean testingCombos = false;
+	private BrunoCombos combos = new BrunoCombos(this);
+	
 	public TrainingBot(Game game, int playerNumb, Character character, double x, double y) {
 		
 		super(game, playerNumb, character, x, y, "BOT (T)");
@@ -452,16 +455,28 @@ public class TrainingBot extends Player {
 		pressingShield = game.getKeyManager(playerNumb).shield;
 		pressingLeft = game.getKeyManager(playerNumb).left;
 		pressingRight = game.getKeyManager(playerNumb).right;
-			
-		if (escapeOption > 0) {
-			escapeOptions();
-		}
-		if (!gotHit) {
-			if (behaviorOption > 0) {
-				normalBehaviorOptions();
+		
+		if (testingCombos) {
+			if (combos.isComboing()) {
+				combos.tick();
+			}
+			else {
+				if (opponent.pressingUp && opponent.pressingShield) {
+					combos.startCombo(2);
+				}
 			}
 		}
-
+		else {
+			
+			if (escapeOption > 0) {
+				escapeOptions();
+			}
+			if (!gotHit) {
+				if (behaviorOption > 0) {
+					normalBehaviorOptions();
+				}
+			}
+		}
 
 		
 	}

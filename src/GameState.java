@@ -164,6 +164,7 @@ public class GameState extends State {
 	@Override
 	public void tick() {
 
+		//System.out.println(player1.getX());
 		
 		if (fighting) {
 
@@ -407,7 +408,7 @@ public class GameState extends State {
 								}
 								else if (botBehavior == 7) {
 									if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Bruno) {
-										player2 = new BrunoBotExpert(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+										player2 = new BrunoBotHard(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
 									}
 									else if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Carol) {
 										player2 = new CarolBotHard(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
