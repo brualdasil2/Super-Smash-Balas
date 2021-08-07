@@ -4,6 +4,7 @@ public class BrunoBotExpert extends Player{
 	private int state, rand, frameCounter = 0;
 	private boolean opponentNear, opponentOnAir, opponentOnTop, opponentOnLeft, opponentOnRight, opponentAttacking, opponentShielding, opponentCandyComing,
 					onCenter;
+	private double centerX;
 	private BrunoCombos combos = new BrunoCombos(this);
 
 	
@@ -13,6 +14,8 @@ public class BrunoBotExpert extends Player{
 	}
 	
 	private void checkState() {
+		
+		centerX = x + 100;
 		
 		if (opponent.character instanceof Carol || opponent.character instanceof Obino)
 			opponentNear = (Math.abs(opponent.x - x) < 350);
@@ -396,7 +399,7 @@ public class BrunoBotExpert extends Player{
 						setState(0);
 						randomize(10);
 	
-						combos.startCombo(2);
+						combos.startCombo(1);
 						/*
 						if (rand <= 3)
 							jab();
@@ -469,7 +472,7 @@ public class BrunoBotExpert extends Player{
 							setState(3);
 							randomize(10);
 		
-							if (rand <= 7) 
+							if (rand <= 9) 
 								shield();
 							else {
 								
@@ -505,7 +508,7 @@ public class BrunoBotExpert extends Player{
 								if (rand > 8 && rand <= 11)
 									upTilt();
 								if (rand > 11 && rand <= 15)
-									jumpFair();
+									combos.startCombo(1);
 								if (rand > 15 && rand <= 17)
 									jumpBair();
 								if (rand > 17 && rand <= 19)
@@ -530,7 +533,7 @@ public class BrunoBotExpert extends Player{
 								if (rand > 8 && rand <= 11)
 									upTilt();
 								if (rand > 11 && rand <= 15)
-									jumpFair();
+									combos.startCombo(1);
 								if (rand > 15 && rand <= 17)
 									jumpBair();
 								if (rand > 17 && rand <= 19)
@@ -553,7 +556,7 @@ public class BrunoBotExpert extends Player{
 								if (rand > 8 && rand <= 11)
 									upTilt();
 								if (rand > 11 && rand <= 15)
-									jumpFair();
+									combos.startCombo(1);
 								if (rand > 15 && rand <= 17)
 									jumpBair();
 								if (rand > 17 && rand <= 19)

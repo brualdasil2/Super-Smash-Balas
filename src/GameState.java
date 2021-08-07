@@ -164,7 +164,7 @@ public class GameState extends State {
 	@Override
 	public void tick() {
 
-		//System.out.println(player1.getX());
+		//System.out.println(player2.getX() + 100);
 		
 		if (fighting) {
 

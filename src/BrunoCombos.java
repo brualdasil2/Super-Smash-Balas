@@ -4,6 +4,7 @@ public class BrunoCombos {
 	private Player player;
 	private boolean comboing, opponentOnRight = false, opponentOnLeft = false, droppingShield = false;
 	private int frameCounter = 0, combo = 0;
+	private double centerX, distToFrontWall, distToBackWall;
 	
 	public BrunoCombos(Player player) {
 		this.player = player;
@@ -12,6 +13,9 @@ public class BrunoCombos {
 	
 	private void checkState() {
 		droppingShield = player.shieldStun;
+		centerX = player.x + 100;
+		distToFrontWall = player.getLookDirection() == 0 ? Math.abs(centerX - GameState.leftWall) : Math.abs(centerX - GameState.rightWall);
+		distToBackWall = player.getLookDirection() == 1 ? Math.abs(centerX - GameState.leftWall) : Math.abs(centerX - GameState.rightWall);
 		
 		opponentOnLeft = (player.opponent.x - player.x < 0);
 		opponentOnRight = (player.opponent.x - player.x > 0);
@@ -34,6 +38,7 @@ public class BrunoCombos {
 		}
 	}
 	
+	
 	private void turnToOpponent() {
 		
 		if (opponentOnLeft)
@@ -42,60 +47,125 @@ public class BrunoCombos {
 			player.pressingRight = true;
 	}
 	
-	private void risingFairCombo() {
-		
-		if (droppingShield) {
-			dropShield();
+	private void fallingUpAirFinisher() {
+		if (frameCounter <= 123) {
+			turnToOpponent();
+			player.pressingAttack = true;
+			player.pressingUp = true;
 		}
 		else {
-			
-			if (frameCounter <= 2) {
-				player.pressingJump = true;
-				player.pressingAttack = true;
+			endCombo();
+		}
+	}
+	
+	private void upBFinisher() {
+		if (player.opponent.getHitstunFrames() == 0) {
+			endCombo();
+		}
+		if (frameCounter <= 120) {
+			if (distToFrontWall > 100)
 				turnToOpponent();
+			else {
+				player.pressingUp = true;
+				if (player.getMagic() >= 4)
+					player.pressingSpecial = true;
+				else
+					player.pressingAttack = true;
 			}
-			else if (frameCounter <= 10) {
-				turnToOpponent();
-			}
-			else if (frameCounter <= 33) {
-				if (player.opponent.getHitstunFrames() == 0) {
-					endCombo();
-				}
 				
-				player.pressingJump = true;
+		}
+		else if (frameCounter <= 130) {
+			player.pressingUp = true;
+			if (player.getMagic() >= 4)
+				player.pressingSpecial = true;
+			else
 				player.pressingAttack = true;
-				turnToOpponent();
-			}
-			else if (frameCounter <= 60) {
-				turnToOpponent();
-				player.pressingShield = true;
-			}
-			else if (frameCounter <= 66) {
-				player.pressingJump = true;
-				player.pressingAttack = true;
-				turnToOpponent();
-			}
-			else if (frameCounter <= 74) {
-				turnToOpponent();
-			}
-			else if (frameCounter <= 97) {
-				player.pressingJump = true;
-				player.pressingAttack = true;
-				turnToOpponent();
-			}
-			else if (frameCounter <= 120) {
+		}
+		else {
+			endCombo();
+		}
+	}
+	
+	private void doubleFairExtension() {
+		if (player.opponent.getHitstunFrames() == 0) {
+			endCombo();
+		}
+		
+		if (frameCounter <= 60) {
+			if (distToFrontWall > 120) {
 				turnToOpponent();
 				player.pressingShield = true;
 			}
 			else {
-				endCombo();
+				startCombo(5); //upBFinisher
+				frameCounter = 98;
+			}
+		}
+		else if (frameCounter <= 66) {
+			player.pressingJump = true;
+			player.pressingAttack = true;
+			if (distToFrontWall > 120)
+				turnToOpponent();
+			else {
+				startCombo(5); //upBFinisher
+				frameCounter = 98;
+			}
+			
+		}
+		else if (frameCounter <= 74) {
+			if (distToFrontWall > 120)
+				turnToOpponent();
+		}
+		else if (frameCounter <= 97) {
+			player.pressingJump = true;
+			player.pressingAttack = true;
+			if (distToFrontWall > 120)
+				turnToOpponent();
+		}
+		else {
+			if (distToFrontWall > 146) {
+				startCombo(4); //fallingUpAirFinisher
+			}
+			else if (distToFrontWall > 0) {
+				startCombo(5); //upBFinisher
 			}
 		}
 	}
 	
-	private void risingFairUairCombo() {
-		
-		//System.out.println(frameCounter);
+	private void ffDoubleUpAirFinisher() {
+		if (frameCounter <= 50) {
+			turnToOpponent();
+		}
+		else if (frameCounter <= 60) {
+			player.pressingUp = true;
+			player.pressingAttack = true;
+			turnToOpponent();
+		}
+		else if (frameCounter <= 65) {
+			player.pressingShield = true;
+			turnToOpponent();
+		}
+		else if (frameCounter <= 77) {
+			turnToOpponent();
+			player.pressingJump = true;
+		}
+		else if (frameCounter <= 79) {
+			turnToOpponent();
+		}
+		else if (frameCounter <= 82) {
+			player.pressingAttack = true;
+			player.pressingJump = true;
+			player.pressingUp = true;
+		}
+		else if (frameCounter <= 100) {
+			player.pressingShield = true;
+		}
+		else {
+			endCombo();
+		}
+	}
+	
+	private void risingFair() {
 		
 		if (droppingShield) {
 			dropShield();
@@ -105,10 +175,12 @@ public class BrunoCombos {
 			if (frameCounter <= 2) {
 				player.pressingJump = true;
 				player.pressingAttack = true;
-				turnToOpponent();
+				if (distToFrontWall > 100)
+					turnToOpponent();
 			}
 			else if (frameCounter <= 10) {
-				turnToOpponent();
+				if (distToFrontWall > 100)
+					turnToOpponent();
 			}
 			else if (frameCounter <= 33) {
 				if (player.opponent.getHitstunFrames() == 0) {
@@ -117,40 +189,20 @@ public class BrunoCombos {
 				
 				player.pressingJump = true;
 				player.pressingAttack = true;
-				turnToOpponent();
-			}
-			else if (frameCounter <= 50) {
-				turnToOpponent();
-			}
-			else if (frameCounter <= 60) {
-				player.pressingUp = true;
-				player.pressingAttack = true;
-				turnToOpponent();
-			}
-			else if (frameCounter <= 65) {
-				player.pressingShield = true;
-				turnToOpponent();
-			}
-			else if (frameCounter <= 77) {
-				turnToOpponent();
-				player.pressingJump = true;
-			}
-			else if (frameCounter <= 79) {
-				turnToOpponent();
-			}
-			else if (frameCounter <= 82) {
-				player.pressingAttack = true;
-				player.pressingJump = true;
-				player.pressingUp = true;
-			}
-			else if (frameCounter <= 100) {
-				player.pressingShield = true;
+				if (distToFrontWall > 100)
+					turnToOpponent();
 			}
 			else {
-				endCombo();
+				if (distToFrontWall > 450 && !(player.opponent.character instanceof Carol)) {
+					startCombo(2); //ffDoubleUpAirFinisher
+				}
+				else {
+					startCombo(3); //doubleFairExtension
+				}
 			}
 		}
 	}
+
 	
 	public void tick() {
 		
@@ -158,12 +210,22 @@ public class BrunoCombos {
 		
 		checkState();
 		
+		
 		switch(combo) {
 			case 1:
-				risingFairCombo();
+				risingFair();
 				break;
 			case 2:
-				risingFairUairCombo();
+				ffDoubleUpAirFinisher();
+				break;
+			case 3:
+				doubleFairExtension();
+				break;
+			case 4:
+				fallingUpAirFinisher();
+				break;
+			case 5:
+				upBFinisher();
 				break;
 			default:
 				endCombo();
@@ -172,6 +234,8 @@ public class BrunoCombos {
 	}
 	
 	public boolean isComboing() {
+		checkState();
+		System.out.println(distToFrontWall);
 		return comboing;
 	}
 } 

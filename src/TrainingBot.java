@@ -456,13 +456,14 @@ public class TrainingBot extends Player {
 		pressingLeft = game.getKeyManager(playerNumb).left;
 		pressingRight = game.getKeyManager(playerNumb).right;
 		
+		
 		if (testingCombos) {
 			if (combos.isComboing()) {
 				combos.tick();
 			}
 			else {
 				if (opponent.pressingUp && opponent.pressingShield) {
-					combos.startCombo(2);
+					combos.startCombo(1);
 				}
 			}
 		}
