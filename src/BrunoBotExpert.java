@@ -3,8 +3,8 @@ public class BrunoBotExpert extends Player{
 	
 	private int state, rand, frameCounter = 0;
 	private boolean opponentNear, opponentOnAir, opponentOnTop, opponentOnLeft, opponentOnRight, opponentAttacking, opponentShielding, opponentCandyComing,
-					onCenter;
-	private double centerX;
+					onCenter, opponentRising, opponentFalling;
+	private double centerX,  distToFrontWall, distToBackWall;
 	private BrunoCombos combos = new BrunoCombos(this);
 
 	
@@ -13,20 +13,64 @@ public class BrunoBotExpert extends Player{
 		super(game, playerNumb, character, x, y, "BOT (X)");
 	}
 	
+	
+	private int framesToPunish(boolean oos) {
+		AttackFrame attackFrames[] = opponent.getCurrentAttack().getFrames().clone();
+		int uF = opponent.character.attackUF;
+		int framesPunish = 0;
+		
+		for (int i = uF; i < opponent.getCurrentAttack().getUniqueFrames(); i++) {
+			if (!oos) {
+				if (attackFrames[i].getHitboxes() != null || attackFrames[i].getCounterboxes() != null) {
+					return 0;
+				}
+			}
+
+			//System.out.println("Added " + attackFrames[i].getDuration() + " frames.");
+			framesPunish += attackFrames[i].getDuration();
+		}
+		
+		//System.out.println("Subtracted " + opponent.character.attackIF + " frames.");
+		return (framesPunish - opponent.character.attackIF + 1); //+1 because of one extra frame to shield after
+	}
+	
+	private int framesTillFirstHit() {
+		AttackFrame attackFrames[] = opponent.getCurrentAttack().getFrames().clone();
+		int uF = opponent.character.attackUF;
+		int framesToHit = 0;
+		
+		for (int i = uF; i < opponent.getCurrentAttack().getUniqueFrames(); i++) {
+		
+			if (attackFrames[i].getHitboxes() != null) {
+				return (framesToHit - opponent.character.attackIF + 1);
+			}
+
+			framesToHit += attackFrames[i].getDuration();
+		}
+		
+		return 0;
+	}
+	
+	
 	private void checkState() {
 		
 		centerX = x + 100;
+		distToFrontWall = getLookDirection() == 0 ? Math.abs(centerX - GameState.leftWall) : Math.abs(centerX - GameState.rightWall);
+		distToBackWall = getLookDirection() == 1 ? Math.abs(centerX - GameState.leftWall) : Math.abs(centerX - GameState.rightWall);
 		
 		if (opponent.character instanceof Carol || opponent.character instanceof Obino)
 			opponentNear = (Math.abs(opponent.x - x) < 350);
 		else
 			opponentNear = (Math.abs(opponent.x - x) < 250);
 		opponentOnAir = opponent.onAir;
-		opponentOnTop = (Math.abs(opponent.x - x) < 50 && opponentOnAir);
+		opponentOnTop = (Math.abs(opponent.x - x) < 200 && opponent.y < 100 && opponent.y < y);
 		opponentOnLeft = (opponent.x - x < 0);
 		opponentOnRight = (opponent.x - x > 0);
 		opponentAttacking = opponent.attacking;
 		opponentShielding = (opponent.shielding && !opponent.onAir && opponent.shield > 0);
+		
+		opponentRising = (opponent.ySpeed < 0);
+		opponentFalling = (opponent.ySpeed > 0);
 		
 		onCenter = (x + currentFrame.getWidth()/2 > 590 && x + currentFrame.getWidth()/2 < 690);
 		
@@ -76,6 +120,7 @@ public class BrunoBotExpert extends Player{
 		if (this.state != state) {			
 			this.state = state;
 			frameCounter = 0;
+			System.out.println(state);
 		}
 	}
 	
@@ -99,6 +144,15 @@ public class BrunoBotExpert extends Player{
 			frameCounter = 1;
 		
 		pressingShield = true;
+	}
+	
+	private void timeParry() {
+		if (framesTillFirstHit() > 3) {
+			turnToOpponent();
+		}
+		else {
+			shield();
+		}
 	}
 	
 	private void stand() {
@@ -173,6 +227,7 @@ public class BrunoBotExpert extends Player{
 		if (opponentOnRight)
 			pressingLeft = true;
 	}
+	
 	
 	private void jump() {
 		
@@ -305,17 +360,23 @@ public class BrunoBotExpert extends Player{
 	
 	private void jumpUpAir() {
 		
-		setFrames(2);
+		setFrames(30);
 		
-		if (frameCounter == 1) {
+		if (frameCounter >= 29) {
 			
 			pressingJump = true;
+			turnToOpponent();
 		}
 		
-		if (frameCounter == 0) {
+		else if (frameCounter >= 28) {
 			
 			pressingUp = true;
 			pressingAttack = true;
+			turnToOpponent();
+		}
+		else if (frameCounter >= 0) {
+			turnToOpponent();
+			pressingShield = true;
 		}
 	}
 	
@@ -394,30 +455,35 @@ public class BrunoBotExpert extends Player{
 				
 				if (opponentAttacking) {
 					
-					if (!shieldStun && freezeFrames == 0 && (defended || parried)) {
-						
+					//Out of shield
+					if (!shieldStun && freezeFrames <= 1 && (defended || parried)) {
 						setState(0);
-						randomize(10);
-	
-						combos.startCombo(1);
-						/*
-						if (rand <= 3)
-							jab();
-						if (rand > 3 && rand <= 6)
-							dashAttack();
-						if (rand > 6 && rand <= 8)
-							jumpFair();
-						if (rand > 8 && rand <= 10)
-							upTilt();
-							*/
 						
 	
+						if (parried) {
+							if (opponentRising && distToFrontWall < 470 && distToFrontWall > 170) {
+								combos.startCombo(6); //risingBair
+							}
+							else {
+								combos.startCombo(1); //risingFair
+							}
+						}
+						else {
+							if (framesToPunish(true) >= 6) {
+								combos.startCombo(1); //risingFair
+							}
+							else {
+								//System.out.println("Cant punish oos, only " + framesToPunish(true) + " frames to punish.");
+								defended = false;
+								parried = false;
+							}
+						}	
 					}
-					
+				
 					else if (!(defended || parried)) {
 						
 						if (onAir) {
-							
+							//Specific combo escapes
 							setState(1);
 							
 							if (opponent.character instanceof Lacerda) {
@@ -460,35 +526,59 @@ public class BrunoBotExpert extends Player{
 								}
 							}
 						}
-						
+						//Lacerda Counter whiff punish
 						else if ((opponent.character instanceof Lacerda && ((opponent.neutralSpecialing && opponent.character.attackUF == 2) || (opponent.upSpecialing && opponent.character.attackUF == 10))) || (opponent.character instanceof Bruno && opponent.neutralSpecialing) || (opponent.character instanceof Carol && opponent.upSpecialing)) {
 							
 							setState(2);
 							
 							dashAttack();
 						}
-						else if (shield > 0) {
 						
-							setState(3);
-							randomize(10);
-		
-							if (rand <= 9) 
-								shield();
-							else {
-								
-								dashAway();
-							}
-						}
 						else {
-							
-							setState(4);
-							
-							pressingShield = false;
-							dashAway();
+							//Juggling
+							if (opponentOnTop) {
+								
+								if (opponentRising) {
+									setState(9);
+									turnToOpponent();
+								}
+								else {
+									if (opponent.y < -100) {
+										setState(10);
+										turnToOpponent();
+									}
+									else {
+										setState(11);
+										jumpUpAir();
+									}
+								}
+							}
+							else {
+								//Block or punish
+								if (framesToPunish(false) > 13) {
+									combos.startCombo(1);
+								}
+								else {
+									if (shield > 0) {
+									
+									
+										setState(3);
+										timeParry();
+										
+									}
+									else {
+										//No shield, run
+										setState(4);
+										
+										pressingShield = false;
+										dashAway();
+									}
+								}
+							}
 						}
 					}
 				}
-				
+				//Neutral: opponent near and not attacking
 				else if (!opponentAttacking) {
 					
 					
@@ -498,71 +588,54 @@ public class BrunoBotExpert extends Player{
 							
 							if (magic >= 4) {
 								
-								setState(5);
-								randomize(30);
-								
-								if (rand <= 4)
-									jab();
-								if (rand > 4 && rand <= 8)
-									dashAttack();
-								if (rand > 8 && rand <= 11)
-									upTilt();
-								if (rand > 11 && rand <= 15)
-									combos.startCombo(1);
-								if (rand > 15 && rand <= 17)
-									jumpBair();
-								if (rand > 17 && rand <= 19)
-									dashAway();
-								if (rand > 19 && rand <= 20)
-									jump();
-								if (rand > 20 && rand <= 25)
-									sideSpecial();
-								if (rand > 25 && rand <= 30)
-									upSpecial();
-							}
-							
-							if (magic >= 2 && magic < 4) {
-								
 								setState(6);
-								randomize(25);
+								randomize(23);
 								
-								if (rand <= 4)
+								if (rand <= 1)
 									jab();
-								if (rand > 4 && rand <= 8)
+								if (rand > 1 && rand <= 2)
 									dashAttack();
-								if (rand > 8 && rand <= 11)
+								if (rand > 2 && rand <= 3)
 									upTilt();
-								if (rand > 11 && rand <= 15)
+								if (rand > 3 && rand <= 6)
 									combos.startCombo(1);
-								if (rand > 15 && rand <= 17)
+								if (rand > 6 && rand <= 7)
 									jumpBair();
-								if (rand > 17 && rand <= 19)
+								if (rand > 7 && rand <= 9)
 									dashAway();
-								if (rand > 19 && rand <= 20)
+								if (rand > 9 && rand <= 12)
 									jump();
-								if (rand > 20 && rand <= 25)
+								if (rand > 12 && rand <= 13)
 									sideSpecial();
+								if (rand > 13 && rand <= 17)
+									goToOpponent();
+								if (rand > 17 && rand <= 23)
+									stand();
 							}
 							
-							if (magic < 2) {
+							else {
 								
 								setState(7);
-								randomize(20);
+								randomize(23);
 								
-								if (rand <= 4)
+								if (rand <= 1)
 									jab();
-								if (rand > 4 && rand <= 8)
+								if (rand > 1 && rand <= 2)
 									dashAttack();
-								if (rand > 8 && rand <= 11)
+								if (rand > 2 && rand <= 3)
 									upTilt();
-								if (rand > 11 && rand <= 15)
+								if (rand > 3 && rand <= 6)
 									combos.startCombo(1);
-								if (rand > 15 && rand <= 17)
+								if (rand > 6 && rand <= 7)
 									jumpBair();
-								if (rand > 17 && rand <= 19)
+								if (rand > 7 && rand <= 9)
 									dashAway();
-								if (rand > 19 && rand <= 20)
+								if (rand > 9 && rand <= 13)
 									jump();
+								if (rand > 13 && rand <= 17)
+									goToOpponent();
+								if (rand > 17 && rand <= 23)
+									stand();
 							}
 						}
 						
@@ -572,59 +645,36 @@ public class BrunoBotExpert extends Player{
 							randomize(10);
 							
 							if (rand <= 2)
-								jumpBair();
-							if (rand > 2 && rand <= 7)
+								combos.startCombo(6);
+							if (rand > 2 && rand <= 8)
+								stand();
+							if (rand > 8 && rand <= 9)
 								dashAway();
-							if (rand > 7 && rand <= 10)
+							if (rand > 9 && rand <= 10)
 								jump();
 						}
 					}
-					
+					//Juggling
 					else if (opponentOnTop) {
 						
-						if (opponent.getY() <= y) {
-							
-							if (magic >= 4) {
-								
-								setState(9);
-								randomize(6);
-								
-								if (rand <= 1)
-									upTilt();
-								if (rand > 1 && rand <= 2);
-									jumpUpAir();
-								if (rand > 2 && rand <= 4)
-									upSpecial();
-								if (rand > 4 && rand <= 6)
-									jumpUpSpecial();
-							}
-							
-							if (magic < 4) {
-								
-								setState(10);
-								randomize(2);
-								
-								if (rand == 1)
-									upTilt();
-								if (rand == 2)
-									jumpUpAir();
-							}
+						if (opponentRising) {
+							setState(9);
+							turnToOpponent();
 						}
 						else {
-							
-							setState(11);
-							randomize(4);
-							
-							if (rand <= 2)
-								jump();
-							if (rand > 2 && rand <= 3)
-								dashRight();
-							if (rand > 3 && rand <= 4)
-								dashLeft();
+							if (opponent.y < -100) {
+								setState(10);
+								turnToOpponent();
+							}
+							else {
+								setState(11);
+								jumpUpAir();
+							}
 						}
 					}
 				}
 			}
+			//opponent far
 			else if (!opponentNear) {
 				
 				if (opponentCandyComing) {
@@ -638,7 +688,7 @@ public class BrunoBotExpert extends Player{
 					if (!onCenter) {
 						
 						if (shield >= 20) {
-							if (magic >= 2) {
+							if (magic >= 4) {
 								
 								if (parried) {
 									
@@ -648,46 +698,46 @@ public class BrunoBotExpert extends Player{
 								else {
 								
 									setState(14);
-									randomize(15);
+									randomize(12);
 									
-									if (rand <= 4)
+									if (rand <= 2)
 										goToCenter();
-									if (rand > 4 && rand <= 5)
+									if (rand > 2 && rand <= 3)
 										dashLeft();
-									if (rand > 5 && rand <= 6)
+									if (rand > 3 && rand <= 4)
 										dashRight();
-									if (rand > 6 && rand <= 7)
+									if (rand > 4 && rand <= 5)
 										jump();
-									if (rand > 7 && rand <= 10)
+									if (rand > 5 && rand <= 10)
 										goToOpponent();
-									if (rand > 10 && rand <= 12)
+									if (rand > 10 && rand <= 11)
 										sideSpecial();
-									if (rand > 12 && rand <= 15)
+									if (rand > 11 && rand <= 12)
 										jumpSideSpecial();
 								}
 							}
 							
-							if (magic < 2) {
+							else {
 								
 								setState(15);
 								randomize(10);
 								
-								if (rand <= 4)
+								if (rand <= 2)
 									goToCenter();
-								if (rand > 4 && rand <= 5)
+								if (rand > 2 && rand <= 3)
 									dashLeft();
-								if (rand > 5 && rand <= 6)
+								if (rand > 3 && rand <= 4)
 									dashRight();
-								if (rand > 6 && rand <= 7)
+								if (rand > 4 && rand <= 5)
 									jump();
-								if (rand > 7 && rand <= 10)
+								if (rand > 5 && rand <= 10)
 									goToOpponent();
 							}
 						}
 						
 						if (shield < 20) {
 							
-							if (magic >= 2) {
+							if (magic >= 4) {
 								
 								if (parried) {
 									
@@ -699,59 +749,59 @@ public class BrunoBotExpert extends Player{
 									setState(17);
 									randomize(20);
 									
-									if (rand <= 4)
+									if (rand <= 2)
 										goToCenter();
-									if (rand > 4 && rand <= 5)
+									if (rand > 2 && rand <= 3)
 										dashLeft();
-									if (rand > 5 && rand <= 6)
+									if (rand > 3 && rand <= 4)
 										dashRight();
-									if (rand > 6 && rand <= 7)
+									if (rand > 4 && rand <= 5)
 										jump();
-									if (rand > 7 && rand <= 10)
+									if (rand > 5 && rand <= 10)
 										goToOpponent();
-									if (rand > 10 && rand <= 12)
+									if (rand > 10 && rand <= 11)
 										sideSpecial();
-									if (rand > 12 && rand <= 15)
+									if (rand > 11 && rand <= 12)
 										jumpSideSpecial();
-									if (rand > 15 && rand <= 20)
+									if (rand > 12 && rand <= 20)
 										neutralSpecial();
 								
 								}
 							}
 							
-							if (magic == 1) {
+							else if (magic > 0) {
 								
 								setState(18);
 								randomize(15);
 								
-								if (rand <= 4)
+								if (rand <= 2)
 									goToCenter();
-								if (rand > 4 && rand <= 5)
+								if (rand > 2 && rand <= 3)
 									dashLeft();
-								if (rand > 5 && rand <= 6)
+								if (rand > 3 && rand <= 4)
 									dashRight();
-								if (rand > 6 && rand <= 7)
+								if (rand > 4 && rand <= 5)
 									jump();
-								if (rand > 7 && rand <= 10)
+								if (rand > 5 && rand <= 10)
 									goToOpponent();
 								if (rand > 10 && rand <= 15)
 									neutralSpecial();
 							}
 							
-							if (magic == 0) {
+							else {
 								
 								setState(19);
 								randomize(10);
 								
-								if (rand <= 4)
+								if (rand <= 2)
 									goToCenter();
-								if (rand > 4 && rand <= 5)
+								if (rand > 2 && rand <= 3)
 									dashLeft();
-								if (rand > 5 && rand <= 6)
+								if (rand > 3 && rand <= 4)
 									dashRight();
-								if (rand > 6 && rand <= 7)
+								if (rand > 4 && rand <= 5)
 									jump();
-								if (rand > 7 && rand <= 10)
+								if (rand > 5 && rand <= 10)
 									goToOpponent();
 							}
 						}
@@ -774,7 +824,7 @@ public class BrunoBotExpert extends Player{
 						
 						else if (!GameState.magicBall.getGrabbable()) {
 							
-							if (magic >= 2) {
+							if (magic >= 4) {
 								
 								if (parried) {
 									
@@ -784,40 +834,40 @@ public class BrunoBotExpert extends Player{
 								else {
 								
 									setState(22);
-									randomize(13);
+									randomize(12);
 									
-									if (rand <= 3)
+									if (rand <= 2)
 										stand();
-									if (rand > 3 && rand <= 5)
+									if (rand > 2 && rand <= 3)
 										dashLeft();
-									if (rand > 5 && rand <= 7)
+									if (rand > 3 && rand <= 4)
 										dashRight();
-									if (rand > 7 && rand <= 8)
+									if (rand > 4 && rand <= 5)
 										jump();
-									if (rand > 8 && rand <= 10)
+									if (rand > 5 && rand <= 10)
 										goToOpponent();
-									if (rand > 10 && rand <= 12)
+									if (rand > 10 && rand <= 11)
 										sideSpecial();
-									if (rand > 12 && rand <= 13)
+									if (rand > 11 && rand <= 12)
 										jumpSideSpecial();
 								
 								}
 							}
 							
-							if (magic < 2) {
+							else {
 								
 								setState(23);
 								randomize(10);
 								
-								if (rand <= 3)
+								if (rand <= 2)
 									stand();
-								if (rand > 3 && rand <= 5)
+								if (rand > 2 && rand <= 3)
 									dashLeft();
-								if (rand > 5 && rand <= 7)
+								if (rand > 3 && rand <= 4)
 									dashRight();
-								if (rand > 7 && rand <= 8)
+								if (rand > 4 && rand <= 5)
 									jump();
-								if (rand > 8 && rand <= 10)
+								if (rand > 5 && rand <= 10)
 									goToOpponent();
 							}
 						}

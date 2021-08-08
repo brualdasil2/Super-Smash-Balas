@@ -463,7 +463,7 @@ public class TrainingBot extends Player {
 			}
 			else {
 				if (opponent.pressingUp && opponent.pressingShield) {
-					combos.startCombo(1);
+					combos.startCombo(6);
 				}
 			}
 		}

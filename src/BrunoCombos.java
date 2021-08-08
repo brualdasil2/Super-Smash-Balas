@@ -21,15 +21,43 @@ public class BrunoCombos {
 		opponentOnRight = (player.opponent.x - player.x > 0);
 	}
 	
+	private void selectCombo() {
+		switch(combo) {
+		case 1:
+			risingFair();
+			break;
+		case 2:
+			ffDoubleUpAirFinisher();
+			break;
+		case 3:
+			doubleFairExtension();
+			break;
+		case 4:
+			fallingUpAirFinisher();
+			break;
+		case 5:
+			upBFinisher();
+			break;
+		case 6:
+			risingBair();
+			break;
+		default:
+			endCombo();
+	}
+	}
+	
 	private void endCombo() {
 		comboing = false;
 		frameCounter = 0;
 		combo = 0;
+		player.defended = false;
+		player.parried = false;
 	}
 	
 	public void startCombo(int combo) {
 		comboing = true;
 		this.combo = combo;
+		selectCombo();
 	}
 	
 	private void dropShield() {
@@ -38,6 +66,13 @@ public class BrunoCombos {
 		}
 	}
 	
+	private void turnAwayFromOpponent() {
+		
+		if (opponentOnLeft)
+			player.pressingRight = true;	
+		if (opponentOnRight)
+			player.pressingLeft = true;
+	}
 	
 	private void turnToOpponent() {
 		
@@ -57,6 +92,43 @@ public class BrunoCombos {
 			endCombo();
 		}
 	}
+	
+	private void risingBair() {
+
+		if (frameCounter == 1) {
+			turnAwayFromOpponent();
+			player.pressingJump = true;
+		}
+		else if (frameCounter == 2) {
+			turnToOpponent();
+			player.pressingAttack = true;
+		}
+		else if (frameCounter <= 30) {
+			//turnToOpponent();
+			player.pressingShield = true;
+		}
+		else if (distToBackWall > 400) {
+			if (player.opponent.getHitstunFrames() == 0) {
+				endCombo();
+				return;
+			}
+			if (frameCounter <= 50) {
+				turnToOpponent();
+				player.pressingAttack = true;
+			}
+			else
+				endCombo();
+		}
+		else {
+			if (player.opponent.getHitstunFrames() == 0) {
+				endCombo();
+				return;
+			}
+			frameCounter = 55;
+			startCombo(3);
+		}
+		
+ 	}
 	
 	private void upBFinisher() {
 		if (player.opponent.getHitstunFrames() == 0) {
@@ -210,32 +282,13 @@ public class BrunoCombos {
 		
 		checkState();
 		
-		
-		switch(combo) {
-			case 1:
-				risingFair();
-				break;
-			case 2:
-				ffDoubleUpAirFinisher();
-				break;
-			case 3:
-				doubleFairExtension();
-				break;
-			case 4:
-				fallingUpAirFinisher();
-				break;
-			case 5:
-				upBFinisher();
-				break;
-			default:
-				endCombo();
-		}
+		selectCombo();
 		
 	}
 	
 	public boolean isComboing() {
 		checkState();
-		System.out.println(distToFrontWall);
+		//System.out.println(distToBackWall);
 		return comboing;
 	}
 } 

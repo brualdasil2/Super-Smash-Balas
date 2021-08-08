@@ -235,4 +235,12 @@ public abstract class Character {
 		
 		return skin;
 	}
+	
+	public int getAttackUF() {
+		return attackUF;
+	}
+	
+	public int getAttackIF() {
+		return attackIF;
+	}
 }

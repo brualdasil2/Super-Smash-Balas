@@ -22,6 +22,7 @@ public class AttackFrame {
 		this.height = height;
 		this.xOffset = 0;
 		this.yOffset = 0;
+		this.counterboxes = null;
 	}
 	
 	public AttackFrame(int duration, BufferedImage image, Hurtbox hurtboxes[], Hitbox hitboxes[], int width, int height, int xOffset, int yOffset) {
@@ -34,6 +35,7 @@ public class AttackFrame {
 		this.height = height;
 		this.xOffset = xOffset;
 		this.yOffset = yOffset;
+		this.counterboxes = null;
 	}
 	
 	public AttackFrame(int duration, BufferedImage image, Hurtbox hurtboxes[], Counterbox counterboxes[], Hitbox hitboxes[], int width, int height) {
