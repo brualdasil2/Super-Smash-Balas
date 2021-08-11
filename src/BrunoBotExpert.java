@@ -407,41 +407,6 @@ public class BrunoBotExpert extends Player{
 		
 	}
 	
-	private void jumpFair() {
-		
-		
-		setFrames(10);
-		
-		if (frameCounter == 9) {
-			
-			turnToOpponent();
-		}
-		
-		if (frameCounter == 8) {
-			
-			pressingJump = true;
-			turnToOpponent();
-		}
-		
-		if (frameCounter == 7) {
-			
-			pressingAttack = true;
-			turnToOpponent();
-		}
-		
-		if (frameCounter <= 6) {
-			
-			turnToOpponent();
-		}
-		
-		if (frameCounter == 2) {
-		
-			if (defended)
-				defended = false;
-			if (parried)
-				parried = false;
-		}
-	}
 	
 	private void jumpBair() {
 		
@@ -534,22 +499,7 @@ public class BrunoBotExpert extends Player{
 		}
 	}
 	
-	private void jumpUpSpecial() {
-		
-		setFrames(30);
-		
-		if (frameCounter == 29) {
-			
-			pressingJump = true;
-		}
-		
-		if (frameCounter == 20) {
-			
-			pressingUp = true;
-			pressingSpecial = true;
-		}
-	}
-	
+
 	private void neutralSpecial() {
 		
 		pressingSpecial = true;
@@ -728,7 +678,8 @@ public class BrunoBotExpert extends Player{
 							setState(12);
 							
 							timeReflect();
-							timeParry();
+							if (!(opponent.character instanceof Bruno && opponent.upSpecialing))
+								timeParry();
 						}
 						else if (nearRose) {
 							setState(27);
