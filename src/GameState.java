@@ -92,7 +92,6 @@ public class GameState extends State {
 			player1 = new Player(game, 1, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer1Char(), 240, floorY - 200, "JOGADOR 1");
 			player2 = new Player(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), 840, floorY - 200, "JOGADOR 2");
 			
-			
 		}
 		else if (mode >= 3) {
 			
@@ -408,7 +407,7 @@ public class GameState extends State {
 								}
 								else if (botBehavior == 7) {
 									if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Bruno) {
-										player2 = new BrunoBotExpert(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+										player2 = new BrunoBotHard(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
 									}
 									else if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Carol) {
 										player2 = new CarolBotHard(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);

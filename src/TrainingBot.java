@@ -5,7 +5,6 @@ public class TrainingBot extends Player {
 	private boolean opponentNear, opponentOnAir, opponentOnTop, opponentOnLeft, opponentOnRight, opponentAttacking, opponentShielding, opponentCandyComing,
 					onCenter, gotHit = false;
 	
-	private boolean testingCombos = false;
 	private BrunoCombos combos = new BrunoCombos(this);
 	
 	public TrainingBot(Game game, int playerNumb, Character character, double x, double y) {
@@ -22,25 +21,7 @@ public class TrainingBot extends Player {
 		opponentOnRight = (opponent.x - x > 0);
 		opponentAttacking = opponent.attacking;
 	}
-	
-	private void pressNothing() {
-		
-		pressingJump = false;
-		pressingAttack = false;
-		pressingSpecial = false;
-		pressingUp = false;
-		pressingShield = false;
-		pressingLeft = false;
-		pressingRight = false;
-	}
-	
-	private void setState(int state) {
-		
-		if (this.state != state) {			
-			this.state = state;
-			frameCounter = 0;
-		}
-	}
+
 	
 	private void setFrames(int frames) {
 		
@@ -50,33 +31,10 @@ public class TrainingBot extends Player {
 		frameCounter--;
 	}
 	
-	private void randomize(int max) {
-		
-		if (frameCounter == 0)
-			rand = (int)(1 + Math.random()*max);
-	}
-	
-	private void slowShield() {
-		
-		setFrames(40);
-		
-		if (frameCounter < 26) {
-			
-			pressingShield = true;
-		}
-		
-		
-	}
 	
 	private void mashJump() {
 		
 		pressingJump = true;
-	}
-	
-	private void mashShield() {
-		
-		
-		pressingShield = true;
 	}
 	
 	private void mashFair() {
@@ -120,68 +78,6 @@ public class TrainingBot extends Player {
 	}
 	
 	
-	
-	
-	
-	
-	
-	private void stand() {
-		
-		setFrames(30);
-	}
-	
-	private void dashAway() {
-		
-		setFrames(20);
-		
-		if (opponentOnLeft)
-			pressingRight = true;
-		if (opponentOnRight)
-			pressingLeft = true;
-	}
-	
-	private void dashRight() {
-		
-		setFrames(20);
-		pressingRight = true;	
-	}
-	
-	private void dashLeft() {
-		
-		setFrames(20);
-		pressingLeft = true;
-	}
-	
-	private void goToCenter() {
-		
-		setFrames(30);
-		
-		if (x + currentFrame.getWidth()/2 > 640) {
-			
-			pressingLeft = true;
-		}
-		
-		if (x + currentFrame.getWidth()/2 < 640) {
-			
-			pressingRight = true;
-		}
-	}
-	
-	private void goToOpponent() {
-		
-		setFrames(60);
-		
-		if (opponentOnLeft) {
-			
-			pressingLeft = true;
-		}
-		
-		if (opponentOnRight) {
-			
-			pressingRight = true;
-		}
-	}
-	
 	private void turnToOpponent() {
 		
 		if (opponentOnLeft)
@@ -190,208 +86,6 @@ public class TrainingBot extends Player {
 			pressingRight = true;
 	}
 	
-	private void turnAway() {
-		
-		if (opponentOnLeft)
-			pressingRight = true;	
-		if (opponentOnRight)
-			pressingLeft = true;
-	}
-	
-	
-	private void jab() {
-		
-		setFrames(4);
-		
-		if (frameCounter == 3) {
-			
-			turnToOpponent();
-		}
-		
-		if (frameCounter == 2) {
-			
-			pressingAttack = true;
-		}
-		
-		if (frameCounter == 0) {
-			if (defended)
-				defended = false;
-			if (parried)
-				parried = false;
-		}
-	}
-	
-	private void dashAttack() {
-		
-		setFrames(3);
-		
-		if (frameCounter == 2) {
-			turnToOpponent();
-			pressingAttack = true;
-		}
-		
-		if (frameCounter == 0) {
-			if (defended)
-				defended = false;
-			if (parried)
-				parried = false;
-		}
-	}
-	
-	private void upTilt() {
-		
-		setFrames(4);
-		
-		if (frameCounter == 3) {
-			
-			turnToOpponent();
-		}
-		
-		if (frameCounter == 2) {
-			pressingUp = true;
-			pressingAttack = true;
-		}
-		
-		if (frameCounter == 0) {
-			if (defended)
-				defended = false;
-			if (parried)
-				parried = false;
-		}
-		
-	}
-	
-	private void jumpFair() {
-		
-		
-		setFrames(10);
-		
-		if (frameCounter == 9) {
-			
-			turnToOpponent();
-		}
-		
-		if (frameCounter == 8) {
-			
-			pressingJump = true;
-			turnToOpponent();
-		}
-		
-		if (frameCounter == 7) {
-			
-			pressingAttack = true;
-			turnToOpponent();
-		}
-		
-		if (frameCounter <= 6) {
-			
-			turnToOpponent();
-		}
-		
-		if (frameCounter == 2) {
-		
-			if (defended)
-				defended = false;
-			if (parried)
-				parried = false;
-		}
-	}
-	
-	private void jumpBair() {
-		
-		setFrames(20);
-		
-		if (frameCounter == 19) {
-			
-			turnAway();
-		}
-		
-		if (frameCounter == 18) {
-			
-			pressingJump = true;
-		}
-		
-		if (frameCounter == 17) {
-			
-			pressingAttack = true;
-			turnToOpponent();
-		}
-		
-		if (frameCounter <= 16) {
-			
-			turnToOpponent();
-		}
-	}
-	
-	private void jumpUpAir() {
-		
-		setFrames(2);
-		
-		if (frameCounter == 1) {
-			
-			pressingJump = true;
-		}
-		
-		if (frameCounter == 0) {
-			
-			pressingUp = true;
-			pressingAttack = true;
-		}
-	}
-	
-	private void sideSpecial() {
-		
-		turnToOpponent();
-		pressingSpecial = true;
-	}
-	
-	private void jumpSideSpecial() {
-		
-		setFrames(10);
-		
-		if (frameCounter == 9) {
-			
-			pressingJump = true;
-		}
-		
-		if (frameCounter == 0) {
-			
-			turnToOpponent();
-			pressingSpecial = true;
-		}
-	}
-	
-	private void upSpecial() {
-		
-		setFrames(30);
-		
-		if (frameCounter == 29) {
-			
-			pressingUp = true;
-			pressingSpecial = true;
-		}
-	}
-	
-	private void jumpUpSpecial() {
-		
-		setFrames(30);
-		
-		if (frameCounter == 29) {
-			
-			pressingJump = true;
-		}
-		
-		if (frameCounter == 20) {
-			
-			pressingUp = true;
-			pressingSpecial = true;
-		}
-	}
-	
-	private void neutralSpecial() {
-		
-		pressingSpecial = true;
-	}
 	
 	private void escapeOptions() {
 		if (hitstunFrames > 0) {
@@ -456,28 +150,17 @@ public class TrainingBot extends Player {
 		pressingLeft = game.getKeyManager(playerNumb).left;
 		pressingRight = game.getKeyManager(playerNumb).right;
 		
-		
-		if (testingCombos) {
-			if (combos.isComboing()) {
-				combos.tick();
-			}
-			else {
-				if (opponent.pressingUp && opponent.pressingShield) {
-					combos.startCombo(6);
-				}
-			}
-		}
-		else {
+
 			
-			if (escapeOption > 0) {
-				escapeOptions();
-			}
-			if (!gotHit) {
-				if (behaviorOption > 0) {
-					normalBehaviorOptions();
-				}
+		if (escapeOption > 0) {
+			escapeOptions();
+		}
+		if (!gotHit) {
+			if (behaviorOption > 0) {
+				normalBehaviorOptions();
 			}
 		}
+
 
 		
 	}

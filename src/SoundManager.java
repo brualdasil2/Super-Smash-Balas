@@ -12,7 +12,7 @@ public class SoundManager {
 	
 	 public static synchronized void play(String path, boolean loop)
 	    {
-	                  
+	       
 	        new Thread(new Runnable() {
 	            public void run() {
 	                try {
@@ -28,6 +28,7 @@ public class SoundManager {
 	                }
 	            }
 	        }).start();
+	        
 	        
 	    }
 }

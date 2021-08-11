@@ -2,7 +2,7 @@
 public class BrunoCombos {
 	
 	private Player player;
-	private boolean comboing, opponentOnRight = false, opponentOnLeft = false, droppingShield = false;
+	private boolean comboing, opponentOnRight = false, opponentOnLeft = false, droppingShield = false, opponentHoldingAway;
 	private int frameCounter = 0, combo = 0;
 	private double centerX, distToFrontWall, distToBackWall;
 	
@@ -19,31 +19,35 @@ public class BrunoCombos {
 		
 		opponentOnLeft = (player.opponent.x - player.x < 0);
 		opponentOnRight = (player.opponent.x - player.x > 0);
+		opponentHoldingAway = ((player.lookDirection == 0 && player.opponent.pressingRight) || player.lookDirection == 1 && player.opponent.pressingLeft);
 	}
 	
 	private void selectCombo() {
 		switch(combo) {
-		case 1:
-			risingFair();
-			break;
-		case 2:
-			ffDoubleUpAirFinisher();
-			break;
-		case 3:
-			doubleFairExtension();
-			break;
-		case 4:
-			fallingUpAirFinisher();
-			break;
-		case 5:
-			upBFinisher();
-			break;
-		case 6:
-			risingBair();
-			break;
-		default:
-			endCombo();
-	}
+			case 1:
+				risingFair();
+				break;
+			case 2:
+				ffDoubleUpAirFinisher();
+				break;
+			case 3:
+				doubleFairExtension();
+				break;
+			case 4:
+				fallingUpAirFinisher();
+				break;
+			case 5:
+				upBFinisher();
+				break;
+			case 6:
+				risingBair();
+				break;
+			case 7:
+				fallingFair();
+				break;
+			default:
+				endCombo();
+		}
 	}
 	
 	private void endCombo() {
@@ -60,10 +64,12 @@ public class BrunoCombos {
 		selectCombo();
 	}
 	
-	private void dropShield() {
-		if (frameCounter >= 17) {
-			frameCounter = 0;
+	private boolean waitLag() {
+		if (player.freezeFrames <= 1) {
+			return false;
 		}
+		frameCounter = 0;
+		return true;
 	}
 	
 	private void turnAwayFromOpponent() {
@@ -95,16 +101,23 @@ public class BrunoCombos {
 	
 	private void risingBair() {
 
-		if (frameCounter == 1) {
+		player.pressingShield = false;
+		
+		if (frameCounter <= 2) {
 			turnAwayFromOpponent();
 			player.pressingJump = true;
 		}
-		else if (frameCounter == 2) {
+		else if (frameCounter == 3) {
 			turnToOpponent();
 			player.pressingAttack = true;
 		}
+		else if (frameCounter <= 15) {
+			turnToOpponent();
+			player.pressingShield = true;
+		}
 		else if (frameCounter <= 30) {
-			//turnToOpponent();
+			if (opponentHoldingAway)
+				turnToOpponent();
 			player.pressingShield = true;
 		}
 		else if (distToBackWall > 400) {
@@ -205,6 +218,10 @@ public class BrunoCombos {
 	}
 	
 	private void ffDoubleUpAirFinisher() {
+		if (player.opponent.getHitstunFrames() == 0) {
+			endCombo();
+		}
+		
 		if (frameCounter <= 50) {
 			turnToOpponent();
 		}
@@ -214,7 +231,10 @@ public class BrunoCombos {
 			turnToOpponent();
 		}
 		else if (frameCounter <= 65) {
-			player.pressingShield = true;
+			if (player.opponent.getY() > 210)
+				player.pressingShield = true;
+			else 
+				endCombo();
 			turnToOpponent();
 		}
 		else if (frameCounter <= 77) {
@@ -239,11 +259,8 @@ public class BrunoCombos {
 	
 	private void risingFair() {
 		
-		if (droppingShield) {
-			dropShield();
-		}
-		else {
-			
+
+		if (!waitLag()) {
 			if (frameCounter <= 2) {
 				player.pressingJump = true;
 				player.pressingAttack = true;
@@ -266,11 +283,45 @@ public class BrunoCombos {
 			}
 			else {
 				if (distToFrontWall > 450 && !(player.opponent.character instanceof Carol)) {
+					
 					startCombo(2); //ffDoubleUpAirFinisher
 				}
 				else {
 					startCombo(3); //doubleFairExtension
 				}
+			}
+		}
+	}
+	
+	private void fallingFair() {
+		if (frameCounter == 1) {
+			player.pressingJump = true;
+			turnToOpponent();
+		}
+		else if (frameCounter <= 19) {
+			turnToOpponent();
+		}
+		else if (frameCounter == 20) {
+			player.pressingShield = true;
+			turnToOpponent();
+		}
+		else if (frameCounter <= 23) {
+			turnToOpponent();
+		}
+		else if (frameCounter == 24) {
+			player.pressingAttack = true;
+			turnToOpponent();
+		}
+		else if (frameCounter <= 37) {
+			turnToOpponent();
+		}
+		else {
+			if (player.opponent.getHitstunFrames() == 0) {
+				endCombo();
+			}
+			else {
+				frameCounter = 1;
+				startCombo(1);
 			}
 		}
 	}
@@ -288,7 +339,7 @@ public class BrunoCombos {
 	
 	public boolean isComboing() {
 		checkState();
-		//System.out.println(distToBackWall);
+		//System.out.println(player.opponent.getY());
 		return comboing;
 	}
 } 

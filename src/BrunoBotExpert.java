@@ -1,10 +1,11 @@
 
 public class BrunoBotExpert extends Player{
 	
-	private int state, rand, frameCounter = 0;
-	private boolean opponentNear, opponentOnAir, opponentOnTop, opponentOnLeft, opponentOnRight, opponentAttacking, opponentShielding, opponentCandyComing,
-					onCenter, opponentRising, opponentFalling;
-	private double centerX,  distToFrontWall, distToBackWall;
+	private int state, rand, frameCounter = 0, shieldDelayFrames = 0, opHealthBeforeJuggle;
+	private boolean[] last3jugglesEscaped = {false, false, false};
+	private boolean opponentNear, opponentOnAir, opponentOnTop, opponentOnLeft, opponentOnRight, opponentAttacking, opponentShielding, opponentProjectileComing,
+					onCenter, opponentRising, opponentFalling, juggling = false, juggled = false, onTopOfOpponent, falling, triedToJuggle = false, fakedJuggle = false, nearRose = false, roseOnLeft = false, roseOnRight = false;
+	private double centerX,  distToFrontWall, distToBackWall, distXToProjectile, distYToProjectile;
 	private BrunoCombos combos = new BrunoCombos(this);
 
 	
@@ -51,6 +52,23 @@ public class BrunoBotExpert extends Player{
 		return 0;
 	}
 	
+	private int getChanceOfEscaping() {
+		int chance = 0;
+		for (boolean item: last3jugglesEscaped) {
+			if (item)
+				chance++;
+		}
+		return chance;
+	}
+	
+	private void addOpponentEscapeOption(boolean escaped) {
+		last3jugglesEscaped[0] = last3jugglesEscaped[1];
+		last3jugglesEscaped[1] = last3jugglesEscaped[2];
+		last3jugglesEscaped[2] = escaped;
+		//System.out.println("Added " + escaped + " as new escape option. New chance: " + getChanceOfEscaping());
+	}
+	
+
 	
 	private void checkState() {
 		
@@ -63,41 +81,65 @@ public class BrunoBotExpert extends Player{
 		else
 			opponentNear = (Math.abs(opponent.x - x) < 250);
 		opponentOnAir = opponent.onAir;
-		opponentOnTop = (Math.abs(opponent.x - x) < 200 && opponent.y < 100 && opponent.y < y);
+		opponentOnTop = (Math.abs(opponent.x - x) < 200 && opponent.y < (juggling ? 250 : 100) && opponent.y < y);
+		onTopOfOpponent = (Math.abs(opponent.x - x) < 200 && y < (juggled ? 250 : 100) && y < opponent.y);
 		opponentOnLeft = (opponent.x - x < 0);
 		opponentOnRight = (opponent.x - x > 0);
 		opponentAttacking = opponent.attacking;
 		opponentShielding = (opponent.shielding && !opponent.onAir && opponent.shield > 0);
 		
-		opponentRising = (opponent.ySpeed < 0);
+		opponentRising = (opponent.ySpeed < 0 && opponent.freezeFrames == 0);
 		opponentFalling = (opponent.ySpeed > 0);
+		falling = ySpeed > 0;
+		
+	/*	if (opponent.jumps > 0 && opponent.pressingJump && !jumpClicked) {
+			opponentJumped = true;
+		}
+		else {
+			opponentJumped = false;
+		}*/
 		
 		onCenter = (x + currentFrame.getWidth()/2 > 590 && x + currentFrame.getWidth()/2 < 690);
 		
+		distXToProjectile = 10000;
+		distYToProjectile = 10000;
+		opponentProjectileComing = false;
+		nearRose = false;
+		roseOnLeft = false;
+		roseOnRight = false;
+		
 		for (int i = 0; i < GameState.projectiles.size(); i++) {
 			
-			if (GameState.projectiles.get(i) instanceof Bala || GameState.projectiles.get(i) instanceof Nota) {
+			if (GameState.projectiles.get(i) instanceof Bala || GameState.projectiles.get(i) instanceof Nota || GameState.projectiles.get(i) instanceof SnowBall || GameState.projectiles.get(i) instanceof Halls) {
 				
 				if (!GameState.projectiles.get(i).getOwner().equals(this)) {
 					
-					opponentCandyComing = true;
-					break;
-				}
-				else {
-					
-					opponentCandyComing = false;
+					if ((x - GameState.projectiles.get(i).getX() < 0) == (GameState.projectiles.get(i).getXSpeed() < 0)) {
+						
+						
+						opponentProjectileComing = true;
+						double distX = Math.abs(centerX - (GameState.projectiles.get(i).getX() + GameState.projectiles.get(i).getWidth()/2));
+						double distY = (y - (GameState.projectiles.get(i).getY() + GameState.projectiles.get(i).getHeight()/2));
+						if (distX < distXToProjectile) {
+							distXToProjectile = distX;
+							distYToProjectile = distY;
+						}
+					}
 				}
 			}
-			else {
-				
-				opponentCandyComing = false;
+			else if (GameState.projectiles.get(i) instanceof Rosa) {
+				if (Math.abs(centerX - (GameState.projectiles.get(i).getX() + GameState.projectiles.get(i).getWidth()/2)) < 200) {
+					nearRose = true;
+					if (centerX - (GameState.projectiles.get(i).getX() + GameState.projectiles.get(i).getWidth()/2) > 0) {
+						roseOnLeft = true;
+					}
+					else {
+						roseOnRight = true;
+					}
+				}
 			}
 		}
 		
-		if (GameState.projectiles.isEmpty()) {
-			
-			opponentCandyComing = false;
-		}
 		
 		
 	}
@@ -117,10 +159,31 @@ public class BrunoBotExpert extends Player{
 	
 	private void setState(int state) {
 		
-		if (this.state != state) {			
+		if (this.state != state) {
+				if (this.state == 11) {
+					
+					if (triedToJuggle) {
+						if (opponent.getHealth() < opHealthBeforeJuggle) {
+							addOpponentEscapeOption(false);
+						}
+						else {
+							addOpponentEscapeOption(true);
+						}
+					}
+					else {
+						fakedJuggle = true;
+						if (state == 9 || state == 10) {
+							addOpponentEscapeOption(true);
+						}
+						else {
+							addOpponentEscapeOption(false);
+						}
+					}
+				}
+
 			this.state = state;
 			frameCounter = 0;
-			System.out.println(state);
+			//System.out.println("New state: " + this.state);
 		}
 	}
 	
@@ -155,9 +218,57 @@ public class BrunoBotExpert extends Player{
 		}
 	}
 	
+	private void timeReflect() {
+		
+		//System.out.println(distXToProjectile + " " + distYToProjectile);
+		
+		if (shieldDelayFrames > 0) {
+			shieldDelayFrames--;
+			pressingShield = true;
+		}
+		else {
+			if (distXToProjectile > 100) {
+				turnToOpponent();
+			}
+			else {
+				if (distYToProjectile > 40) {
+					turnToOpponent();
+				}
+				else {
+					shieldDelayFrames = 2;
+					pressingShield = true;
+				}
+			}
+		}
+	}
+	
 	private void stand() {
 		
 		setFrames(30);
+	}
+	
+	private void diLeft() {
+		if (frameCounter == 0)
+			frameCounter = 1;
+		
+		pressingLeft = true;
+	}
+	
+	private void diRight() {
+		if (frameCounter == 0)
+			frameCounter = 1;
+		
+		pressingRight = true;
+	}
+	
+	private void dashAwayFromRose() {
+		
+		setFrames(20);
+		
+		if (roseOnLeft)
+			pressingRight = true;
+		if (roseOnRight)
+			pressingLeft = true;
 	}
 	
 	private void dashAway() {
@@ -358,7 +469,7 @@ public class BrunoBotExpert extends Player{
 		}
 	}
 	
-	private void jumpUpAir() {
+	private void jumpUpAir(boolean hit) {
 		
 		setFrames(30);
 		
@@ -366,15 +477,22 @@ public class BrunoBotExpert extends Player{
 			
 			pressingJump = true;
 			turnToOpponent();
+			opHealthBeforeJuggle = opponent.getHealth();
+			//System.out.println(getChanceOfEscaping());
+			triedToJuggle = hit;
+			
 		}
 		
 		else if (frameCounter >= 28) {
 			
-			pressingUp = true;
-			pressingAttack = true;
+			if (hit) {
+				pressingUp = true;
+				pressingAttack = true;
+			}
 			turnToOpponent();
 		}
 		else if (frameCounter >= 0) {
+
 			turnToOpponent();
 			pressingShield = true;
 		}
@@ -445,24 +563,147 @@ public class BrunoBotExpert extends Player{
 		checkState();
 		pressNothing();
 		
+		if (state != 9 && state != 10 && state != 11) {
+			juggling = false;
+			fakedJuggle = false;
+		}
+		if (state != 24 && state != 25 && state != 26 && state != 27) {
+			juggled = false;
+		}
+		
+		//System.out.println(state);
 		if (combos.isComboing()) {
 			combos.tick();
 		}
+		
 		
 		else {
 			
 			if (opponentNear) {
 				
-				if (opponentAttacking) {
+				//Juggled
+				if (onTopOfOpponent) {
+					juggled = true;
+					
+					if (y < -100) {
+						if (!falling) {
+							setState(24);
+							
+							randomize(5);
+							if (rand <= 2)
+								diLeft();
+							if (rand > 2 && rand <= 4)
+								diRight();
+							if (rand > 4 && rand <= 5) {
+								if (jumps == 0) {
+									if (magic > 4)
+										upSpecial();
+								}
+								else {
+									jump();
+								}
+							}
+						}
+						else {
+							setState(25);
+							
+							randomize(5);
+							if (rand <= 1)
+								diLeft();
+							if (rand > 1 && rand <= 2)
+								diRight();
+							if (rand > 2 && rand <= 5)
+								pressingShield = true;
+						}
+					}
+					else {
+						if (opponentAttacking) {
+							setState(26);
+							
+							if (jumps > 0) {
+								jump();
+							}
+							else {
+								turnAway();
+							}
+						}
+						else {
+							setState(27);
+							turnAway();
+						}
+					}
+				}
+				//Juggling
+				else if (opponentOnTop) {
+					
+					juggling = true;
+					
+					if (shieldDelayFrames > 0) {
+						shieldDelayFrames--;
+						pressingShield = true;
+					}
+					else if (distXToProjectile <= 100 && distYToProjectile <= 40) {
+						shieldDelayFrames = 2;
+						pressingShield = true;
+					}
+				
+					
+					if (opponentRising) {
+						setState(9);
+						turnToOpponent();
+						if (onAir) {
+							pressingShield = true;
+						}
+						
+					}
+					else {
+						if (opponent.y < -100) {
+							setState(10);
+							turnToOpponent();
+						}
+						else {
+							setState(11);
+							randomize(3);
+							//System.out.println("Rand: " + rand);
+							//System.out.println("Chance: " + getChanceOfEscaping());
+							
+							if (freezeFrames == 0) {
+								if (fakedJuggle) {
+									jumpUpAir(true);
+									//System.out.println("Already faked juggle, attacking.");
+								}
+								else if (rand > getChanceOfEscaping()) {
+									jumpUpAir(true);
+									//System.out.println("Rand chose to attack.");
+								}
+								else {
+									jumpUpAir(false);
+									//System.out.println("Rando chose not to attack.");
+								}
+							}
+						}
+					}
+				}
+				else if (opponentAttacking) {
 					
 					//Out of shield
-					if (!shieldStun && freezeFrames <= 1 && (defended || parried)) {
+					if (!shieldStun && freezeFrames <= 1 && (defended || parried) && !opponentProjectileComing) {
 						setState(0);
 						
 	
 						if (parried) {
-							if (opponentRising && distToFrontWall < 470 && distToFrontWall > 170) {
-								combos.startCombo(6); //risingBair
+							if (opponentRising) {
+								if (distToFrontWall < 470 && distToFrontWall > 170) {
+									combos.startCombo(6); //risingBair
+								}
+								else {
+									if (framesToPunish(true) >= 20)
+										combos.startCombo(7); //fallingFair
+									else {
+										combos.startCombo(1);
+										System.out.println("Cant do falling fair, only " + framesToPunish(true) + " frames to punish.");
+									}
+								}
 							}
 							else {
 								combos.startCombo(1); //risingFair
@@ -480,9 +721,22 @@ public class BrunoBotExpert extends Player{
 						}	
 					}
 				
-					else if (!(defended || parried)) {
+					else {
 						
-						if (onAir) {
+						if (opponentProjectileComing && !juggling) {
+							
+							setState(12);
+							
+							timeReflect();
+							timeParry();
+						}
+						else if (nearRose) {
+							setState(27);
+							
+							dashAwayFromRose();
+						}
+						
+						else if (onAir && !juggling) {
 							//Specific combo escapes
 							setState(1);
 							
@@ -498,7 +752,11 @@ public class BrunoBotExpert extends Player{
 									if (jumps > 0)
 										pressingJump = true;
 									else {
-										dashAway();
+										if (onCenter)
+											dashAway();
+										else {
+											goToCenter();
+										}
 									}
 								}
 							}
@@ -521,58 +779,42 @@ public class BrunoBotExpert extends Player{
 									if (jumps > 0)
 										pressingJump = true;
 									else {
-										dashAway();
+										if (onCenter)
+											dashAway();
+										else {
+											goToCenter();
+										}
 									}
 								}
 							}
 						}
-						//Lacerda Counter whiff punish
-						else if ((opponent.character instanceof Lacerda && ((opponent.neutralSpecialing && opponent.character.attackUF == 2) || (opponent.upSpecialing && opponent.character.attackUF == 10))) || (opponent.character instanceof Bruno && opponent.neutralSpecialing) || (opponent.character instanceof Carol && opponent.upSpecialing)) {
+						//Counter, tube and super wings punish
+						else if ( !juggling && ((opponent.character instanceof Lacerda && ((opponent.neutralSpecialing && opponent.character.attackUF == 2) || (opponent.upSpecialing && opponent.character.attackUF == 10))) || (opponent.character instanceof Bruno && opponent.neutralSpecialing) || (opponent.character instanceof Carol && opponent.upSpecialing))) {
 							
 							setState(2);
 							
-							dashAttack();
+							combos.startCombo(1);
 						}
 						
 						else {
-							//Juggling
-							if (opponentOnTop) {
-								
-								if (opponentRising) {
-									setState(9);
-									turnToOpponent();
-								}
-								else {
-									if (opponent.y < -100) {
-										setState(10);
-										turnToOpponent();
-									}
-									else {
-										setState(11);
-										jumpUpAir();
-									}
-								}
+							//Block or whiff punish
+							if (framesToPunish(false) > 13) {
+								combos.startCombo(1);
 							}
 							else {
-								//Block or punish
-								if (framesToPunish(false) > 13) {
-									combos.startCombo(1);
+								if (shield > 0 && !(opponent.character instanceof Obino && opponent.sideSpecialing)) {
+								
+								
+									setState(3);
+									timeParry();
+									
 								}
 								else {
-									if (shield > 0) {
+									//No shield, run
+									setState(4);
 									
-									
-										setState(3);
-										timeParry();
-										
-									}
-									else {
-										//No shield, run
-										setState(4);
-										
-										pressingShield = false;
-										dashAway();
-									}
+									pressingShield = false;
+									dashAway();
 								}
 							}
 						}
@@ -581,12 +823,47 @@ public class BrunoBotExpert extends Player{
 				//Neutral: opponent near and not attacking
 				else if (!opponentAttacking) {
 					
+					if (opponentProjectileComing) {
+						
+						setState(12);
+						
+						timeReflect();
+					}
+					else if (nearRose) {
+						setState(27);
+						
+						dashAwayFromRose();
+					}
+					//counter attack oos (for bruno up B)
+					else if (!shieldStun && freezeFrames <= 1 && (defended || parried) && !opponentProjectileComing) {
+						setState(0);
+						
+	
+						if (parried) {
+							if (opponentRising && distToFrontWall < 470 && distToFrontWall > 170) {
+								combos.startCombo(6); //risingBair
+							}
+							else {
+								combos.startCombo(1); //risingFair
+							}
+						}
+						else {
+							if (framesToPunish(true) >= 6) {
+								combos.startCombo(1); //risingFair
+							}
+							else {
+								//System.out.println("Cant punish oos, only " + framesToPunish(true) + " frames to punish.");
+								defended = false;
+								parried = false;
+							}
+						}	
+					}
 					
-					if (!opponentOnTop) {
+					else if (!opponentOnTop) {
 						
 						if (!opponentShielding) {
 							
-							if (magic >= 4) {
+							if (magic >= 6) {
 								
 								setState(6);
 								randomize(23);
@@ -603,13 +880,13 @@ public class BrunoBotExpert extends Player{
 									jumpBair();
 								if (rand > 7 && rand <= 9)
 									dashAway();
-								if (rand > 9 && rand <= 12)
+								if (rand > 9 && rand <= 10)
 									jump();
-								if (rand > 12 && rand <= 13)
+								if (rand > 10 && rand <= 11)
 									sideSpecial();
-								if (rand > 13 && rand <= 17)
+								if (rand > 11 && rand <= 16)
 									goToOpponent();
-								if (rand > 17 && rand <= 23)
+								if (rand > 16 && rand <= 23)
 									stand();
 							}
 							
@@ -630,11 +907,11 @@ public class BrunoBotExpert extends Player{
 									jumpBair();
 								if (rand > 7 && rand <= 9)
 									dashAway();
-								if (rand > 9 && rand <= 13)
+								if (rand > 9 && rand <= 11)
 									jump();
-								if (rand > 13 && rand <= 17)
+								if (rand > 11 && rand <= 16)
 									goToOpponent();
-								if (rand > 17 && rand <= 23)
+								if (rand > 16 && rand <= 23)
 									stand();
 							}
 						}
@@ -654,36 +931,23 @@ public class BrunoBotExpert extends Player{
 								jump();
 						}
 					}
-					//Juggling
-					else if (opponentOnTop) {
-						
-						if (opponentRising) {
-							setState(9);
-							turnToOpponent();
-						}
-						else {
-							if (opponent.y < -100) {
-								setState(10);
-								turnToOpponent();
-							}
-							else {
-								setState(11);
-								jumpUpAir();
-							}
-						}
-					}
 				}
 			}
 			//opponent far
 			else if (!opponentNear) {
 				
-				if (opponentCandyComing) {
+				if (opponentProjectileComing) {
 				
 					setState(12);
 					
-					shield();
+					timeReflect();
 				}
-				else if (!opponentCandyComing) {
+				else if (nearRose) {
+					setState(27);
+					
+					dashAwayFromRose();
+				}
+				else {
 					
 					if (!onCenter) {
 						

@@ -3,7 +3,7 @@ import java.awt.Graphics;
 
 public class ChooseBotState extends State{
 
-	private Button playerBrunoButton, playerCarolButton, playerLacerdaButton, playerObinoButton, botBrunoButton, botCarolButton, botLacerdaButton, botObinoButton, easyButton, mediumButton, hardButton, backButton, player1Button, player2Button, suddenDeathYesButton, suddenDeathNoButton;
+	private Button playerBrunoButton, playerCarolButton, playerLacerdaButton, playerObinoButton, botBrunoButton, botCarolButton, botLacerdaButton, botObinoButton, easyButton, mediumButton, hardButton, expertButton, backButton, player1Button, player2Button, suddenDeathYesButton, suddenDeathNoButton;
 	private boolean rendered;
 	private int playAs;
 	private int playerChar, botChar;
@@ -25,9 +25,10 @@ public class ChooseBotState extends State{
 		botCarolButton = new Button(game, 860, 100, 120, 40, Color.black, "CAROL", Assets.font15, null, true);
 		botLacerdaButton = new Button(game, 720, 160, 120, 40, Color.black, "LACERDA", Assets.font15, null, true);
 		botObinoButton = new Button(game, 860, 160, 120, 40, Color.black, "OBINO", Assets.font15, null, true);
-		easyButton = new Button(game, 500, 600, 80, 40, Color.black, "FÁCIL", Assets.font15, null, true);
-		mediumButton = new Button(game, 600, 600, 80, 40, Color.black, "MÉDIO", Assets.font15, null, true);
-		hardButton = new Button(game, 700, 600, 80, 40, Color.black, "DIFÍCIL", Assets.font15, null, true);
+		easyButton = new Button(game, 440, 600, 80, 40, Color.black, "FÁCIL", Assets.font15, null, true);
+		mediumButton = new Button(game, 540, 600, 80, 40, Color.black, "MÉDIO", Assets.font15, null, true);
+		hardButton = new Button(game, 640, 600, 80, 40, Color.black, "DIFÍCIL", Assets.font15, null, true);
+		expertButton = new Button(game, 740, 600, 80, 40, Color.black, "EXPERT", Assets.font15, null, true);
 		backButton = new Button(game, 0, 0, 100, 50, Color.black, "<- VOLTAR", Assets.font15, null, false);
 		player1Button = new Button(game, 525, 300, 100, 40, Color.black, "JOGADOR 1", Assets.font15, null, false);
 		player2Button = new Button(game, 660, 300, 100, 40, Color.black, "JOGADOR 2", Assets.font15, null, false);
@@ -207,6 +208,60 @@ public class ChooseBotState extends State{
 			((GameState)(game.getGameState())).init(2 + playAs, botChar, suddenDeath);
 		}
 		
+		if (botChar == 1) {
+			if (expertButton.buttonPressed()) {
+				
+				
+				
+				if (playAs == 1) {
+					
+					if (playerChar == 1)
+						player = new Player(game, 1, new Bruno(0), 240, GameState.floorY - 200, "JOGADOR 1");
+					else if (playerChar == 2)
+						player = new Player(game, 1, new Carol(0), 240, GameState.floorY - 200, "JOGADOR 1");
+					else if (playerChar == 3)
+						player = new Player(game, 1, new Lacerda(0), 240, GameState.floorY - 200, "JOGADOR 1");
+					else if (playerChar == 4)
+						player = new Player(game, 1, new Obino(0), 240, GameState.floorY - 200, "JOGADOR 1");
+					
+					if (botChar == 1)
+						bot = new BrunoBotExpert(game, 2, new Bruno(1), 840, GameState.floorY - 200);
+			/*		else if (botChar == 2)
+						bot = new CarolBotExpert(game, 2, new Carol(1), 840, GameState.floorY - 200);
+					else if (botChar == 3)
+						bot = new LacerdaBotExpert(game, 2, new Lacerda(1), 840, GameState.floorY - 200); 
+					else if (botChar == 4)
+						bot = new ObinoBotExpert(game, 2, new Obino(1), 840, GameState.floorY - 200); 
+			*/
+				}
+				
+				else if (playAs == 2) {
+					
+					if (playerChar == 1)
+						player = new Player(game, 2, new Bruno(1), 840, GameState.floorY - 200, "JOGADOR 2");
+					else if (playerChar == 2)
+						player = new Player(game, 2, new Carol(1), 840, GameState.floorY - 200, "JOGADOR 2");
+					else if (playerChar == 3)
+						player = new Player(game, 2, new Lacerda(1), 840, GameState.floorY - 200, "JOGADOR 2");
+					else if (playerChar == 4)
+						player = new Player(game, 2, new Obino(1), 840, GameState.floorY - 200, "JOGADOR 2");
+					
+					if (botChar == 1)
+						bot = new BrunoBotExpert(game, 1, new Bruno(0), 240, GameState.floorY - 200);
+				/*	else if (botChar == 2)
+						bot = new CarolBotExpert(game, 1, new Carol(0), 240, GameState.floorY - 200);
+					else if (botChar == 3)
+						bot = new LacerdaBotExpert(game, 1, new Lacerda(0), 240, GameState.floorY - 200);
+					else if (botChar == 4)
+						bot = new ObinoBotExpert(game, 1, new Obino(0), 240, GameState.floorY - 200);
+				*/
+				}
+				
+				State.setState(game.getGameState());
+				((GameState)(game.getGameState())).init(2 + playAs, botChar, suddenDeath);
+			}
+		}
+		
 		if (player1Button.buttonPressed()) {
 			
 			rendered = false;
@@ -247,24 +302,28 @@ public class ChooseBotState extends State{
 			
 			rendered = false;
 			botChar = 1;
+			expertButton.setColor(Color.black);
 		}
 		
 		if (botCarolButton.buttonPressed()) {
 			
 			rendered = false;
 			botChar = 2;
+			expertButton.setColor(Color.gray);
 		}
 		
 		if (botLacerdaButton.buttonPressed()) {
 			
 			rendered = false;
 			botChar = 3;
+			expertButton.setColor(Color.gray);
 		}
 		
 		if (botObinoButton.buttonPressed()) {
 			
 			rendered = false;
 			botChar = 4;
+			expertButton.setColor(Color.gray);
 		}
 		
 		if (suddenDeathYesButton.buttonPressed()) {
@@ -369,6 +428,7 @@ public class ChooseBotState extends State{
 			easyButton.drawButton(g);
 			mediumButton.drawButton(g);
 			hardButton.drawButton(g);
+			expertButton.drawButton(g);
 			backButton.drawButton(g);
 			player1Button.drawButton(g);
 			player2Button.drawButton(g);
