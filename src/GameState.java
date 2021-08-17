@@ -26,7 +26,7 @@ public class GameState extends State {
 	private static int parryFreezeCounter = 0;
 	public static ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 	public static MagicBall magicBall;
-	private Button hitboxButton, resetButton, speedButton, frameButton, trainingBotButton, botBehaviorButton, botEscapeButton, menuButton, characterButton, resumeButton;
+	private Button hitboxButton, resetButton, speedButton, frameButton, trainingBotButton, botBehaviorButton, botEscapeButton, botPlayerButton, menuButton, characterButton, resumeButton;
 	private boolean showBoxes = false;
 	private boolean paused;
 	private int mode;
@@ -46,7 +46,7 @@ public class GameState extends State {
 	
 	private boolean trainingBotOn = false;
 	private int botBehavior = 0;
-	private int botEscape = 0;
+	private int botEscape = 0, botPlayer = 2;
 	
 	private ComboCounter comboCounter = new ComboCounter();
 
@@ -156,6 +156,7 @@ public class GameState extends State {
 			trainingBotButton = new Button(game, 10, 210, 120, 40, Color.darkGray, "LIGAR/DESLIGAR", Assets.font10, null, true);
 			botBehaviorButton = new Button(game, 10, 260, 120, 40, Color.darkGray, "COMPORTAMENTO", Assets.font10, null, true);
 			botEscapeButton = new Button(game, 10, 310, 120, 40, Color.darkGray, "ESCAPAR COMBO", Assets.font10, null, true);
+			//botPlayerButton = new Button(game, 10, 360, 120, 40, Color.darkGray, "JOGADOR DO BOT", Assets.font10, null, true);
 		}
 		
 	}
@@ -433,6 +434,32 @@ public class GameState extends State {
 									((TrainingBot)(player2)).setEscapeOption(botEscape);
 								}
 							}
+							/*
+							if (botPlayerButton.buttonPressed()) {
+								screenRefreshManager.setChange(0, 0, 1280, 720);
+								double p2X = player2.getX();
+								double p2Y = player2.getY();
+								double p1X = player1.getX();
+								double p1Y = player1.getY();
+								if (botPlayer == 1) {
+									botPlayer = 2;
+									player1 = new Player(game, 1, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer1Char(), p1X, p1Y, "JOGADOR 1");
+									player2 = new TrainingBot(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+									player2.setOpponent(player1);
+									player1.setOpponent(player2);
+									((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char().resetAttackCounters();
+									((CharacterSelectState)(game.getCharacterSelectState())).getPlayer1Char().resetAttackCounters();
+								}
+								else {
+									botPlayer = 1;
+									player2 = new Player(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y, "JOGADOR 2");
+									player1 = new TrainingBot(game, 1, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer1Char(), p1X, p1Y);
+									player2.setOpponent(player1);
+									player1.setOpponent(player2);
+									((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char().resetAttackCounters();
+									((CharacterSelectState)(game.getCharacterSelectState())).getPlayer1Char().resetAttackCounters();
+								}
+							}*/
 						}
 
 					}
@@ -938,7 +965,15 @@ public class GameState extends State {
 							break;
 					}
 				}
-				
+				/*
+				botPlayerButton.drawButton(g);
+				if (map == 2 || map == 3) {
+					Text.drawString(g, "" + botPlayer, 140, 390, false, Color.white, Assets.font20);
+				}
+				else {
+					Text.drawString(g, "" + botPlayer, 140, 390, false, Color.black, Assets.font20);
+				}
+				*/
 				if (map == 2 || map == 3)
 					Text.drawString(g, "Ligado", 140, 240, false, Color.white, Assets.font20);
 				else
