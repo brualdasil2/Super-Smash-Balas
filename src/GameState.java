@@ -740,12 +740,19 @@ public class GameState extends State {
 			g.drawImage(Assets.snowFlake, 930, 50, 50, 50, null);
 		}
 
-		
-		g.setColor(Color.red);
-		if (player1.getHealth() > 0)
-			g.fillRect(290 + (300 - 2*player1.getHealth()), 20, 2*player1.getHealth(), 20);
-		if (player2.getHealth() > 0)
-			g.fillRect(690, 20, 2*player2.getHealth(), 20);
+		if (!isSmash) {
+			
+
+			g.setColor(Color.red);
+			if (player1.getHealth() > 0)
+				g.fillRect(290 + (300 - 2*player1.getHealth()), 20, 2*player1.getHealth(), 20);
+			if (player2.getHealth() > 0)
+				g.fillRect(690, 20, 2*player2.getHealth(), 20);
+		}
+		else {
+			Text.drawString(g, "" + ((SmashPlayer)player1).getPercent() + "%", 590 - g.getFontMetrics(Assets.font15).stringWidth("" + ((SmashPlayer)player1).getPercent() + "%"), 37, false, Color.black, Assets.font25);
+			Text.drawString(g, "" + ((SmashPlayer)player2).getPercent() + "%", 690, 37, false, Color.black, Assets.font25);
+		}
 		
 		g.setColor(Color.green);
 		g.fillRect(390 + (200 - 2*player1.getShield()), 45, 2*player1.getShield(), 20);
@@ -756,8 +763,10 @@ public class GameState extends State {
 		g.fillRect(690, 70, 10*player2.getMagic(), 20);
 		
 		g.setColor(Color.black);
-		g.drawRect(290, 20, 300, 20);
-		g.drawRect(690, 20, 300, 20);
+		if (!isSmash) {
+			g.drawRect(290, 20, 300, 20);
+			g.drawRect(690, 20, 300, 20);
+		}
 		
 		g.drawRect(390, 45, 200, 20);
 		g.drawRect(690, 45, 200, 20);
