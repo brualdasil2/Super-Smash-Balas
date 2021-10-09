@@ -49,6 +49,10 @@ public class GameState extends State {
 	private int botEscape = 0, botPlayer = 2;
 	
 	private ComboCounter comboCounter = new ComboCounter();
+	
+	private boolean isSmash = true;
+	public static int smashStageLeft = 150;
+	public static int smashStageRight = 1130;
 
 
 	
@@ -67,6 +71,8 @@ public class GameState extends State {
 		//mode 1 = regular pvp fight
 		//mode 2 = training pvp
 		//mode 3 = bot
+		
+		
 		
 		mapRendered = false;
 		
@@ -89,11 +95,20 @@ public class GameState extends State {
 		
 		if (mode <= 2) {
 			
-			player1 = new Player(game, 1, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer1Char(), 240, floorY - 200, "JOGADOR 1");
-			player2 = new Player(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), 840, floorY - 200, "JOGADOR 2");
+			if (isSmash) {
+				floorY = 570;
+				
+				player1 = new SmashPlayer(game, 1, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer1Char(), 240, floorY - 200, "JOGADOR 1");
+				player2 = new SmashPlayer(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), 840, floorY - 200, "JOGADOR 2");
+			}
+			else {
+				player1 = new Player(game, 1, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer1Char(), 240, floorY - 200, "JOGADOR 1");
+				player2 = new Player(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), 840, floorY - 200, "JOGADOR 2");
+			}
+
 			
 		}
-		else if (mode >= 3) {
+		else if (mode >= 3 && mode <= 4) {
 			
 			if (mode == 3) {
 				
@@ -106,7 +121,7 @@ public class GameState extends State {
 				player2 = ((ChooseBotState)(game.getChooseBotState())).getPlayer();
 			}
 		}
-		
+
 		player1.setOpponent(player2);
 		player2.setOpponent(player1);
 		magicBall = new MagicBall();
@@ -689,7 +704,10 @@ public class GameState extends State {
 		if (map == 0) {
 			
 			g.setColor(Color.black);
-			g.fillRect(0, floorY, game.getDisplay().getWidth(), floorHeight);
+			if (!isSmash)
+				g.fillRect(0, floorY, game.getDisplay().getWidth(), floorHeight);
+			else
+				g.fillRect(smashStageLeft, floorY, smashStageRight - smashStageLeft, floorHeight);
 		}
 		
 		player1.render(g, showBoxes);
