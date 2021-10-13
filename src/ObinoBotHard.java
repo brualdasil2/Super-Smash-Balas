@@ -62,7 +62,7 @@ public class ObinoBotHard extends Player{
 					
 					opponentOnTrap = (OpCollisionRightX >= GameState.projectiles.get(i).getX()
 								   && OpCollisionLeftX <= GameState.projectiles.get(i).getX() + GameState.projectiles.get(i).getWidth()
-								   && OpCollisionBottomY >= 100);
+								   && OpCollisionBottomY >= 530);
 				}
 			}
 		}

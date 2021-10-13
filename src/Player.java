@@ -154,10 +154,21 @@ public class Player {
 							
 							if (!(sideSpecialing || upSpecialing || neutralSpecialing)) {
 								
-								if (frozen)
-									x += (character.getAirSpeed()/2);
-								else
-									x += character.getAirSpeed();
+								if (xSpeed < 0) {
+									if (frozen)
+										xSpeed += character.getAirSpeed()/2;
+									else;
+										xSpeed += character.getAirSpeed();
+									if (xSpeed > 0) {
+										xSpeed = 0;
+									}
+								}
+								else {
+									if (frozen)
+										x += character.getAirSpeed();
+									else
+										x += character.getAirSpeed();
+								}
 							}
 						}
 					}
@@ -191,10 +202,21 @@ public class Player {
 							
 							if (!(sideSpecialing || upSpecialing || neutralSpecialing)) {
 								
-								if (frozen)
-									x -= (character.getAirSpeed()/2);
-								else
-									x -= character.getAirSpeed();
+								if (xSpeed > 0) {
+									if (frozen)
+										xSpeed -= character.getAirSpeed()/2;
+									else;
+										xSpeed -= character.getAirSpeed();
+									if (xSpeed < 0) {
+										xSpeed = 0;
+									}
+								}
+								else {
+									if (frozen)
+										x -= character.getAirSpeed();
+									else
+										x -= character.getAirSpeed();
+								}
 							}
 							
 						}
@@ -447,6 +469,7 @@ public class Player {
 				
 					if (!insideHitbox && !shielding && invincibleCounter == 0) {
 						GameState.hitEffect.startHitEffect((int) x + hurtbox.getX() - GameState.hitEffect.getWidth()/2, (int) y + hurtbox.getY() - GameState.hitEffect.getHeight()/2);
+						//opponent.setFreezeFrames(5);
 					}
 					return true;
 					
@@ -707,6 +730,7 @@ public class Player {
 			OpCollisionTopY = opponent.getY() + opponent.getCurrentAttack().getCollisionbox().getY();
 			OpCollisionBottomY = opponent.getY() + opponent.getCurrentAttack().getCollisionbox().getY() + opponent.getCurrentAttack().getCollisionbox().getHeight();
 			OpCollisionCenterX = (OpCollisionRightX + OpCollisionLeftX)/2;
+			//System.out.println(OpCollisionBottomY);
 		}
 	}
 	
