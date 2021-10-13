@@ -18,7 +18,7 @@ public class MagicBall {
 	private void respawnMagicBall() {
 		
 		x = 640;
-		y = (int) (210 + Math.random() * 444);
+		y = (int) (GameState.floorY - 460 + Math.random() * 444);
 	
 		 
 	}

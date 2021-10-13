@@ -41,7 +41,7 @@ public class Halls extends Projectile {
 		
 		ySpeed += GameState.GRAVITY;
 		
-		if (x + collisionbox.getX() + collisionbox.getWidth() > GameState.rightWall || x + collisionbox.getX() < GameState.leftWall || y + collisionbox.getY() + collisionbox.getHeight() > GameState.floorY) {
+		if (x + collisionbox.getX() + collisionbox.getWidth() > GameState.rightWall || x + collisionbox.getX() < GameState.leftWall || (y + collisionbox.getY() + collisionbox.getHeight() > GameState.floorY && ((x + collisionbox.getX() < GameState.smashStageRight && x + collisionbox.getX() + collisionbox.getWidth() > GameState.smashStageLeft)))) {
 			
 			GameState.projectiles.remove(GameState.projectiles.indexOf(this));
 		}

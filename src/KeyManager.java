@@ -4,7 +4,7 @@ import java.awt.event.KeyListener;
 public class KeyManager implements KeyListener {
 
 	private boolean keys[];
-	public boolean up, down, left, right, attack, shield, jump, special, pause;
+	public boolean up, down, left, right, attack, shield, jump, special, pause, airdash;
 	private int playerNumb;
 
 	
@@ -28,7 +28,7 @@ public class KeyManager implements KeyListener {
 			shield = keys[KeyEditState.getp1Shield()];
 			jump = keys[KeyEditState.getp1Jump()];
 			special = keys[KeyEditState.getp1Special()];
-			
+			airdash = keys[KeyEvent.VK_Q];
 
 		
 		}
@@ -42,6 +42,7 @@ public class KeyManager implements KeyListener {
 			shield = keys[KeyEditState.getp2Shield()];
 			jump = keys[KeyEditState.getp2Jump()];
 			special = keys[KeyEditState.getp2Special()];
+			airdash = keys[KeyEvent.VK_Y];
 		}
 	}
 	

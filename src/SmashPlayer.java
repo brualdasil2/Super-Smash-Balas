@@ -4,14 +4,38 @@ public class SmashPlayer extends Player {
 	private int percent;
 	private int leftBlastzone = -100;
 	private int rightBlastzone = 1380;
-	private int topBlastzone = -200;
+	private int topBlastzone = -300;
 	private int bottomBlastzone = 920;
+	private boolean pressingAirdash;
+	private int airdashDuration = 15;
+	private int airdashes = 1, airdashCounter = 0;
+	private boolean airdashingRight = false, airdashingLeft = false, airdashingDown = false, airdashingUp = false;
 	
 	public SmashPlayer(Game game, int playerNumb, Character character, double x, double y, String name) {
 		super(game, playerNumb, character, x, y, name);
 		this.percent = 0;
+		this.health = 1000;
+	}
+
+	private double knockbackMultiplier() {
+		return (0.6 + 0.00004524*Math.pow(percent, 2) + 0.002548*percent);
 	}
 	
+	private double hitstunMultiplier() {
+		return (0.7 +  Math.pow(0.00001310, 2) + 0.003369*percent);
+	}
+	
+	protected void getInput() {
+		
+		pressingJump = game.getKeyManager(playerNumb).jump;
+		pressingAttack = game.getKeyManager(playerNumb).attack;
+		pressingSpecial = game.getKeyManager(playerNumb).special;
+		pressingUp = game.getKeyManager(playerNumb).up;
+		pressingShield = game.getKeyManager(playerNumb).shield;
+		pressingLeft = game.getKeyManager(playerNumb).left;
+		pressingRight = game.getKeyManager(playerNumb).right;
+		pressingAirdash = game.getKeyManager(playerNumb).airdash;
+	}
 	
 	protected void checkInput() {
 		
@@ -332,6 +356,59 @@ public class SmashPlayer extends Player {
 			
 			dropShield();
 		}
+		
+		
+		
+		
+		//AIRDASH
+		if (pressingAirdash) {
+			if (airdashCounter == 0) {
+				if (onAir) {
+					if (freezeFrames == 0) {
+						if (!attacking) {
+							if (hitstunFrames == 0) {
+								if (airdashes > 0) {
+									
+									airdashCounter = airdashDuration;
+									hitstunFrames = airdashDuration;
+
+									if (pressingRight) {
+										airdashingRight = true;
+										airdashingLeft = false;
+										airdashingDown = false;
+										airdashingUp = false;
+									}
+									else if (pressingLeft) {
+										airdashingRight = false;
+										airdashingLeft = true;
+										airdashingDown = false;
+										airdashingUp = false;
+									}
+									else if (pressingShield) {
+										airdashingRight = false;
+										airdashingLeft = false;
+										airdashingDown = true;
+										airdashingUp = false;
+									}
+									else {
+										airdashingRight = false;
+										airdashingLeft = false;
+										airdashingDown = false;
+										airdashingUp = true;
+									}
+									
+									fastFalling = false;
+									airdashes--;
+									ySpeed = 0;
+									xSpeed = 0;
+									
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 	
 	
@@ -396,11 +473,13 @@ public class SmashPlayer extends Player {
 							
 							if (invincibleCounter == 0) {
 								
-								percent += opponent.getCurrentAttack().getDamage();
-								ySpeed = opponent.getCurrentAttack().getKnockbackYspeed();
-								xSpeed = opponent.getCurrentAttack().getKnockbackXspeed();
-								hitstunFrames = opponent.getCurrentAttack().getHitstunFrames();
+								ySpeed = opponent.getCurrentAttack().getKnockbackYspeed()*knockbackMultiplier();
+								xSpeed = opponent.getCurrentAttack().getKnockbackXspeed()*knockbackMultiplier();
+								int hSf = (int)(opponent.getCurrentAttack().getHitstunFrames()*hitstunMultiplier());
+								hitstunFrames = hSf < 20 ? 20 : hSf;
 								freezeFrames = opponent.getCurrentAttack().getFreezeFrames();
+								percent += opponent.getCurrentAttack().getDamage();
+								health -= opponent.getCurrentAttack().getDamage();
 								shielding = false;
 								SoundManager.play("sounds/PunchHit.wav", false);
 							}
@@ -424,6 +503,7 @@ public class SmashPlayer extends Player {
 			
 			insideHitbox = false;
 		}
+		
 		
 	}
 	
@@ -509,9 +589,11 @@ public class SmashPlayer extends Player {
 											GameState.hitEffect.startHitEffect((int) x + hurtbox.getX() - GameState.hitEffect.getWidth()/2, (int) y + hurtbox.getY() - GameState.hitEffect.getHeight()/2);
 														
 											percent += GameState.projectiles.get(i).getDamage();
-											ySpeed = GameState.projectiles.get(i).getKnockbackYspeed();
-											xSpeed = (GameState.projectiles.get(i).getXSpeed() > 0) ? GameState.projectiles.get(i).getKnockbackXspeed() : -GameState.projectiles.get(i).getKnockbackXspeed();
-											hitstunFrames = GameState.projectiles.get(i).getHitstunFrames();
+											health -= GameState.projectiles.get(i).getDamage();
+											ySpeed = GameState.projectiles.get(i).getKnockbackYspeed()*knockbackMultiplier();
+											xSpeed = knockbackMultiplier()*((GameState.projectiles.get(i).getXSpeed() > 0) ? GameState.projectiles.get(i).getKnockbackXspeed() : -GameState.projectiles.get(i).getKnockbackXspeed());
+											int hSf = (int)(GameState.projectiles.get(i).getHitstunFrames()*hitstunMultiplier());
+											hitstunFrames = hSf < 20 ? 20 : hSf;
 											freezeFrames = GameState.projectiles.get(i).getFreezeFrames();
 											
 											
@@ -577,10 +659,7 @@ public class SmashPlayer extends Player {
 		
 		
 		if (MyCollisionRightX < leftBlastzone || MyCollisionLeftX > rightBlastzone || MyCollisionBottomY < topBlastzone || MyCollisionTopY > bottomBlastzone) {
-			System.out.println("Col Rx: " + MyCollisionRightX);
-			System.out.println("Col Lx: " + MyCollisionLeftX);
-			System.out.println("Col By: " + MyCollisionBottomY);
-			System.out.println("Col Ty: " + MyCollisionTopY);
+
 			health = 0;
 		}
 	}
@@ -699,13 +778,15 @@ public class SmashPlayer extends Player {
 		if (freezeFrames == 0) {
 			
 			if (onAir) {
-				
-				gravity();
+				if (airdashCounter == 0)
+					gravity();
 				
 			}
 			
-			y += ySpeed; 
-			x += xSpeed; 
+			if (airdashCounter == 0) {
+				y += ySpeed; 
+				x += xSpeed; 
+			}
 		}
 		
 		checkStageCollision();
@@ -714,10 +795,16 @@ public class SmashPlayer extends Player {
 		
 		//if on ground
 		if (!onAir) {
-			
+			System.out.println("Yspeed: " + ySpeed + " adC " + airdashCounter);
 			jumps = character.getJumps(); 
+			airdashes = 1;
+
+			y = GameState.floorY - currentFrame.getHeight();
+
+
 			//if fell on ground
-			if (ySpeed != 0 && y + currentFrame.getHeight() < GameState.floorY + ySpeed + 20) {
+			if ((ySpeed != 0 && y + currentFrame.getHeight() < GameState.floorY + ySpeed + 20) || airdashCounter > 0) {
+				
 				
 				if (hitstunFrames == 0) {
 					
@@ -741,6 +828,11 @@ public class SmashPlayer extends Player {
 					
 					y = GameState.floorY - currentFrame.getHeight();
 					ySpeed = -ySpeed;
+				}
+				airdashCounter = 0;
+				if (airdashingDown) {
+					airdashingDown = false;
+					ySpeed = -20;
 				}
 			}
 		}
@@ -813,7 +905,34 @@ public class SmashPlayer extends Player {
 				((Obino)(character)).closeTrap(this);
 		}
 
-			
+		
+		if (freezeFrames > 0) {
+			airdashCounter = 0;
+		}
+		
+		//System.out.println(airdashCounter);
+		if (airdashCounter > 0) {
+			if (airdashingRight) {
+				x += 20;
+			}
+			else if (airdashingLeft) {
+				x -= 20;
+			}
+			else if (airdashingDown) {
+				y += 20;
+			}
+			else if (airdashingUp) {
+				y -= 20;
+			}
+			airdashCounter--;
+		}
+		else {
+			airdashingRight = false;
+			airdashingLeft = false;
+			airdashingUp = false;
+			airdashingDown = false;
+		}
+
 				
 		//COLLISION DETECTION
 		
@@ -840,5 +959,58 @@ public class SmashPlayer extends Player {
 	public int getPercent() {
 		
 		return percent;
+	}
+
+	
+	public void restoreRound() {
+		
+		percent = 0;
+		health = 1500;
+		shield = 100;
+		
+		attacking = false;
+		jabbing = false;
+		dashing = false;
+		upTilting = false;
+		bairing = false;
+		fairing = false;
+		upAiring = false;
+		sideSpecialing = false;
+		upSpecialing = false;
+		neutralSpecialing = false;
+		shielding = false;
+		insideHitbox = false;
+		onAir = false;
+		jumpClicked = false;
+		shieldStun = false;
+		fastFalling = false;
+		hitstunFrames = 0; 
+		freezeFrames = 30; 
+		invincibleCounter = 120;
+		shieldRecoverCounter = 0;
+		parryCounter = 0;
+		frozen = false;
+		frozenCounter = 0;
+		xSpeed = 0;
+		ySpeed = 0;
+		character.resetAttackCounters();
+		
+		
+		y = GameState.floorY - 500;
+		
+		if (playerNumb == 1) {
+			
+			x = 540;
+			lookDirection = 1;
+		}
+		else if (playerNumb == 2) {
+			
+			x = 540;
+			lookDirection = 0;
+		}
+		
+		setStanding();
+		
+		
 	}
 }

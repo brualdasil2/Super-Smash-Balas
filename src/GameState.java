@@ -72,7 +72,14 @@ public class GameState extends State {
 		//mode 2 = training pvp
 		//mode 3 = bot
 		
-		
+		if (!isSmash) {
+			smashStageLeft = 0;
+			smashStageRight = 1280;
+		}
+		else {
+			rightWall = 2000;
+			leftWall = -1000;
+		}
 		
 		mapRendered = false;
 		
@@ -99,7 +106,9 @@ public class GameState extends State {
 				floorY = 570;
 				
 				player1 = new SmashPlayer(game, 1, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer1Char(), 240, floorY - 200, "JOGADOR 1");
-				player2 = new SmashPlayer(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), 840, floorY - 200, "JOGADOR 2");
+				//player2 = new SmashPlayer(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), 840, floorY - 200, "JOGADOR 2");
+				player2 = new SmashBrunoBotHard(game, 2, new Bruno(1), 840, floorY - 200);
+
 			}
 			else {
 				player1 = new Player(game, 1, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer1Char(), 240, floorY - 200, "JOGADOR 1");
@@ -141,8 +150,11 @@ public class GameState extends State {
 			maxScore = 5;
 			suddenDeath();
 		}
-		else {
+		else if (isSmash) {
 			
+			maxScore = 4;
+		}
+		else {
 			maxScore = 2;
 		}
 		
@@ -304,6 +316,10 @@ public class GameState extends State {
 							
 							player1.maxHP();
 							player2.maxHP();
+							if (isSmash) {
+								player1.restoreRound();
+								player2.restoreRound();
+							}
 							player1.restoreShield();
 							player2.restoreShield();
 						}
@@ -514,13 +530,21 @@ public class GameState extends State {
 					
 					else if (player1.getHealth() <= 0 && player2.getHealth() > 0) {
 						
+
 						fighting = false;
+						if (isSmash){
+							player1.restoreRound();
+						}
 						player2.increaseScore();
 					}
 					
 					else if (player2.getHealth() <= 0 && player1.getHealth() > 0) {
 						
+
 						fighting = false;
+						if (isSmash){
+							player2.restoreRound();
+						}
 						player1.increaseScore();
 					}
 				}
@@ -570,6 +594,9 @@ public class GameState extends State {
 			
 			if (countdownTimer < 210) {
 				
+				if (isSmash && player1.getScore() + player2.getScore() != 0) {
+					countdownTimer = 209;
+				}
 				countdownTimer++;
 				if (countdownTimer == 210) {
 					
@@ -580,7 +607,10 @@ public class GameState extends State {
 			
 			else if (countdownTimer >= 210) {
 				
-				
+				if (isSmash) {
+					if (winner == 0)
+						KOscreenTimer = 179;
+				}
 				KOscreenTimer++;
 				if (KOscreenTimer == 1) {
 					
@@ -799,12 +829,21 @@ public class GameState extends State {
 			
 			g.setColor(Color.green);
 			
-			for (int i = 0; i < player1.getScore(); i++) {
+			int nCircles1, nCircles2;
+			if (isSmash) {
+				nCircles1 =  maxScore - player2.getScore();
+				nCircles2 = maxScore - player1.getScore();
+			}
+			else {
+				nCircles1 = player1.getScore();
+				nCircles2 = player2.getScore();
+			}
+			for (int i = 0; i < nCircles1; i++) {
 				
-				g.fillOval(475 - 12*i, 6, 8, 8);;
+				g.fillOval(475 - 12*i, 6, 8, 8);
 				
 			}
-			for (int i = 0; i < player2.getScore(); i++) {
+			for (int i = 0; i < nCircles2; i++) {
 				
 				g.fillOval(800 + 12*i, 6, 8, 8);
 				
@@ -823,31 +862,34 @@ public class GameState extends State {
 		
 		if (!fighting) {
 			
-			if (KOscreenTimer < 180 && countdownTimer == 210) {
-				
-				g.drawImage(Assets.KOscreen, 490, 210, 300, 300, null);
+			if (isSmash && winner != 0) {
+				if (KOscreenTimer < 180 && countdownTimer == 210) {
+					
+					g.drawImage(Assets.KOscreen, 490, 210, 300, 300, null);
+				}
 			}
 			
-			if (countdownTimer < 60) {
+			if (isSmash && player1.getScore() + player2.getScore() == 0) {
+				if (countdownTimer < 60) {
+					
+					g.drawImage(Assets.countdown[0], 540, 260, 200, 200, null);
+				}
 				
-				g.drawImage(Assets.countdown[0], 540, 260, 200, 200, null);
-			}
-			
-			else if (countdownTimer >= 60 && countdownTimer < 120) {
+				else if (countdownTimer >= 60 && countdownTimer < 120) {
+					
+					g.drawImage(Assets.countdown[1], 540, 260, 200, 200, null);
+				}
 				
-				g.drawImage(Assets.countdown[1], 540, 260, 200, 200, null);
-			}
-			
-			else if (countdownTimer >= 120 && countdownTimer < 180) {
+				else if (countdownTimer >= 120 && countdownTimer < 180) {
+					
+					g.drawImage(Assets.countdown[2], 540, 260, 200, 200, null);
+				}
 				
-				g.drawImage(Assets.countdown[2], 540, 260, 200, 200, null);
+				else if (countdownTimer < 210) {
+					
+					g.drawImage(Assets.fight, 490, 210, 300, 300, null);
+				}
 			}
-			
-			else if (countdownTimer < 210) {
-				
-				g.drawImage(Assets.fight, 490, 210, 300, 300, null);
-			}
-			
 			if (winner == 1) {
 				
 				if (map == 2 || map == 3)
@@ -1051,11 +1093,22 @@ public class GameState extends State {
 		hitEffect.resetFrameCounter();
 		KOscreenTimer = 0;
 		parryFreezeCounter = 0;
-		player1.restoreRound();
-		player2.restoreRound();
-		projectiles.clear();
-		magicBall.grab();
-		
+		if (!isSmash) {
+			player1.restoreRound();
+			player2.restoreRound();
+		}
+		else {
+			if (player1.getHealth() == 0)
+				player1.restoreRound();
+			else if (player2.getHealth() == 0) {
+				player2.restoreRound();
+			}
+		}
+
+		if (!isSmash) {
+			projectiles.clear();
+			magicBall.grab();
+		}
 		if (player1.character instanceof Carol) {
 			
 			((Carol)(player1.character)).endSuper();
@@ -1068,24 +1121,28 @@ public class GameState extends State {
 			player2.jumps = 2;
 		}
 		
-		if (player1.character instanceof Lacerda) {
+		if (!isSmash) {
+			if (player1.character instanceof Lacerda) {
+				
+				((Lacerda)(player1.character)).resetBomb();
+			}
 			
-			((Lacerda)(player1.character)).resetBomb();
+			if (player2.character instanceof Lacerda) {
+				
+				((Lacerda)(player2.character)).resetBomb();
+			}
 		}
 		
-		if (player2.character instanceof Lacerda) {
+		if (!isSmash) {
+			if (player1.character instanceof Obino) {
+				
+				((Obino)(player1.character)).deactivateTrap();
+			}
 			
-			((Lacerda)(player2.character)).resetBomb();
-		}
-		
-		if (player1.character instanceof Obino) {
-			
-			((Obino)(player1.character)).deactivateTrap();
-		}
-		
-		if (player2.character instanceof Obino) {
-			
-			((Obino)(player2.character)).deactivateTrap();
+			if (player2.character instanceof Obino) {
+				
+				((Obino)(player2.character)).deactivateTrap();
+			}
 		}
 	}
 	

@@ -44,7 +44,7 @@ public class SnowBall extends Projectile {
 			xSpeed = -xSpeed;
 		}
 		
-		if (y + collisionbox.getY() + collisionbox.getHeight() > GameState.floorY) {
+		if (y + collisionbox.getY() + collisionbox.getHeight() > GameState.floorY && ((x + collisionbox.getX() < GameState.smashStageRight && x + collisionbox.getX() + collisionbox.getWidth() > GameState.smashStageLeft))) {
 			
 			ySpeed = -ySpeed;
 			bounceCounter++;
