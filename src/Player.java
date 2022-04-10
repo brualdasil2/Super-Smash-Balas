@@ -165,7 +165,7 @@ public class Player {
 								}
 								else {
 									if (frozen)
-										x += character.getAirSpeed();
+										x += character.getAirSpeed()/2;
 									else
 										x += character.getAirSpeed();
 								}
@@ -213,7 +213,7 @@ public class Player {
 								}
 								else {
 									if (frozen)
-										x -= character.getAirSpeed();
+										x -= character.getAirSpeed()/2;
 									else
 										x -= character.getAirSpeed();
 								}
