@@ -156,9 +156,103 @@ public class GameState extends State {
 			trainingBotButton = new Button(game, 10, 210, 120, 40, Color.darkGray, "LIGAR/DESLIGAR", Assets.font10, null, true);
 			botBehaviorButton = new Button(game, 10, 260, 120, 40, Color.darkGray, "COMPORTAMENTO", Assets.font10, null, true);
 			botEscapeButton = new Button(game, 10, 310, 120, 40, Color.darkGray, "ESCAPAR COMBO", Assets.font10, null, true);
-			//botPlayerButton = new Button(game, 10, 360, 120, 40, Color.darkGray, "JOGADOR DO BOT", Assets.font10, null, true);
+			botPlayerButton = new Button(game, 10, 360, 120, 40, Color.darkGray, "JOGADOR DO BOT", Assets.font10, null, true);
 		}
 		
+	}
+	
+	private void trainingBotBehavior(Player player, Player bot) {
+		double botX = bot.getX();
+		double botY = bot.getY();
+		screenRefreshManager.setChange(0, 0, 300, 500);
+		screenRefreshManager.setChange(0, 0, 1280, 30);
+		botBehavior++;
+		if (botBehavior > 7) {
+			botBehavior = 0;
+			bot = new TrainingBot(game, botPlayer, bot.character, botX, botY);
+			bot.setOpponent(player);
+			player.setOpponent(bot);
+			bot.character.resetAttackCounters();
+			((TrainingBot)(bot)).setEscapeOption(botEscape);
+		}
+		if (botBehavior <= 4) {
+			((TrainingBot)(bot)).setBehaviorOption(botBehavior);
+		}
+		else if (botBehavior == 5) {
+			if (bot.character instanceof Bruno) {
+				bot = new BrunoBotEasy(game, botPlayer, bot.character, botX, botY);
+			}
+			else if (bot.character instanceof Carol) {
+				bot = new CarolBotEasy(game, botPlayer, bot.character, botX, botY);
+			}
+			else if (bot.character instanceof Lacerda) {
+				bot = new LacerdaBotEasy(game, botPlayer, bot.character, botX, botY);
+			}
+			else if (bot.character instanceof Obino) {
+				bot = new ObinoBotEasy(game, botPlayer, bot.character, botX, botY);
+			}
+			bot.setOpponent(player);
+			player.setOpponent(bot);
+			bot.character.resetAttackCounters();
+		}
+		else if (botBehavior == 6) {
+			if (bot.character instanceof Bruno) {
+				bot = new BrunoBotMedium(game, botPlayer, bot.character, botX, botY);
+			}
+			else if (bot.character instanceof Carol) {
+				bot = new CarolBotMedium(game, botPlayer, bot.character, botX, botY);
+			}
+			else if (bot.character instanceof Lacerda) {
+				bot = new LacerdaBotMedium(game, botPlayer, bot.character, botX, botY);
+			}
+			else if (bot.character instanceof Obino) {
+				bot = new ObinoBotMedium(game, botPlayer, bot.character, botX, botY);
+			}
+			bot.setOpponent(player);
+			player.setOpponent(bot);
+			bot.character.resetAttackCounters();
+		}
+		else if (botBehavior == 7) {
+			if (bot.character instanceof Bruno) {
+				bot = new BrunoBotHard(game, botPlayer, bot.character, botX, botY);
+			}
+			else if (bot.character instanceof Carol) {
+				bot = new CarolBotHard(game, botPlayer, bot.character, botX, botY);
+			}
+			else if (bot.character instanceof Lacerda) {
+				bot = new LacerdaBotHard(game, botPlayer, bot.character, botX, botY);
+			}
+			else if (bot.character instanceof Obino) {
+				bot = new ObinoBotHard(game, botPlayer, bot.character, botX, botY);
+			}
+			bot.setOpponent(player);
+			player.setOpponent(bot);
+			bot.character.resetAttackCounters();
+		}
+	}
+	
+	private void trainingButton(Player player, Player bot) {
+		trainingBotOn = !trainingBotOn;
+		screenRefreshManager.setChange(10, 160, 200, 200);
+		screenRefreshManager.setChange(0, 0, 1280, 30);
+		screenRefreshManager.setChange(0, 0, 300, 500);
+		double botX = bot.getX();
+		double botY = bot.getY();
+		if (trainingBotOn) {
+			bot = new TrainingBot(game, botPlayer, bot.character, botX, botY);
+			bot.setOpponent(player);
+			player.setOpponent(bot);
+			bot.character.resetAttackCounters();
+		}
+		else {
+			System.out.println("turned off");
+			bot = new Player(game, botPlayer, bot.character, botX, botY, "JOGADOR X");
+			bot.setOpponent(player);
+			player.setOpponent(bot);
+			bot.character.resetAttackCounters();
+			botBehavior = 0;
+			botEscape = 0;
+		}
 	}
 	
 	@Override
@@ -332,97 +426,18 @@ public class GameState extends State {
 						}
 						
 						if (trainingBotButton.buttonPressed()) {
-							trainingBotOn = !trainingBotOn;
-							screenRefreshManager.setChange(10, 160, 200, 200);
-							screenRefreshManager.setChange(0, 0, 1280, 30);
-							screenRefreshManager.setChange(0, 0, 300, 500);
-							double p2X = player2.getX();
-							double p2Y = player2.getY();
-							if (trainingBotOn) {
-								player2 = new TrainingBot(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
-								player2.setOpponent(player1);
-								player1.setOpponent(player2);
-								((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char().resetAttackCounters();
-							}
-							else {
-								player2 = new Player(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y, "JOGADOR 2");
-								player2.setOpponent(player1);
-								player1.setOpponent(player2);
-								((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char().resetAttackCounters();
-								botBehavior = 0;
-								botEscape = 0;
-							}
+							if (botPlayer == 2)
+								trainingButton(player1, player2);
+							else
+								trainingButton(player2, player1);
 						}
 						
 						if (trainingBotOn) {
 							if (botBehaviorButton.buttonPressed()) {
-								double p2X = player2.getX();
-								double p2Y = player2.getY();
-								screenRefreshManager.setChange(0, 0, 300, 500);
-								screenRefreshManager.setChange(0, 0, 1280, 30);
-								botBehavior++;
-								if (botBehavior > 7) {
-									botBehavior = 0;
-									player2 = new TrainingBot(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
-									player2.setOpponent(player1);
-									player1.setOpponent(player2);
-									((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char().resetAttackCounters();
-									((TrainingBot)(player2)).setEscapeOption(botEscape);
-								}
-								if (botBehavior <= 4) {
-									((TrainingBot)(player2)).setBehaviorOption(botBehavior);
-								}
-								else if (botBehavior == 5) {
-									if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Bruno) {
-										player2 = new BrunoBotEasy(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
-									}
-									else if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Carol) {
-										player2 = new CarolBotEasy(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
-									}
-									else if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Lacerda) {
-										player2 = new LacerdaBotEasy(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
-									}
-									else if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Obino) {
-										player2 = new ObinoBotEasy(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
-									}
-									player2.setOpponent(player1);
-									player1.setOpponent(player2);
-									((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char().resetAttackCounters();
-								}
-								else if (botBehavior == 6) {
-									if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Bruno) {
-										player2 = new BrunoBotMedium(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
-									}
-									else if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Carol) {
-										player2 = new CarolBotMedium(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
-									}
-									else if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Lacerda) {
-										player2 = new LacerdaBotMedium(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
-									}
-									else if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Obino) {
-										player2 = new ObinoBotMedium(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
-									}
-									player2.setOpponent(player1);
-									player1.setOpponent(player2);
-									((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char().resetAttackCounters();
-								}
-								else if (botBehavior == 7) {
-									if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Bruno) {
-										player2 = new BrunoBotHard(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
-									}
-									else if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Carol) {
-										player2 = new CarolBotHard(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
-									}
-									else if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Lacerda) {
-										player2 = new LacerdaBotHard(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
-									}
-									else if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Obino) {
-										player2 = new ObinoBotHard(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
-									}
-									player2.setOpponent(player1);
-									player1.setOpponent(player2);
-									((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char().resetAttackCounters();
-								}
+								if (botPlayer == 2)
+									trainingBotBehavior(player1, player2);
+								else
+									trainingBotBehavior(player2, player1);
 							}
 							if (botBehavior <= 4) {
 								if (botEscapeButton.buttonPressed()) {
@@ -431,10 +446,13 @@ public class GameState extends State {
 									if (botEscape > 5) {
 										botEscape = 0;
 									}
-									((TrainingBot)(player2)).setEscapeOption(botEscape);
+									if (botPlayer == 2)
+										((TrainingBot)(player2)).setEscapeOption(botEscape);
+									else
+										((TrainingBot)(player1)).setEscapeOption(botEscape);
 								}
 							}
-							/*
+							
 							if (botPlayerButton.buttonPressed()) {
 								screenRefreshManager.setChange(0, 0, 1280, 720);
 								double p2X = player2.getX();
@@ -459,7 +477,7 @@ public class GameState extends State {
 									((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char().resetAttackCounters();
 									((CharacterSelectState)(game.getCharacterSelectState())).getPlayer1Char().resetAttackCounters();
 								}
-							}*/
+							}
 						}
 
 					}
@@ -965,7 +983,7 @@ public class GameState extends State {
 							break;
 					}
 				}
-				/*
+				
 				botPlayerButton.drawButton(g);
 				if (map == 2 || map == 3) {
 					Text.drawString(g, "" + botPlayer, 140, 390, false, Color.white, Assets.font20);
@@ -973,7 +991,7 @@ public class GameState extends State {
 				else {
 					Text.drawString(g, "" + botPlayer, 140, 390, false, Color.black, Assets.font20);
 				}
-				*/
+				
 				if (map == 2 || map == 3)
 					Text.drawString(g, "Ligado", 140, 240, false, Color.white, Assets.font20);
 				else
