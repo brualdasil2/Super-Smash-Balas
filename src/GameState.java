@@ -838,9 +838,9 @@ public class GameState extends State {
 			else if (winner < 0) {
 				
 				if (map == 2 || map == 3)
-					Text.drawString(g, "EMPATE! MORTE S�BITA INICIANDO...", 640, 190, true, Color.white, Assets.font30);
+					Text.drawString(g, "EMPATE! MORTE SÚBITA INICIANDO...", 640, 190, true, Color.white, Assets.font30);
 				else
-					Text.drawString(g, "EMPATE! MORTE S�BITA INICIANDO...", 640, 190, true, Color.black, Assets.font30);
+					Text.drawString(g, "EMPATE! MORTE SÚBITA INICIANDO...", 640, 190, true, Color.black, Assets.font30);
 			}
 			
 		}

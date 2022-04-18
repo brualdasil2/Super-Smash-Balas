@@ -28,7 +28,7 @@ public class ChooseBotState extends State{
 		easyButton = new Button(game, 440, 600, 80, 40, Color.black, "FÁCIL", Assets.font15, null, true);
 		mediumButton = new Button(game, 540, 600, 80, 40, Color.black, "MÉDIO", Assets.font15, null, true);
 		hardButton = new Button(game, 640, 600, 80, 40, Color.black, "DIFÍCIL", Assets.font15, null, true);
-		expertButton = new Button(game, 740, 600, 80, 40, Color.black, "EXPERT", Assets.font15, null, true);
+		expertButton = new Button(game, 740, 600, 80, 40, Color.gray, "EXPERT", Assets.font15, null, true);
 		backButton = new Button(game, 0, 0, 100, 50, Color.black, "<- VOLTAR", Assets.font15, null, false);
 		player1Button = new Button(game, 525, 300, 100, 40, Color.black, "JOGADOR 1", Assets.font15, null, false);
 		player2Button = new Button(game, 660, 300, 100, 40, Color.black, "JOGADOR 2", Assets.font15, null, false);
@@ -208,7 +208,7 @@ public class ChooseBotState extends State{
 			((GameState)(game.getGameState())).init(2 + playAs, botChar, suddenDeath);
 		}
 		
-		if (botChar == 1) {
+		if (false) {
 			if (expertButton.buttonPressed()) {
 				
 				
@@ -302,7 +302,7 @@ public class ChooseBotState extends State{
 			
 			rendered = false;
 			botChar = 1;
-			expertButton.setColor(Color.black);
+			expertButton.setColor(Color.gray);
 		}
 		
 		if (botCarolButton.buttonPressed()) {
