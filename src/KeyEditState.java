@@ -24,7 +24,8 @@ public class KeyEditState extends State {
 	private static int p1controls[] = new int[7];
 	private static int p2controls[] = new int[7];
 	private static KeyEditButton p1leftButton, p1rightButton, p1upButton, p1shieldButton, p1jumpButton, p1attackButton, p1specialButton,
-	p2leftButton, p2rightButton, p2upButton, p2shieldButton, p2jumpButton, p2attackButton, p2specialButton;
+	p2leftButton, p2rightButton, p2upButton, p2shieldButton, p2jumpButton, p2attackButton, p2specialButton,
+	pauseButton;
 	
 	private static int p1Up, p1Left, p1Shield, p1Right, p1Jump, p1Attack, p1Special;
 	private static int p2Up, p2Left, p2Shield, p2Right, p2Jump, p2Attack, p2Special;
@@ -33,21 +34,23 @@ public class KeyEditState extends State {
 	public KeyEditState(Game game) {
 		
 		super(game);	
-		p1leftButton = new KeyEditButton(game, 200, 170, 100, 40, "A", KeyEvent.VK_A);
-		p1rightButton = new KeyEditButton(game, 200, 220, 100, 40, "D", KeyEvent.VK_D);
-		p1upButton = new KeyEditButton(game, 200, 270, 100, 40, "W", KeyEvent.VK_W);
-		p1shieldButton = new KeyEditButton(game, 200, 320, 100, 40, "S", KeyEvent.VK_S);
-		p1jumpButton = new KeyEditButton(game, 200, 470, 100, 40, "CAPS", KeyEvent.VK_CAPS_LOCK);
-		p1attackButton = new KeyEditButton(game, 200, 520, 100, 40, "SHIFT", KeyEvent.VK_SHIFT);
-		p1specialButton = new KeyEditButton(game, 200, 570, 100, 40, "CTRL", KeyEvent.VK_CONTROL);
+		p1leftButton = new KeyEditButton(game, 300, 170, 100, 40, "A", KeyEvent.VK_A);
+		p1rightButton = new KeyEditButton(game, 300, 220, 100, 40, "D", KeyEvent.VK_D);
+		p1upButton = new KeyEditButton(game, 300, 270, 100, 40, "W", KeyEvent.VK_W);
+		p1shieldButton = new KeyEditButton(game, 300, 320, 100, 40, "S", KeyEvent.VK_S);
+		p1jumpButton = new KeyEditButton(game, 300, 470, 100, 40, "CAPS", KeyEvent.VK_CAPS_LOCK);
+		p1attackButton = new KeyEditButton(game, 300, 520, 100, 40, "SHIFT", KeyEvent.VK_SHIFT);
+		p1specialButton = new KeyEditButton(game, 300, 570, 100, 40, "CTRL", KeyEvent.VK_CONTROL);
 
-		p2leftButton = new KeyEditButton(game, 1190, 170, 100, 40, "J", KeyEvent.VK_J);
-		p2rightButton = new KeyEditButton(game, 1190, 220, 100, 40, "L", KeyEvent.VK_L);
-		p2upButton = new KeyEditButton(game, 1190, 270, 100, 40, "I", KeyEvent.VK_I);
-		p2shieldButton = new KeyEditButton(game, 1190, 320, 100, 40, "K", KeyEvent.VK_K);
-		p2jumpButton = new KeyEditButton(game, 1190, 470, 100, 40, "G", KeyEvent.VK_G);
-		p2attackButton = new KeyEditButton(game, 1190, 520, 100, 40, "V", KeyEvent.VK_V);
-		p2specialButton = new KeyEditButton(game, 1190, 570, 100, 40, "B", KeyEvent.VK_B);
+		p2leftButton = new KeyEditButton(game, 890, 170, 100, 40, "J", KeyEvent.VK_J);
+		p2rightButton = new KeyEditButton(game, 890, 220, 100, 40, "L", KeyEvent.VK_L);
+		p2upButton = new KeyEditButton(game, 890, 270, 100, 40, "I", KeyEvent.VK_I);
+		p2shieldButton = new KeyEditButton(game, 890, 320, 100, 40, "K", KeyEvent.VK_K);
+		p2jumpButton = new KeyEditButton(game, 890, 470, 100, 40, "G", KeyEvent.VK_G);
+		p2attackButton = new KeyEditButton(game, 890, 520, 100, 40, "V", KeyEvent.VK_V);
+		p2specialButton = new KeyEditButton(game, 890, 570, 100, 40, "B", KeyEvent.VK_B);
+		
+		pauseButton = new KeyEditButton(game, 590, 370, 100, 40, "P", KeyEvent.VK_P);
 
 	}
 
@@ -71,14 +74,6 @@ public class KeyEditState extends State {
 			((MenuState)(game.getMenuState())).init();
 		}
 		
-/*
-		if (saveButton.buttonPressed()) {
-			
-			rendered = false;
-			saved = true;
-			saveControls();
-		}
-*/
 		
 		
 		p1leftButton.tick();
@@ -97,6 +92,7 @@ public class KeyEditState extends State {
 		p2attackButton.tick();
 		p2specialButton.tick();
 		
+		pauseButton.tick();
 		
 	}
 
@@ -111,6 +107,7 @@ public class KeyEditState extends State {
 			Text.drawString(g, "CUSTOMIZAR CONTROLES", 640, 50, true, Color.black, Assets.font30);
 			Text.drawString(g, "JOGADOR 1", 145, 130, true, Color.black, Assets.font20);
 			Text.drawString(g, "JOGADOR 2", 1135, 130, true, Color.black, Assets.font20);
+			Text.drawString(g, "PAUSE", 640, 350, true, Color.black, Assets.font20);
 			
 			g.setColor(Color.gray);
 			g.fillRoundRect(20, 150, 250, 230, 20, 20);
@@ -140,21 +137,21 @@ public class KeyEditState extends State {
 			g.fillRect(1030, 570, 210, 40);
 			
 			
-			Text.drawString(g, "ESQ = ", 145, 190, true, Color.black, Assets.font13);
-			Text.drawString(g, "DIR = ", 145, 240, true, Color.black, Assets.font13);
-			Text.drawString(g, "CIM = ", 145, 290, true, Color.black, Assets.font13);
-			Text.drawString(g, "ESC = ", 145, 340, true, Color.black, Assets.font13);
-			Text.drawString(g, "PUL = ", 145, 490, true, Color.black, Assets.font13);
-			Text.drawString(g, "ATA = ", 145, 540, true, Color.black, Assets.font13);
-			Text.drawString(g, "ESP = ", 145, 590, true, Color.black, Assets.font13);
+			Text.drawString(g, "ESQUERDA", 145, 190, true, Color.black, Assets.font13);
+			Text.drawString(g, "DIREITA", 145, 240, true, Color.black, Assets.font13);
+			Text.drawString(g, "CIMA", 145, 290, true, Color.black, Assets.font13);
+			Text.drawString(g, "ESCUDO", 145, 340, true, Color.black, Assets.font13);
+			Text.drawString(g, "PULO", 145, 490, true, Color.black, Assets.font13);
+			Text.drawString(g, "ATAQUE", 145, 540, true, Color.black, Assets.font13);
+			Text.drawString(g, "ESPECIAL", 145, 590, true, Color.black, Assets.font13);
 			
-			Text.drawString(g, "ESQ = " + options[p2tempControls[0]], 1135, 190, true, Color.black, Assets.font13);
-			Text.drawString(g, "DIR = " + options[p2tempControls[1]], 1135, 240, true, Color.black, Assets.font13);
-			Text.drawString(g, "CIM = " + options[p2tempControls[2]], 1135, 290, true, Color.black, Assets.font13);
-			Text.drawString(g, "ESC = " + options[p2tempControls[3]], 1135, 340, true, Color.black, Assets.font13);
-			Text.drawString(g, "PUL = " + options[p2tempControls[4]], 1135, 490, true, Color.black, Assets.font13);
-			Text.drawString(g, "ATA = " + options[p2tempControls[5]], 1135, 540, true, Color.black, Assets.font13);
-			Text.drawString(g, "ESP = " + options[p2tempControls[6]], 1135, 590, true, Color.black, Assets.font13);
+			Text.drawString(g, "ESQUERDA", 1135, 190, true, Color.black, Assets.font13);
+			Text.drawString(g, "DIREITA", 1135, 240, true, Color.black, Assets.font13);
+			Text.drawString(g, "CIMA", 1135, 290, true, Color.black, Assets.font13);
+			Text.drawString(g, "ESCUDO", 1135, 340, true, Color.black, Assets.font13);
+			Text.drawString(g, "PULO", 1135, 490, true, Color.black, Assets.font13);
+			Text.drawString(g, "ATAQUE", 1135, 540, true, Color.black, Assets.font13);
+			Text.drawString(g, "ESPECIAL", 1135, 590, true, Color.black, Assets.font13);
 			
 
 			
@@ -174,7 +171,8 @@ public class KeyEditState extends State {
 			p2jumpButton.drawButton(g);
 			p2attackButton.drawButton(g);
 			p2specialButton.drawButton(g);
-			//saveButton.drawButton(g);
+			
+			pauseButton.drawButton(g);
 	
 		}
 	}
@@ -254,6 +252,10 @@ public class KeyEditState extends State {
 	public static int getp2Special() {
 		
 		return p2specialButton.getKeyCode();
+	}
+	
+	public static int getPause() {
+		return pauseButton.getKeyCode();
 	}
 
 	public static void rerender() {

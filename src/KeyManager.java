@@ -18,7 +18,7 @@ public class KeyManager implements KeyListener {
 	
 	public void tick() {
 		
-		pause = keys[KeyEvent.VK_P];
+		pause = keys[KeyEditState.getPause()];
 		
 		if (playerNumb == 1) {
 			
