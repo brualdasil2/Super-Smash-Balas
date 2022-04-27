@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class KeyEditState extends State {
 
@@ -13,7 +14,7 @@ public class KeyEditState extends State {
 	
 	private boolean saved = true;
 	private boolean controlsOK = true;
-	private boolean rendered;
+	private static boolean rendered;
 	
 	private String[] options = new String[] {"CIMA", "ESQUERDA", "ESCUDO", "DIREITA", "PULO", "ATAQUE", "ESPECIAL"};
 	private static int p1keys[] = new int[] {KeyEvent.VK_W, KeyEvent.VK_A, KeyEvent.VK_S, KeyEvent.VK_D, KeyEvent.VK_CAPS_LOCK, KeyEvent.VK_SHIFT, KeyEvent.VK_CONTROL};;
@@ -22,10 +23,8 @@ public class KeyEditState extends State {
 	private static int p2tempControls[] = new int[7];
 	private static int p1controls[] = new int[7];
 	private static int p2controls[] = new int[7];
-	private Button[] p1LeftButtons;
-	private Button[] p1RightButtons;
-	private Button[] p2LeftButtons;
-	private Button[] p2RightButtons;
+	private static KeyEditButton p1leftButton, p1rightButton, p1upButton, p1shieldButton, p1jumpButton, p1attackButton, p1specialButton,
+	p2leftButton, p2rightButton, p2upButton, p2shieldButton, p2jumpButton, p2attackButton, p2specialButton;
 	
 	private static int p1Up, p1Left, p1Shield, p1Right, p1Jump, p1Attack, p1Special;
 	private static int p2Up, p2Left, p2Shield, p2Right, p2Jump, p2Attack, p2Special;
@@ -33,26 +32,22 @@ public class KeyEditState extends State {
 	
 	public KeyEditState(Game game) {
 		
-		super(game);
+		super(game);	
+		p1leftButton = new KeyEditButton(game, 200, 170, 100, 40, "A", KeyEvent.VK_A);
+		p1rightButton = new KeyEditButton(game, 200, 220, 100, 40, "D", KeyEvent.VK_D);
+		p1upButton = new KeyEditButton(game, 200, 270, 100, 40, "W", KeyEvent.VK_W);
+		p1shieldButton = new KeyEditButton(game, 200, 320, 100, 40, "S", KeyEvent.VK_S);
+		p1jumpButton = new KeyEditButton(game, 200, 470, 100, 40, "CAPS", KeyEvent.VK_CAPS_LOCK);
+		p1attackButton = new KeyEditButton(game, 200, 520, 100, 40, "SHIFT", KeyEvent.VK_SHIFT);
+		p1specialButton = new KeyEditButton(game, 200, 570, 100, 40, "CTRL", KeyEvent.VK_CONTROL);
 
-		
-		p1controls[0] = 0;
-		p1controls[1] = 1;
-		p1controls[2] = 2;
-		p1controls[3] = 3;
-		p1controls[4] = 4;
-		p1controls[5] = 5;
-		p1controls[6] = 6;
-		
-		p2controls[0] = 0;
-		p2controls[1] = 1;
-		p2controls[2] = 2;
-		p2controls[3] = 3;
-		p2controls[4] = 4;
-		p2controls[5] = 5;
-		p2controls[6] = 6;
-		
-		
+		p2leftButton = new KeyEditButton(game, 1190, 170, 100, 40, "J", KeyEvent.VK_J);
+		p2rightButton = new KeyEditButton(game, 1190, 220, 100, 40, "L", KeyEvent.VK_L);
+		p2upButton = new KeyEditButton(game, 1190, 270, 100, 40, "I", KeyEvent.VK_I);
+		p2shieldButton = new KeyEditButton(game, 1190, 320, 100, 40, "K", KeyEvent.VK_K);
+		p2jumpButton = new KeyEditButton(game, 1190, 470, 100, 40, "G", KeyEvent.VK_G);
+		p2attackButton = new KeyEditButton(game, 1190, 520, 100, 40, "V", KeyEvent.VK_V);
+		p2specialButton = new KeyEditButton(game, 1190, 570, 100, 40, "B", KeyEvent.VK_B);
 
 	}
 
@@ -60,57 +55,11 @@ public class KeyEditState extends State {
 		
 		rendered = false;
 		saved = true;
+
+
 		backButton = new Button(game, 0, 0, 100, 50, Color.black, "<- VOLTAR", Assets.font15, null, false);
 		saveButton = new Button(game, 590, 600, 100, 50 ,Color.red, "SALVAR", Assets.font15, null, true);
-		wLeftButton = new Button(game, 40, 170, 40, 40, Color.lightGray, null, null, Assets.leftArrow, true);
-		wRightButton = new Button(game, 210, 170, 40, 40, Color.lightGray, null, null, Assets.rightArrow, true);
-		aLeftButton = new Button(game, 40, 220, 40, 40, Color.lightGray, null, null, Assets.leftArrow, true);
-		aRightButton = new Button(game, 210, 220, 40, 40, Color.lightGray, null, null, Assets.rightArrow, true);
-		sLeftButton = new Button(game, 40, 270, 40, 40, Color.lightGray, null, null, Assets.leftArrow, true);
-		sRightButton = new Button(game, 210, 270, 40, 40, Color.lightGray, null, null, Assets.rightArrow, true);
-		dLeftButton = new Button(game, 40, 320, 40, 40, Color.lightGray, null, null, Assets.leftArrow, true);
-		dRightButton = new Button(game, 210, 320, 40, 40, Color.lightGray, null, null, Assets.rightArrow, true);
-		capsLeftButton = new Button(game, 40, 470, 40, 40, Color.lightGray, null, null, Assets.leftArrow, true);
-		shiftLeftButton = new Button(game, 40, 520, 40, 40, Color.lightGray, null, null, Assets.leftArrow, true);
-		ctrlLeftButton = new Button(game, 40, 570, 40, 40, Color.lightGray, null, null, Assets.leftArrow, true);
-		capsRightButton = new Button(game, 210, 470, 40, 40, Color.lightGray, null, null, Assets.rightArrow, true);
-		shiftRightButton = new Button(game, 210, 520, 40, 40, Color.lightGray, null, null, Assets.rightArrow, true);
-		ctrlRightButton = new Button(game, 210, 570, 40, 40, Color.lightGray, null, null, Assets.rightArrow, true);
-		iLeftButton = new Button(game, 1030, 170, 40, 40, Color.lightGray, null, null, Assets.leftArrow, true);
-		jLeftButton = new Button(game, 1030, 220, 40, 40, Color.lightGray, null, null, Assets.leftArrow, true);
-		kLeftButton = new Button(game, 1030, 270, 40, 40, Color.lightGray, null, null, Assets.leftArrow, true);
-		lLeftButton = new Button(game, 1030, 320, 40, 40, Color.lightGray, null, null, Assets.leftArrow, true);
-		iRightButton = new Button(game, 1200, 170, 40, 40, Color.lightGray, null, null, Assets.rightArrow, true);
-		jRightButton = new Button(game, 1200, 220, 40, 40, Color.lightGray, null, null, Assets.rightArrow, true);
-		kRightButton = new Button(game, 1200, 270, 40, 40, Color.lightGray, null, null, Assets.rightArrow, true);
-		lRightButton = new Button(game, 1200, 320, 40, 40, Color.lightGray, null, null, Assets.rightArrow, true);
-		gLeftButton = new Button(game, 1030, 470, 40, 40, Color.lightGray, null, null, Assets.leftArrow, true);
-		vLeftButton = new Button(game, 1030, 520, 40, 40, Color.lightGray, null, null, Assets.leftArrow, true);
-		bLeftButton = new Button(game, 1030, 570, 40, 40, Color.lightGray, null, null, Assets.leftArrow, true);
-		gRightButton = new Button(game, 1200, 470, 40, 40, Color.lightGray, null, null, Assets.rightArrow, true);
-		vRightButton = new Button(game, 1200, 520, 40, 40, Color.lightGray, null, null, Assets.rightArrow, true);
-		bRightButton = new Button(game, 1200, 570, 40, 40, Color.lightGray, null, null, Assets.rightArrow, true);
 		
-		p1LeftButtons = new Button[] {wLeftButton, aLeftButton, sLeftButton, dLeftButton, capsLeftButton, shiftLeftButton, ctrlLeftButton};
-		p1RightButtons = new Button[] {wRightButton, aRightButton, sRightButton, dRightButton, capsRightButton, shiftRightButton, ctrlRightButton};
-		p2LeftButtons = new Button[] {iLeftButton, jLeftButton, kLeftButton, lLeftButton, gLeftButton, vLeftButton, bLeftButton};
-		p2RightButtons = new Button[] {iRightButton, jRightButton, kRightButton, lRightButton, gRightButton, vRightButton, bRightButton};
-		
-		p1tempControls[0] = p1controls[0];
-		p1tempControls[1] = p1controls[1];
-		p1tempControls[2] = p1controls[2];
-		p1tempControls[3] = p1controls[3];
-		p1tempControls[4] = p1controls[4];
-		p1tempControls[5] = p1controls[5];
-		p1tempControls[6] = p1controls[6];
-		
-		p2tempControls[0] = p2controls[0];
-		p2tempControls[1] = p2controls[1];
-		p2tempControls[2] = p2controls[2];
-		p2tempControls[3] = p2controls[3];
-		p2tempControls[4] = p2controls[4];
-		p2tempControls[5] = p2controls[5];
-		p2tempControls[6] = p2controls[6];
 	}
 	
 	@Override
@@ -122,88 +71,31 @@ public class KeyEditState extends State {
 			((MenuState)(game.getMenuState())).init();
 		}
 		
-		if (controlsOK) {
-			if (saveButton.buttonPressed()) {
-				
-				rendered = false;
-				saved = true;
-				saveControls();
-			}
+/*
+		if (saveButton.buttonPressed()) {
+			
+			rendered = false;
+			saved = true;
+			saveControls();
 		}
+*/
 		
-		for (int i = 0; i <= 6; i++) {
-			
-			if (p1LeftButtons[i].buttonPressed()) {
-				
-				rendered = false;
-				saved = false;
-				p1tempControls[i]--;
-				if (p1tempControls[i] < 0)
-					p1tempControls[i] = 6;
-				
-				if (checkControls()) {
-					controlsOK = true;
-					saveButton.setColor(Color.red);
-				}
-				else {
-					controlsOK = false;
-					saveButton.setColor(Color.gray);
-				}
-					
-			}
-			if (p1RightButtons[i].buttonPressed()) {
-				
-				rendered = false;
-				saved = false;
-				p1tempControls[i]++;
-				if (p1tempControls[i] > 6)
-					p1tempControls[i] = 0;
-				
-				if (checkControls()) {
-					controlsOK = true;
-					saveButton.setColor(Color.red);
-				}
-				else {
-					controlsOK = false;
-					saveButton.setColor(Color.gray);
-				}
-			}
-			
-			if (p2LeftButtons[i].buttonPressed()) {
-				
-				rendered = false;
-				saved = false;
-				p2tempControls[i]--;
-				if (p2tempControls[i] < 0)
-					p2tempControls[i] = 6;
-				
-				if (checkControls()) {
-					controlsOK = true;
-					saveButton.setColor(Color.red);
-				}
-				else {
-					controlsOK = false;
-					saveButton.setColor(Color.gray);
-				}
-			}
-			if (p2RightButtons[i].buttonPressed()) {
-				
-				rendered = false;
-				saved = false;
-				p2tempControls[i]++;
-				if (p2tempControls[i] > 6)
-					p2tempControls[i] = 0;
-				
-				if (checkControls()) {
-					controlsOK = true;
-					saveButton.setColor(Color.red);
-				}
-				else {
-					controlsOK = false;
-					saveButton.setColor(Color.gray);
-				}
-			}
-		}
+		
+		p1leftButton.tick();
+		p1rightButton.tick();
+		p1upButton.tick();
+		p1shieldButton.tick();
+		p1jumpButton.tick();
+		p1attackButton.tick();
+		p1specialButton.tick();
+		
+		p2leftButton.tick();
+		p2rightButton.tick();
+		p2upButton.tick();
+		p2shieldButton.tick();
+		p2jumpButton.tick();
+		p2attackButton.tick();
+		p2specialButton.tick();
 		
 		
 	}
@@ -248,297 +140,124 @@ public class KeyEditState extends State {
 			g.fillRect(1030, 570, 210, 40);
 			
 			
-			Text.drawString(g, "W = " + options[p1tempControls[0]], 145, 190, true, Color.black, Assets.font13);
-			Text.drawString(g, "A = " + options[p1tempControls[1]], 145, 240, true, Color.black, Assets.font13);
-			Text.drawString(g, "S = " + options[p1tempControls[2]], 145, 290, true, Color.black, Assets.font13);
-			Text.drawString(g, "D = " + options[p1tempControls[3]], 145, 340, true, Color.black, Assets.font13);
-			Text.drawString(g, "CAPS = " + options[p1tempControls[4]], 145, 490, true, Color.black, Assets.font13);
-			Text.drawString(g, "SHIFT = " + options[p1tempControls[5]], 145, 540, true, Color.black, Assets.font13);
-			Text.drawString(g, "CTRL = " + options[p1tempControls[6]], 145, 590, true, Color.black, Assets.font13);
+			Text.drawString(g, "ESQ = ", 145, 190, true, Color.black, Assets.font13);
+			Text.drawString(g, "DIR = ", 145, 240, true, Color.black, Assets.font13);
+			Text.drawString(g, "CIM = ", 145, 290, true, Color.black, Assets.font13);
+			Text.drawString(g, "ESC = ", 145, 340, true, Color.black, Assets.font13);
+			Text.drawString(g, "PUL = ", 145, 490, true, Color.black, Assets.font13);
+			Text.drawString(g, "ATA = ", 145, 540, true, Color.black, Assets.font13);
+			Text.drawString(g, "ESP = ", 145, 590, true, Color.black, Assets.font13);
 			
-			Text.drawString(g, "I = " + options[p2tempControls[0]], 1135, 190, true, Color.black, Assets.font13);
-			Text.drawString(g, "J = " + options[p2tempControls[1]], 1135, 240, true, Color.black, Assets.font13);
-			Text.drawString(g, "K = " + options[p2tempControls[2]], 1135, 290, true, Color.black, Assets.font13);
-			Text.drawString(g, "L = " + options[p2tempControls[3]], 1135, 340, true, Color.black, Assets.font13);
-			Text.drawString(g, "G = " + options[p2tempControls[4]], 1135, 490, true, Color.black, Assets.font13);
-			Text.drawString(g, "V = " + options[p2tempControls[5]], 1135, 540, true, Color.black, Assets.font13);
-			Text.drawString(g, "B = " + options[p2tempControls[6]], 1135, 590, true, Color.black, Assets.font13);
+			Text.drawString(g, "ESQ = " + options[p2tempControls[0]], 1135, 190, true, Color.black, Assets.font13);
+			Text.drawString(g, "DIR = " + options[p2tempControls[1]], 1135, 240, true, Color.black, Assets.font13);
+			Text.drawString(g, "CIM = " + options[p2tempControls[2]], 1135, 290, true, Color.black, Assets.font13);
+			Text.drawString(g, "ESC = " + options[p2tempControls[3]], 1135, 340, true, Color.black, Assets.font13);
+			Text.drawString(g, "PUL = " + options[p2tempControls[4]], 1135, 490, true, Color.black, Assets.font13);
+			Text.drawString(g, "ATA = " + options[p2tempControls[5]], 1135, 540, true, Color.black, Assets.font13);
+			Text.drawString(g, "ESP = " + options[p2tempControls[6]], 1135, 590, true, Color.black, Assets.font13);
 			
-			
-			g.drawImage(Assets.keys[0], 350, 150, 200, 200, null);
-			g.drawImage(Assets.keys[1], 375, 300, 200, 200, null);
-			g.drawImage(Assets.keys[2], 375, 500, 200, 200, null);
-			
-			g.drawImage(Assets.keys[3], 730, 150, 200, 200, null);
-			g.drawImage(Assets.keys[4], 730, 450, 200, 200, null);
+
 			
 			backButton.drawButton(g);
-			if (!saved) {
-				saveButton.drawButton(g);
-				if (!controlsOK) {
-					
-					Text.drawString(g, "Configuração não permitida, duas teclas não podem ter a mesma função!", 640, 690, true, Color.red, Assets.font15);
-				}
-			}
+			p1leftButton.drawButton(g);
+			p1rightButton.drawButton(g);
+			p1upButton.drawButton(g);
+			p1shieldButton.drawButton(g);
+			p1jumpButton.drawButton(g);
+			p1attackButton.drawButton(g);
+			p1specialButton.drawButton(g);
 			
-			
-				
-			
-			wLeftButton.drawButton(g);
-			wRightButton.drawButton(g);
-			aLeftButton.drawButton(g);
-			aRightButton.drawButton(g);
-			sLeftButton.drawButton(g);
-			sRightButton.drawButton(g);
-			dLeftButton.drawButton(g);
-			dRightButton.drawButton(g);
-			capsLeftButton.drawButton(g);
-			shiftLeftButton.drawButton(g);
-			ctrlLeftButton.drawButton(g);
-			capsRightButton.drawButton(g);
-			shiftRightButton.drawButton(g);
-			ctrlRightButton.drawButton(g);
-			iLeftButton.drawButton(g);
-			jLeftButton.drawButton(g);
-			kLeftButton.drawButton(g);
-			lLeftButton.drawButton(g);
-			iRightButton.drawButton(g);
-			jRightButton.drawButton(g);
-			kRightButton.drawButton(g);
-			lRightButton.drawButton(g);
-			gLeftButton.drawButton(g);
-			vLeftButton.drawButton(g);
-			bLeftButton.drawButton(g);
-			gRightButton.drawButton(g);
-			vRightButton.drawButton(g);
-			bRightButton.drawButton(g);
-		
+			p2leftButton.drawButton(g);
+			p2rightButton.drawButton(g);
+			p2upButton.drawButton(g);
+			p2shieldButton.drawButton(g);
+			p2jumpButton.drawButton(g);
+			p2attackButton.drawButton(g);
+			p2specialButton.drawButton(g);
+			//saveButton.drawButton(g);
+	
 		}
 	}
 	
-	private boolean checkControls() {
-		
-		for (int i = 0; i <= 5; i++) {
-			
-			for (int j = 1 + i; j <= 6; j++) {
-				
-				if (p1tempControls[i] == p1tempControls[j]) 
-					return false;
-				
-				
-				if (p2tempControls[i] == p2tempControls[j]) 
-					return false;
-				
-			}
-		}
-		
-		return true;
-	}
-	
+
 	public void saveControls() {
 		
-		p1controls[0] = p1tempControls[0];
-		p1controls[1] = p1tempControls[1];
-		p1controls[2] = p1tempControls[2];
-		p1controls[3] = p1tempControls[3];
-		p1controls[4] = p1tempControls[4];
-		p1controls[5] = p1tempControls[5];
-		p1controls[6] = p1tempControls[6];
-		
-		p2controls[0] = p2tempControls[0];
-		p2controls[1] = p2tempControls[1];
-		p2controls[2] = p2tempControls[2];
-		p2controls[3] = p2tempControls[3];
-		p2controls[4] = p2tempControls[4];
-		p2controls[5] = p2tempControls[5];
-		p2controls[6] = p2tempControls[6];
-		
-		for (int i = 0; i <= 6; i++) {
-			
-			if (p1tempControls[i] == 0) {
-				
-				p1Up = i;
-				break;
-			}
-		}
-		for (int i = 0; i <= 6; i++) {
-			
-			if (p1tempControls[i] == 1) {
-				
-				p1Left = i;
-				break;
-			}
-		}
-		for (int i = 0; i <= 6; i++) {
-			
-			if (p1tempControls[i] == 2) {
-				
-				p1Shield = i;
-				break;
-			}
-		}
-		for (int i = 0; i <= 6; i++) {
-			
-			if (p1tempControls[i] == 3) {
-				
-				p1Right = i;
-				break;
-			}
-		}
-		for (int i = 0; i <= 6; i++) {
-			
-			if (p1tempControls[i] == 4) {
-				
-				p1Jump = i;
-				break;
-			}
-		}
-		for (int i = 0; i <= 6; i++) {
-			
-			if (p1tempControls[i] == 5) {
-				
-				p1Attack = i;
-				break;
-			}
-		}
-		for (int i = 0; i <= 6; i++) {
-			
-			if (p1tempControls[i] == 6) {
-				
-				p1Special = i;
-				break;
-			}
-		}
-		
-		
-		for (int i = 0; i <= 6; i++) {
-			
-			if (p2tempControls[i] == 0) {
-				
-				p2Up = i;
-				break;
-			}
-		}
-		for (int i = 0; i <= 6; i++) {
-			
-			if (p2tempControls[i] == 1) {
-				
-				p2Left = i;
-				break;
-			}
-		}
-		for (int i = 0; i <= 6; i++) {
-			
-			if (p2tempControls[i] == 2) {
-				
-				p2Shield = i;
-				break;
-			}
-		}
-		for (int i = 0; i <= 6; i++) {
-			
-			if (p2tempControls[i] == 3) {
-				
-				p2Right = i;
-				break;
-			}
-		}
-		for (int i = 0; i <= 6; i++) {
-			
-			if (p2tempControls[i] == 4) {
-				
-				p2Jump = i;
-				break;
-			}
-		}
-		for (int i = 0; i <= 6; i++) {
-			
-			if (p2tempControls[i] == 5) {
-				
-				p2Attack = i;
-				break;
-			}
-		}
-		for (int i = 0; i <= 6; i++) {
-			
-			if (p2tempControls[i] == 6) {
-				
-				p2Special = i;
-				break;
-			}
-		}
 	}
 	
 	public static int getp1Up() {
 		
-		return p1keys[p1Up];
+		return p1upButton.getKeyCode();
 	}
 	
 	public static int getp1Left() {
 		
-		return p1keys[p1Left];
+		return p1leftButton.getKeyCode();
 	}
 	
 	public static int getp1Shield() {
 		
-		return p1keys[p1Shield];
+		return p1shieldButton.getKeyCode();
 	}
 	
 	public static int getp1Right() {
 		
-		return p1keys[p1Right];
+		return p1rightButton.getKeyCode();
 	}
 	
 	public static int getp1Jump() {
 		
-		return p1keys[p1Jump];
+		return p1jumpButton.getKeyCode();
 	}
 	
 	public static int getp1Attack() {
 		
-		return p1keys[p1Attack];
+		return p1attackButton.getKeyCode();
 	}
 	
 	
 	public static int getp1Special() {
 		
-		return p1keys[p1Special];
+		return p1specialButton.getKeyCode();
 	}
 	
 	public static int getp2Up() {
 		
-		return p2keys[p2Up];
+		return p2upButton.getKeyCode();
 	}
 	
 	public static int getp2Left() {
 		
-		return p2keys[p2Left];
+		return p2leftButton.getKeyCode();
 	}
 	
 	public static int getp2Shield() {
 		
-		return p2keys[p2Shield];
+		return p2shieldButton.getKeyCode();
 	}
 	
 	public static int getp2Right() {
 		
-		return p2keys[p2Right];
+		return p2rightButton.getKeyCode();
 	}
 	
 	public static int getp2Jump() {
 		
-		return p2keys[p2Jump];
+		return p2jumpButton.getKeyCode();
 	}
 	
 	public static int getp2Attack() {
 		
-		return p2keys[p2Attack];
+		return p2attackButton.getKeyCode();
 	}
 	
 	
 	public static int getp2Special() {
 		
-		return p2keys[p2Special];
+		return p2specialButton.getKeyCode();
+	}
+
+	public static void rerender() {
+		rendered = false;
 	}
 
 }
