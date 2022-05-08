@@ -6,6 +6,7 @@ public class KeyManager implements KeyListener {
 	private boolean keys[];
 	public boolean up, down, left, right, attack, shield, jump, special, pause;
 	private int playerNumb;
+	private static KeyEvent lastKeyPressed;
 
 	
 	
@@ -17,7 +18,7 @@ public class KeyManager implements KeyListener {
 	
 	public void tick() {
 		
-		pause = keys[KeyEvent.VK_P];
+		pause = keys[KeyEditState.getPause()];
 		
 		if (playerNumb == 1) {
 			
@@ -55,7 +56,7 @@ public class KeyManager implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		
 		keys[e.getKeyCode()] = true;
-		
+		lastKeyPressed = e;
 		
 	}
 
@@ -68,7 +69,12 @@ public class KeyManager implements KeyListener {
 	}
 	
 	
-	
+	public static KeyEvent getLastKeyPressed() {
+		return lastKeyPressed;
+	}
+	public static void clearLastKeyPressed() {
+		lastKeyPressed = null;
+	}
 	
 
 }

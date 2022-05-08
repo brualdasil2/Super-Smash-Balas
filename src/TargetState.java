@@ -58,7 +58,7 @@ public class TargetState extends State {
 		menuButton = new Button(game, 540, 440, 200, 50, Color.darkGray, "VOLTAR AO MENU", Assets.font20, null, true);
 		endMenuButton = new Button(game, 430, 520, 200, 50, Color.darkGray, "VOLTAR AO MENU", Assets.font20, null, true);
 		retryButton = new Button(game, 650, 520, 200, 50, Color.darkGray, "TENTAR NOVAMENTE", Assets.font17, null, true);
-		restartButton = new Button(game, 540, 370, 200, 50, Color.darkGray, "RECOMEÇAR", Assets.font20, null, true);
+		restartButton = new Button(game, 540, 370, 200, 50, Color.darkGray, "RECOMEÃ‡AR", Assets.font20, null, true);
 		
 		paused = false;
 		pausePressed = false;
