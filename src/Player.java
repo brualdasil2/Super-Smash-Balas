@@ -948,16 +948,18 @@ public class Player {
 					y = GameState.floorY - currentFrame.getHeight();
 					fastFalling = false;
 					
-					if (!attacking) {
+					if (!(sideSpecialing || upSpecialing || neutralSpecialing)) {
+						if (!attacking) {
+							
+							freezeFrames = GameState.landingLag;
+						}
+						else {
+							
+							freezeFrames = GameState.aerialLandingLag;
+						}
 						
-						freezeFrames = GameState.landingLag;
+						setStanding();
 					}
-					else {
-						
-						freezeFrames = GameState.aerialLandingLag;
-					}
-					
-					setStanding();
 				}
 				else {
 					
@@ -1056,8 +1058,12 @@ public class Player {
 		}
 		
 	//	currentFrame = character.getUpSpecialRight().getFrames()[7];
-		//if (playerNumb == 1)
-			//System.out.println(hitstunFrames);
+		double centerX = x + 100;
+		double distToFrontWall = getLookDirection() == 0 ? Math.abs(centerX - GameState.leftWall) : Math.abs(centerX - GameState.rightWall);
+		double distToBackWall = getLookDirection() == 1 ? Math.abs(centerX - GameState.leftWall) : Math.abs(centerX - GameState.rightWall);
+		//if (playerNumb == 2)
+			//System.out.println(distToBackWall);
+			//System.out.println(freezeFrames);
 
 		
 	}

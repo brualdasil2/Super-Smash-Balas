@@ -89,9 +89,10 @@ public class GameState extends State {
 		
 		if (mode <= 2) {
 			
-			player1 = new Player(game, 1, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer1Char(), 240, floorY - 200, "JOGADOR 1");
-			player2 = new Player(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), 840, floorY - 200, "JOGADOR 2");
-			//player2 = new BrunoBotExpert(game, 2, new Bruno(1), 840, GameState.floorY - 200);
+			//player1 = new Player(game, 1, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer1Char(), 240, floorY - 200, "JOGADOR 1");
+			//player2 = new Player(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), 840, floorY - 200, "JOGADOR 2");
+			player1 = new CarolBotExpert(game, 1, new Carol(0), 240, GameState.floorY - 200);
+			player2 = new BrunoBotExpert(game, 2, new Bruno(1), 840, GameState.floorY - 200);
 			
 		}
 		else if (mode >= 3) {
