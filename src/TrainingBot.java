@@ -5,7 +5,7 @@ public class TrainingBot extends Player {
 	private boolean opponentNear, opponentOnAir, opponentOnTop, opponentOnLeft, opponentOnRight, opponentAttacking, opponentShielding, opponentCandyComing,
 					onCenter, gotHit = false;
 	
-	private CarolCombos combos = new CarolCombos(this);
+	private LacerdaCombos combos = new LacerdaCombos(this);
 	
 	public TrainingBot(Game game, int playerNumb, Character character, double x, double y) {
 		
@@ -155,7 +155,7 @@ public class TrainingBot extends Player {
 		}
 		
 		if (game.getKeyManager(playerNumb).jump) {
-			combos.startCombo(7);
+			combos.startCombo(1);
 		}
 		
 		/*
