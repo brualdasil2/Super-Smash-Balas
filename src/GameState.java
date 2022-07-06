@@ -106,8 +106,8 @@ public class GameState extends State {
 				floorY = 570;
 				
 				player1 = new SmashPlayer(game, 1, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer1Char(), 240, floorY - 200, "JOGADOR 1");
-				//player2 = new SmashPlayer(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), 840, floorY - 200, "JOGADOR 2");
-				player2 = new SmashBrunoBotHard(game, 2, new Bruno(1), 840, floorY - 200);
+				player2 = new SmashPlayer(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), 840, floorY - 200, "JOGADOR 2");
+				//player2 = new SmashBrunoBotHard(game, 2, new Bruno(1), 840, floorY - 200);
 
 			}
 			else {
@@ -907,9 +907,9 @@ public class GameState extends State {
 			else if (winner < 0) {
 				
 				if (map == 2 || map == 3)
-					Text.drawString(g, "EMPATE! MORTE S�BITA INICIANDO...", 640, 190, true, Color.white, Assets.font30);
+					Text.drawString(g, "EMPATE! MORTE SÚBITA INICIANDO...", 640, 190, true, Color.white, Assets.font30);
 				else
-					Text.drawString(g, "EMPATE! MORTE S�BITA INICIANDO...", 640, 190, true, Color.black, Assets.font30);
+					Text.drawString(g, "EMPATE! MORTE SÚBITA INICIANDO...", 640, 190, true, Color.black, Assets.font30);
 			}
 			
 		}

@@ -154,10 +154,21 @@ public class Player {
 							
 							if (!(sideSpecialing || upSpecialing || neutralSpecialing)) {
 								
-								if (frozen)
-									x += (character.getAirSpeed()/2);
-								else
-									x += character.getAirSpeed();
+								if (xSpeed < 0) {
+									if (frozen)
+										xSpeed += character.getAirSpeed()/2;
+									else;
+										xSpeed += character.getAirSpeed();
+									if (xSpeed > 0) {
+										xSpeed = 0;
+									}
+								}
+								else {
+									if (frozen)
+										x += character.getAirSpeed()/2;
+									else
+										x += character.getAirSpeed();
+								}
 							}
 						}
 					}
@@ -191,10 +202,21 @@ public class Player {
 							
 							if (!(sideSpecialing || upSpecialing || neutralSpecialing)) {
 								
-								if (frozen)
-									x -= (character.getAirSpeed()/2);
-								else
-									x -= character.getAirSpeed();
+								if (xSpeed > 0) {
+									if (frozen)
+										xSpeed -= character.getAirSpeed()/2;
+									else;
+										xSpeed -= character.getAirSpeed();
+									if (xSpeed < 0) {
+										xSpeed = 0;
+									}
+								}
+								else {
+									if (frozen)
+										x -= character.getAirSpeed()/2;
+									else
+										x -= character.getAirSpeed();
+								}
 							}
 							
 						}
@@ -447,6 +469,7 @@ public class Player {
 				
 					if (!insideHitbox && !shielding && invincibleCounter == 0) {
 						GameState.hitEffect.startHitEffect((int) x + hurtbox.getX() - GameState.hitEffect.getWidth()/2, (int) y + hurtbox.getY() - GameState.hitEffect.getHeight()/2);
+						//opponent.setFreezeFrames(5);
 					}
 					return true;
 					
@@ -707,6 +730,7 @@ public class Player {
 			OpCollisionTopY = opponent.getY() + opponent.getCurrentAttack().getCollisionbox().getY();
 			OpCollisionBottomY = opponent.getY() + opponent.getCurrentAttack().getCollisionbox().getY() + opponent.getCurrentAttack().getCollisionbox().getHeight();
 			OpCollisionCenterX = (OpCollisionRightX + OpCollisionLeftX)/2;
+			//System.out.println(OpCollisionBottomY);
 		}
 	}
 	
@@ -924,16 +948,18 @@ public class Player {
 					y = GameState.floorY - currentFrame.getHeight();
 					fastFalling = false;
 					
-					if (!attacking) {
+					if (!(sideSpecialing || upSpecialing || neutralSpecialing)) {
+						if (!attacking) {
+							
+							freezeFrames = GameState.landingLag;
+						}
+						else {
+							
+							freezeFrames = GameState.aerialLandingLag;
+						}
 						
-						freezeFrames = GameState.landingLag;
+						setStanding();
 					}
-					else {
-						
-						freezeFrames = GameState.aerialLandingLag;
-					}
-					
-					setStanding();
 				}
 				else {
 					
@@ -1032,8 +1058,12 @@ public class Player {
 		}
 		
 	//	currentFrame = character.getUpSpecialRight().getFrames()[7];
-		//if (playerNumb == 1)
-			//System.out.println(hitstunFrames);
+		double centerX = x + 100;
+		double distToFrontWall = getLookDirection() == 0 ? Math.abs(centerX - GameState.leftWall) : Math.abs(centerX - GameState.rightWall);
+		double distToBackWall = getLookDirection() == 1 ? Math.abs(centerX - GameState.leftWall) : Math.abs(centerX - GameState.rightWall);
+		//if (playerNumb == 2)
+			//System.out.println(distToBackWall);
+			//System.out.println(freezeFrames);
 
 		
 	}

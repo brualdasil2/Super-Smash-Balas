@@ -57,7 +57,7 @@ public class SurvivalState extends State {
 		menuButton = new Button(game, 540, 440, 200, 50, Color.darkGray, "VOLTAR AO MENU", Assets.font20, null, true);
 		endMenuButton = new Button(game, 430, 520, 200, 50, Color.darkGray, "VOLTAR AO MENU", Assets.font20, null, true);
 		retryButton = new Button(game, 650, 520, 200, 50, Color.darkGray, "TENTAR NOVAMENTE", Assets.font17, null, true);
-		restartButton = new Button(game, 540, 370, 200, 50, Color.darkGray, "RECOMEÇAR", Assets.font20, null, true);
+		restartButton = new Button(game, 540, 370, 200, 50, Color.darkGray, "RECOMEÃ‡AR", Assets.font20, null, true);
 		
 		
 		player.setOpponent(bot);
@@ -457,20 +457,20 @@ public class SurvivalState extends State {
 		
 		if (score == 3 && breakCounter > 0) {
 			
-			Text.drawString(g, "Parabéns, você sobreviveu ao nível Fácil.", 640, 200, true, Color.black, Assets.font30);
-			Text.drawString(g, "Bônus:", 640, 250, true, Color.black, Assets.font25);
+			Text.drawString(g, "ParabÃ©ns, vocï¿½ sobreviveu ao nÃ­vel FÃ¡cil.", 640, 200, true, Color.black, Assets.font30);
+			Text.drawString(g, "BÃ´nus:", 640, 250, true, Color.black, Assets.font25);
 			Text.drawString(g, "+3 de Magia", 640, 280, true, Color.black, Assets.font25);
-			Text.drawString(g, "Prepare-se para o nível Médio...", 640, 330, true, Color.black, Assets.font30);
+			Text.drawString(g, "Prepare-se para o nÃ­vel MÃ©dio...", 640, 330, true, Color.black, Assets.font30);
 		}
 		
 		if (score == 6 && breakCounter > 0) {
 			
-			Text.drawString(g, "Parabéns, você sobreviveu ao nível Médio.", 640, 200, true, Color.black, Assets.font30);
-			Text.drawString(g, "Bônus:", 640, 250, true, Color.black, Assets.font25);
+			Text.drawString(g, "ParabÃ©ns, vocÃª sobreviveu ao nÃ­vel MÃ©dio.", 640, 200, true, Color.black, Assets.font30);
+			Text.drawString(g, "BÃ´nus:", 640, 250, true, Color.black, Assets.font25);
 			Text.drawString(g, "+5 de Magia", 640, 280, true, Color.black, Assets.font25);
 			Text.drawString(g, "+75 de Vida", 640, 310, true, Color.black, Assets.font25);
-			Text.drawString(g, "Esse foi o último bônus.", 640, 350, true, Color.black, Assets.font25);
-			Text.drawString(g, "Prepare-se para o nível Difícil...", 640, 390, true, Color.black, Assets.font30);
+			Text.drawString(g, "Esse foi o Ãºltimo bÃ´nus.", 640, 350, true, Color.black, Assets.font25);
+			Text.drawString(g, "Prepare-se para o nÃ­vel DifÃ­cil...", 640, 390, true, Color.black, Assets.font30);
 		}
 		
 		

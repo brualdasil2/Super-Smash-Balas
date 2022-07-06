@@ -5,7 +5,7 @@ public class TrainingBot extends Player {
 	private boolean opponentNear, opponentOnAir, opponentOnTop, opponentOnLeft, opponentOnRight, opponentAttacking, opponentShielding, opponentCandyComing,
 					onCenter, gotHit = false;
 	
-	private BrunoCombos combos = new BrunoCombos(this);
+	private LacerdaCombos combos = new LacerdaCombos(this);
 	
 	public TrainingBot(Game game, int playerNumb, Character character, double x, double y) {
 		
@@ -142,13 +142,30 @@ public class TrainingBot extends Player {
 		
 		checkState();
 		
+		pressingJump = false;
+		pressingAttack = false;
+		pressingSpecial = false;
+		pressingUp = false;
+		pressingShield = false;
+		pressingLeft = false;
+		pressingRight = false;
+		
+		if (combos.isComboing()) {
+			combos.tick();
+		}
+		
+		if (game.getKeyManager(playerNumb).jump) {
+			combos.startCombo(1);
+		}
+		
+		/*
 		pressingJump = game.getKeyManager(playerNumb).jump;
 		pressingAttack = game.getKeyManager(playerNumb).attack;
 		pressingSpecial = game.getKeyManager(playerNumb).special;
 		pressingUp = game.getKeyManager(playerNumb).up;
 		pressingShield = game.getKeyManager(playerNumb).shield;
 		pressingLeft = game.getKeyManager(playerNumb).left;
-		pressingRight = game.getKeyManager(playerNumb).right;
+		pressingRight = game.getKeyManager(playerNumb).right;*/
 		
 
 			
