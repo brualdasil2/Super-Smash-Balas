@@ -41,6 +41,7 @@ public class Bruno extends Character{
 		groundSpeed = 10;
 		airSpeed = 5;
 		jumps = 2;
+		weight = 1;
 		
 	}
 

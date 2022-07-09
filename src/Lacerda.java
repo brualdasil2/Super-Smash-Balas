@@ -46,6 +46,7 @@ public class Lacerda extends Character {
 		groundSpeed = 13;
 		airSpeed = 6;
 		jumps = 2;
+		weight = 0.85;
 	}
 	
 	public void resetBomb() {

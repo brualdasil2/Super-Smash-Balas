@@ -42,6 +42,7 @@ public class Carol extends Character {
 		groundSpeed = 7;
 		airSpeed = 7; 
 		jumps = 2;
+		weight = 0.75;
 		
 	}
 	

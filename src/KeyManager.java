@@ -29,7 +29,7 @@ public class KeyManager implements KeyListener {
 			shield = keys[KeyEditState.getp1Shield()];
 			jump = keys[KeyEditState.getp1Jump()];
 			special = keys[KeyEditState.getp1Special()];
-			airdash = keys[KeyEvent.VK_CLOSE_BRACKET];
+			airdash = keys[KeyEvent.VK_Q];
 
 		
 		}

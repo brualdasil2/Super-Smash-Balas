@@ -370,7 +370,10 @@ public class GameState extends State {
 							double p2X = player2.getX();
 							double p2Y = player2.getY();
 							if (trainingBotOn) {
-								player2 = new TrainingBot(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+								if (isSmash)
+									player2 = new SmashTrainingBot(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+								else
+									player2 = new TrainingBot(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
 								player2.setOpponent(player1);
 								player1.setOpponent(player2);
 								((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char().resetAttackCounters();
@@ -394,14 +397,23 @@ public class GameState extends State {
 								botBehavior++;
 								if (botBehavior > 7) {
 									botBehavior = 0;
-									player2 = new TrainingBot(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+									if (isSmash)
+										player2 = new SmashTrainingBot(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+									else
+										player2 = new TrainingBot(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
 									player2.setOpponent(player1);
 									player1.setOpponent(player2);
 									((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char().resetAttackCounters();
-									((TrainingBot)(player2)).setEscapeOption(botEscape);
+									if (isSmash)
+										((SmashTrainingBot)(player2)).setEscapeOption(botEscape);
+									else
+										((TrainingBot)(player2)).setEscapeOption(botEscape);
 								}
 								if (botBehavior <= 4) {
-									((TrainingBot)(player2)).setBehaviorOption(botBehavior);
+									if (isSmash)
+										((SmashTrainingBot)(player2)).setBehaviorOption(botBehavior);
+									else
+										((TrainingBot)(player2)).setBehaviorOption(botBehavior);
 								}
 								else if (botBehavior == 5) {
 									if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Bruno) {
@@ -459,10 +471,13 @@ public class GameState extends State {
 								if (botEscapeButton.buttonPressed()) {
 									screenRefreshManager.setChange(0, 0, 300, 500);
 									botEscape++;
-									if (botEscape > 5) {
+									if (botEscape > 7) {
 										botEscape = 0;
 									}
-									((TrainingBot)(player2)).setEscapeOption(botEscape);
+									if (isSmash)
+										((SmashTrainingBot)(player2)).setEscapeOption(botEscape);
+									else
+										((TrainingBot)(player2)).setEscapeOption(botEscape);
 								}
 							}
 							/*
@@ -520,11 +535,16 @@ public class GameState extends State {
 					
 				}
 				
-				if (!training) {
+				if (!training || isSmash) {
 					if (player1.getHealth() <= 0 && player2.getHealth() <= 0) {
+						
+						if (!training) {
+							
 						
 						fighting = false;
 						winner = -1;
+						}
+						
 						
 					}
 					
@@ -534,6 +554,7 @@ public class GameState extends State {
 						fighting = false;
 						if (isSmash){
 							player1.restoreRound();
+							//GameState.setParryFreezeCounter(10);
 						}
 						player2.increaseScore();
 					}
@@ -544,6 +565,7 @@ public class GameState extends State {
 						fighting = false;
 						if (isSmash){
 							player2.restoreRound();
+							//GameState.setParryFreezeCounter(10);
 						}
 						player1.increaseScore();
 					}
@@ -560,6 +582,7 @@ public class GameState extends State {
 							
 							screenRefreshManager.setChange(hitEffect.getX(), hitEffect.getY(), hitEffect.getWidth(), hitEffect.getHeight());
 							hitEffectActive = false;
+							hitEffect.resetFrameCounter();
 						}
 						
 					}
@@ -754,7 +777,7 @@ public class GameState extends State {
 		
 		
 		if (hitEffectActive) {
-			
+			System.out.println(hitEffect.getFrameCounter());
 			g.drawImage(hitEffect.getImage(), hitEffect.getX(), hitEffect.getY(), hitEffect.getWidth(), hitEffect.getHeight(), null);
 		}
 		
@@ -1032,6 +1055,18 @@ public class GameState extends State {
 							else
 								Text.drawString(g, "Escudo Antes", 140, 340, false, Color.black, Assets.font20);
 							break;
+						case 6:
+							if (map == 2 || map == 3)
+								Text.drawString(g, "Airdash Direita", 140, 340, false, Color.white, Assets.font20);
+							else
+								Text.drawString(g, "Airdash Direita", 140, 340, false, Color.black, Assets.font20);
+							break;
+						case 7:
+							if (map == 2 || map == 3)
+								Text.drawString(g, "Airdash Esquerda", 140, 340, false, Color.white, Assets.font20);
+							else
+								Text.drawString(g, "Airdash Esquerda", 140, 340, false, Color.black, Assets.font20);
+							break;
 					}
 				}
 				/*
@@ -1087,10 +1122,12 @@ public class GameState extends State {
 	}
 	
 	private void newRound() {
-		
 		countdownTimer = 0;
-		hitEffectActive = false;
-		hitEffect.resetFrameCounter();
+		if (!isSmash) {
+			//BIG AQU
+			hitEffectActive = false;
+			hitEffect.resetFrameCounter();
+		}
 		KOscreenTimer = 0;
 		parryFreezeCounter = 0;
 		if (!isSmash) {

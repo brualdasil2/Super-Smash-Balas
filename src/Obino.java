@@ -44,6 +44,7 @@ public class Obino extends Character{
 		groundSpeed = 6;
 		airSpeed = 4;
 		jumps = 2;
+		weight = 1.3;
 		
 	}
 	
