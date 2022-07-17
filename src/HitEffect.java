@@ -8,6 +8,7 @@ public class HitEffect {
 	private int x, y, width = 64, height = 64;
 	private int frameCounter;
 	private boolean big = false;
+	private boolean medium = false;
 	
 	public HitEffect(BufferedImage image) {
 		
@@ -21,6 +22,7 @@ public class HitEffect {
 		this.x = x;
 		this.y = y;
 		big = false;
+		medium = false;
 	}
 	public void startHitEffect(int x, int y, boolean big) {
 		
@@ -28,6 +30,15 @@ public class HitEffect {
 		this.x = x;
 		this.y = y;
 		this.big = big;
+		medium = false;
+	}
+	public void startHitEffect(int x, int y, boolean big, boolean medium) {
+		
+		this.frameCounter = 10;
+		this.x = x;
+		this.y = y;
+		this.big = big;
+		this.medium = true;
 	}
 
 	
@@ -44,12 +55,16 @@ public class HitEffect {
 	public int getWidth() {
 		if (big)
 			return width*8;
+		if (medium)
+			return width*4;
 		return width;
 	}
 	
 	public int getHeight() {
 		if (big)
 			return height*8;
+		if (medium)
+			return width*4;
 		return height;
 	}
 	
@@ -72,6 +87,7 @@ public class HitEffect {
 		
 		frameCounter = 0;
 		big = false;
+		medium = false;
 	}
 
 	

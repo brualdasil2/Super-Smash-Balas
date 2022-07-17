@@ -3,7 +3,7 @@ public class SmashCarolBotHard extends SmashPlayer{
 	
 	private int state, rand, frameCounter = 0;
 	private boolean opponentNear, opponentOnAir, opponentOnTop, opponentOnLeft, opponentOnRight, opponentAttacking, opponentShielding, opponentCandyComing,
-					onCenter;
+					onCenter, offStageOnRight, offStageOnLeft, offStage;
 
 	
 	public SmashCarolBotHard(Game game, int playerNumb, Character character, double x, double y) {
@@ -25,6 +25,10 @@ public class SmashCarolBotHard extends SmashPlayer{
 		opponentShielding = (opponent.shielding && !opponent.onAir && opponent.shield > 0);
 		
 		onCenter = (x + currentFrame.getWidth()/2 > 590 && x + currentFrame.getWidth()/2 < 690);
+		
+		offStageOnRight = (x + currentFrame.getWidth()/2 > GameState.smashStageRight);
+		offStageOnLeft = (x + currentFrame.getWidth()/2 < GameState.smashStageLeft);
+		offStage = (offStageOnRight || offStageOnLeft);
 		
 		for (int i = 0; i < GameState.projectiles.size(); i++) {
 			
@@ -65,6 +69,7 @@ public class SmashCarolBotHard extends SmashPlayer{
 		pressingShield = false;
 		pressingLeft = false;
 		pressingRight = false;
+		pressingAirdash = false;
 	}
 	
 	private void setState(int state) {
@@ -384,6 +389,36 @@ public class SmashCarolBotHard extends SmashPlayer{
 		
 		pressingSpecial = true;
 	}
+private void doNothing() {
+		
+	}
+	private void jumpToCenter() {
+		
+		
+		setFrames(10);
+		
+		if (frameCounter == 9) {
+			
+			turnToOpponent();
+			pressingJump = true;
+		}
+		
+		if (frameCounter <= 8) {
+			
+			turnToOpponent();
+		}
+	}
+	
+	private void airdashToCenter() {
+		
+		setFrames(15);
+		
+		if (frameCounter == 14) {
+			pressingAirdash = true;
+			goToCenter();
+		}
+		
+	}
 	
 
 	protected void getInput() {
@@ -391,8 +426,21 @@ public class SmashCarolBotHard extends SmashPlayer{
 		checkState();
 		pressNothing();
 		
-		
-		if (opponentNear) {
+		if (offStage) {
+			setState(-1);
+			randomize(10);
+			
+			if (rand <= 1)
+				doNothing();
+			if (rand > 1 && rand <= 4)
+				goToCenter();
+			if (rand > 4 && rand <= 7)
+				jumpToCenter();
+			if (rand > 7 && rand <= 10)
+				airdashToCenter();
+			
+		}
+		else if (opponentNear) {
 			
 			if (opponentAttacking) {
 				

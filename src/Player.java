@@ -57,7 +57,7 @@ public class Player {
 	protected int frozenCounter = 0;
 	
 	
-	
+	protected Hurtbox killSparkHurtbox;
 	
 
 	
@@ -469,6 +469,7 @@ public class Player {
 				
 					if (!insideHitbox && !shielding && invincibleCounter == 0) {
 						GameState.hitEffect.startHitEffect((int) x + hurtbox.getX() - GameState.hitEffect.getWidth()/2, (int) y + hurtbox.getY() - GameState.hitEffect.getHeight()/2);
+						killSparkHurtbox = hurtbox;
 						//opponent.setFreezeFrames(5);
 					}
 					return true;

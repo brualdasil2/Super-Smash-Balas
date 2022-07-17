@@ -53,8 +53,6 @@ public class GameState extends State {
 	private boolean isSmash = true;
 	public static int smashStageLeft = 150;
 	public static int smashStageRight = 1130;
-
-
 	
 	public static final double GRAVITY = 1;
 	
@@ -106,8 +104,11 @@ public class GameState extends State {
 				floorY = 570;
 				
 				player1 = new SmashPlayer(game, 1, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer1Char(), 240, floorY - 200, "JOGADOR 1");
-				player2 = new SmashPlayer(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), 840, floorY - 200, "JOGADOR 2");
+				//player2 = new SmashPlayer(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), 840, floorY - 200, "JOGADOR 2");
 				//player2 = new SmashBrunoBotHard(game, 2, new Bruno(1), 840, floorY - 200);
+				//player2 = new SmashCarolBotHard(game, 2, new Carol(1), 840, floorY - 200);
+				//player2 = new SmashLacerdaBotHard(game, 2, new Lacerda(1), 840, floorY - 200);
+				player2 = new SmashObinoBotHard(game, 2, new Obino(1), 840, floorY - 200);
 
 			}
 			else {
@@ -538,13 +539,11 @@ public class GameState extends State {
 				if (!training || isSmash) {
 					if (player1.getHealth() <= 0 && player2.getHealth() <= 0) {
 						
-						if (!training) {
-							
-						
+				
+					
 						fighting = false;
 						winner = -1;
-						}
-						
+
 						
 					}
 					
@@ -777,7 +776,7 @@ public class GameState extends State {
 		
 		
 		if (hitEffectActive) {
-			System.out.println(hitEffect.getFrameCounter());
+			//System.out.println(hitEffect.getFrameCounter());
 			g.drawImage(hitEffect.getImage(), hitEffect.getX(), hitEffect.getY(), hitEffect.getWidth(), hitEffect.getHeight(), null);
 		}
 		

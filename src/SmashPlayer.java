@@ -21,7 +21,11 @@ public class SmashPlayer extends Player {
 	}
 
 	private double knockbackMultiplier() {
-		return (0.6 + 0.00004524 * Math.pow(percent, 2) + 0.002548 * percent)/character.weight;
+		double superCarolMultiplier = 1;
+		if (opponent.character.airSpeed == 12) {
+			superCarolMultiplier = 1.2;
+		}
+		return ((0.7 + 0.00004524 * Math.pow(percent, 2) + 0.002548 * percent)/character.weight)*superCarolMultiplier;
 	}
 
 	private double hitstunMultiplier() {
@@ -342,8 +346,8 @@ public class SmashPlayer extends Player {
 						if (!attacking) {
 							if (hitstunFrames == 0) {
 								if (airdashes > 0) {
-									if (shield >= 10) {
-									shield -= 10;
+									if (shield >= 20) {
+									shield -= 20;
 									airdashCounter = airdashDuration;
 									//hitstunFrames = airdashDuration;
 									SoundManager.play("sounds/Airdash.wav", false);
@@ -382,6 +386,83 @@ public class SmashPlayer extends Player {
 				}
 			}
 		}
+	}
+	
+	private boolean wouldBeInBlastzone(double simX, double simY) {
+		double MyCollisionRightX = simX + currentAttack.getCollisionbox().getX()
+				+ currentAttack.getCollisionbox().getWidth();
+		double MyCollisionLeftX = simX + currentAttack.getCollisionbox().getX();
+		double MyCollisionTopY = simY + currentAttack.getCollisionbox().getY();
+		double MyCollisionBottomY = simY + currentAttack.getCollisionbox().getY()
+				+ currentAttack.getCollisionbox().getHeight();
+		double MyCollisionCenterX = (MyCollisionRightX + MyCollisionLeftX) / 2;
+
+		return (MyCollisionRightX < leftBlastzone || MyCollisionLeftX > rightBlastzone || MyCollisionBottomY < topBlastzone
+				|| MyCollisionTopY > bottomBlastzone);
+	}
+	
+	private boolean checkSimOnAir(double simX, double simY) {
+		if (currentAttack.getCollisionbox() != null) {
+
+			double MyCollisionRightX = simX + currentAttack.getCollisionbox().getX()
+					+ currentAttack.getCollisionbox().getWidth();
+			double MyCollisionLeftX = simX + currentAttack.getCollisionbox().getX();
+			double MyCollisionTopY = simY + currentAttack.getCollisionbox().getY();
+			double MyCollisionBottomY = simY + currentAttack.getCollisionbox().getY()
+					+ currentAttack.getCollisionbox().getHeight();
+			double MyCollisionCenterX = (MyCollisionRightX + MyCollisionLeftX) / 2;
+
+			if (simY + currentFrame.getHeight() < GameState.floorY || MyCollisionRightX < GameState.smashStageLeft
+					|| MyCollisionLeftX > GameState.smashStageRight) {
+				return true;
+			}
+			return false;
+		}
+
+		return false;
+	}
+	
+	private void killEffect(Hurtbox hurtbox) {
+		System.out.println("VAI MORRER!!");
+		GameState.setParryFreezeCounter(30);
+		GameState.hitEffect.startHitEffect(
+				(int)x + hurtbox.getX() - GameState.hitEffect.getWidth()*4/2,
+				(int)y + hurtbox.getY() - GameState.hitEffect.getHeight()*4/2,
+				false, true);
+		SoundManager.play("sounds/Parry.wav", false);
+	}
+	
+	private boolean simulateKill() {
+		double simX = x;
+		double simY = y;
+		double simXspeed = xSpeed;
+		double simYspeed = ySpeed;
+		int simFf = freezeFrames;
+		int hsf = hitstunFrames;
+		boolean simOnAir = checkSimOnAir(simX, simY);
+		while (hsf > 0) {
+			//System.out.println("hsf" + hsf);
+			if (hsf > 0)
+				hsf--;
+			if (simFf > 0)
+				simFf--;
+			else {
+				simX += simXspeed;
+				simY += simYspeed;
+				if (simOnAir)
+					simYspeed += GameState.GRAVITY;
+				simOnAir = checkSimOnAir(simX, simY);
+				if (!simOnAir) {
+					simY = GameState.floorY - currentFrame.getHeight();
+					simYspeed = -simYspeed;
+				}
+				//System.out.println("simX" + simX);
+				if (wouldBeInBlastzone(simX, simY)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	public void hitDetection() {
@@ -448,14 +529,19 @@ public class SmashPlayer extends Player {
 								int hSf = (int) (opponent.getCurrentAttack().getHitstunFrames() * hitstunMultiplier());
 								hitstunFrames = hSf < MIN_HITSTUN ? MIN_HITSTUN : hSf;
 								if (hitstunFrames == MIN_HITSTUN) {
-									System.out.println("MIN HITSTUN");
+									//System.out.println("MIN HITSTUN");
 								}
 								freezeFrames = opponent.getCurrentAttack().getFreezeFrames();
 								percent += opponent.getCurrentAttack().getDamage();
 								health -= opponent.getCurrentAttack().getDamage();
 								shielding = false;
 								airdashCounter = 0;
-								SoundManager.play("sounds/PunchHit.wav", false);
+								if (simulateKill()) {
+									killEffect(killSparkHurtbox);
+								}
+								else {
+									SoundManager.play("sounds/PunchHit.wav", false);
+								}
 							}
 
 							insideHitbox = true;
@@ -560,9 +646,7 @@ public class SmashPlayer extends Player {
 
 										else {
 
-											GameState.hitEffect.startHitEffect(
-													(int) x + hurtbox.getX() - GameState.hitEffect.getWidth() / 2,
-													(int) y + hurtbox.getY() - GameState.hitEffect.getHeight() / 2);
+											
 
 											percent += GameState.projectiles.get(i).getDamage();
 											health -= GameState.projectiles.get(i).getDamage();
@@ -576,6 +660,8 @@ public class SmashPlayer extends Player {
 													* hitstunMultiplier());
 											hitstunFrames = hSf < MIN_HITSTUN ? MIN_HITSTUN : hSf;
 											freezeFrames = GameState.projectiles.get(i).getFreezeFrames();
+											
+											
 
 											if (GameState.projectiles.get(i) instanceof BearTrap) {
 
@@ -593,7 +679,15 @@ public class SmashPlayer extends Player {
 												GameState.projectiles.remove(i);
 											}
 
-											SoundManager.play("sounds/PunchHit.wav", false);
+											if (simulateKill()) {
+												killEffect(hurtbox);
+											}
+											else {
+												GameState.hitEffect.startHitEffect(
+														(int) x + hurtbox.getX() - GameState.hitEffect.getWidth() / 2,
+														(int) y + hurtbox.getY() - GameState.hitEffect.getHeight() / 2);
+												SoundManager.play("sounds/PunchHit.wav", false);
+											}
 											break;
 										}
 
@@ -908,14 +1002,15 @@ public class SmashPlayer extends Player {
 		//System.out.println(hitstunFrames);
 		//System.out.println(attacking);
 		if (airdashCounter > 0) {
+			int airdashSpeed = frozen ? 10 : 20;
 			if (airdashingRight) {
-				x += 20;
+				x += airdashSpeed;
 			} else if (airdashingLeft) {
-				x -= 20;
+				x -= airdashSpeed;
 			} else if (airdashingDown) {
-				y += 20;
+				y += airdashSpeed;
 			} else if (airdashingUp) {
-				y -= 20;
+				y -= airdashSpeed;
 			}
 			airdashCounter--;
 		} else {
