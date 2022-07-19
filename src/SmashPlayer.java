@@ -13,6 +13,7 @@ public class SmashPlayer extends Player {
 	private int airdashes = 1, airdashCounter = 0;
 	private boolean airdashingRight = false, airdashingLeft = false, airdashingDown = false, airdashingUp = false;
 	private int MIN_HITSTUN = 20;
+	private int invisibleCounter = 0;
 
 	public SmashPlayer(Game game, int playerNumb, Character character, double x, double y, String name) {
 		super(game, playerNumb, character, x, y, name);
@@ -864,7 +865,11 @@ public class SmashPlayer extends Player {
 
 		if (frozen)
 			countFrozenFrames();
-
+		
+		if (invisibleCounter > 0) {
+			invisibleCounter--;
+		}
+		
 		onAir = checkOnAir();
 		checkInput();
 
@@ -1065,7 +1070,8 @@ public class SmashPlayer extends Player {
 	@Override
 	public void render(Graphics g, boolean showBoxes) {
 		
-		g.drawImage(currentFrame.getImage(), (int) x + currentFrame.getXOffset(), (int) y + currentFrame.getYOffset(), currentFrame.getWidth(), currentFrame.getHeight(), null);
+		if (invisibleCounter == 0)
+			g.drawImage(currentFrame.getImage(), (int) x + currentFrame.getXOffset(), (int) y + currentFrame.getYOffset(), currentFrame.getWidth(), currentFrame.getHeight(), null);
 
 		showHurtboxes(showBoxes, g);
 		showHitboxes(showBoxes, g);
@@ -1077,7 +1083,58 @@ public class SmashPlayer extends Player {
 
 		return percent;
 	}
+	public void setPercent(int percent) {
+		this.percent = percent;
+	}
 
+	@Override
+	public void setSuddenDeath() {
+		health = 1500;
+		percent = 300;
+		shield = 100;
+		
+		attacking = false;
+		jabbing = false;
+		dashing = false;
+		upTilting = false;
+		bairing = false;
+		fairing = false;
+		upAiring = false;
+		sideSpecialing = false;
+		upSpecialing = false;
+		neutralSpecialing = false;
+		shielding = false;
+		insideHitbox = false;
+		onAir = false;
+		jumpClicked = false;
+		shieldStun = false;
+		fastFalling = false;
+		hitstunFrames = 0; 
+		freezeFrames = 0; 
+		shieldRecoverCounter = 0;
+		parryCounter = 0;
+		xSpeed = 0;
+		ySpeed = 0;
+		airdashCounter = 0;
+		airdashes = 1;
+		character.resetAttackCounters();
+		
+		y = GameState.floorY - 200;
+		
+		if (playerNumb == 1) {
+			
+			x = 240;
+			lookDirection = 1;
+		}
+		else if (playerNumb == 2) {
+			
+			x = 840;
+			lookDirection = 0;
+		}
+		
+		setStanding();
+	}
+	
 	public void restoreRound() {
 
 		percent = 0;
@@ -1101,7 +1158,8 @@ public class SmashPlayer extends Player {
 		shieldStun = false;
 		fastFalling = false;
 		hitstunFrames = 0;
-		freezeFrames = 30;
+		freezeFrames = 60;
+		invisibleCounter = 30;
 		invincibleCounter = 120;
 		shieldRecoverCounter = 0;
 		parryCounter = 0;

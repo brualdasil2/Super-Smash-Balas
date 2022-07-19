@@ -5,6 +5,8 @@ public class Lacerda extends Character {
 	private int bombDamage = 20;
 	private boolean countering = false;
 	private int counterProjectileDamage = 0;
+	private int counterProjectileKnockbackXSpeed = 0;
+	private int counterProjectileKnockbackYSpeed = 0;
 	
 	public Lacerda(int skin) {
 		
@@ -56,6 +58,14 @@ public class Lacerda extends Character {
 		sideSpecialLeft = AttackCreator.getLacerdaSideSpecial1Left(skin);
 		sideSpecialRight.setDamage(20);
 		sideSpecialLeft.setDamage(20);
+	}
+	
+	private int calculateCounterKnockbackComponent(int knockbackX, int knockbackY) {
+		int opponentKnockbackX = knockbackX;
+		int opponentKnockbackY = knockbackY;
+		
+		double opponentKnockbackModule = Math.sqrt((double)opponentKnockbackX*opponentKnockbackX + (double)opponentKnockbackY*opponentKnockbackY);
+		return (int)Math.ceil(1.5*Math.sqrt(2)*opponentKnockbackModule/2); 
 	}
 	
 	private boolean checkCounterHit(Player player) {
@@ -115,7 +125,8 @@ public class Lacerda extends Character {
 									if ((Math.pow((double) ((hitbox.getX() + GameState.projectiles.get(i).getX()) - (counterbox.getX() + player.x)), 2) + Math.pow((double) ((hitbox.getY() + GameState.projectiles.get(i).getY()) - (counterbox.getY() + player.y)), 2)) < Math.pow((double) (hitbox.getR() + counterbox.getR()), 2)) {
 										
 										counterProjectileDamage = GameState.projectiles.get(i).getDamage();
-										
+										counterProjectileKnockbackXSpeed = calculateCounterKnockbackComponent(GameState.projectiles.get(i).getKnockbackXspeed(), GameState.projectiles.get(i).getKnockbackYspeed());
+										counterProjectileKnockbackYSpeed = counterProjectileKnockbackXSpeed;
 										if (!(GameState.projectiles.get(i) instanceof BearTrap)) {
 											
 											GameState.projectiles.get(i).updateImage();
@@ -148,6 +159,8 @@ public class Lacerda extends Character {
 									if ((Math.pow((double) ((hitbox.getX() + GameState.projectiles.get(i).getX()) - (counterbox.getX() + player.x)), 2) + Math.pow((double) ((hitbox.getY() + GameState.projectiles.get(i).getY()) - (counterbox.getY() + player.y)), 2)) < Math.pow((double) (hitbox.getR() + counterbox.getR()), 2)) {
 										
 										counterProjectileDamage = GameState.projectiles.get(i).getDamage();
+										counterProjectileKnockbackXSpeed = calculateCounterKnockbackComponent(GameState.projectiles.get(i).getKnockbackXspeed(), GameState.projectiles.get(i).getKnockbackYspeed());
+										counterProjectileKnockbackYSpeed = counterProjectileKnockbackXSpeed;
 										
 										if (!(GameState.projectiles.get(i) instanceof BearTrap)) {
 											
@@ -698,6 +711,12 @@ public class Lacerda extends Character {
 						countering = true;
 						neutralSpecialRight.setDamage((int)(1.5*(player.opponent.getCurrentAttack().getDamage())));
 						neutralSpecialLeft.setDamage((int)(1.5*(player.opponent.getCurrentAttack().getDamage())));
+						int counterKnockbackComponent = calculateCounterKnockbackComponent(player.opponent.getCurrentAttack().getKnockbackXspeed(), player.opponent.getCurrentAttack().getKnockbackYspeed());
+						neutralSpecialRight.setKnockbackXSpeed(counterKnockbackComponent);
+						neutralSpecialRight.setKnockbackYSpeed(-counterKnockbackComponent);
+						neutralSpecialLeft.setKnockbackXSpeed(-counterKnockbackComponent);
+						neutralSpecialLeft.setKnockbackYSpeed(-counterKnockbackComponent);
+
 						
 						if (player.x >= player.opponent.getX()) {
 							
@@ -720,15 +739,19 @@ public class Lacerda extends Character {
 				countering = true;
 				neutralSpecialRight.setDamage((int)(1.5*(counterProjectileDamage)));
 				neutralSpecialLeft.setDamage((int)(1.5*(counterProjectileDamage)));
-
+				
 				
 				if (player.x >= player.opponent.getX()) {
 					
 					player.setLookDirection(0);
+					neutralSpecialRight.setKnockbackXSpeed(-counterProjectileKnockbackXSpeed);
+					neutralSpecialRight.setKnockbackYSpeed(-counterProjectileKnockbackYSpeed);
 				}
 				else {
 					
 					player.setLookDirection(1);
+					neutralSpecialRight.setKnockbackXSpeed(counterProjectileKnockbackXSpeed);
+					neutralSpecialRight.setKnockbackYSpeed(-counterProjectileKnockbackYSpeed);
 				}
 			}
 		}

@@ -1,6 +1,5 @@
 import java.awt.Color;
-
-
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -8,7 +7,7 @@ import java.util.ArrayList;
 public class GameState extends State {
 
 	private Player player1, player2;
-	public static int floorY = 670;
+	public static int floorY = 570;
 	public static int leftWall = 0;
 	public static int rightWall = 1280;
 	public static int shieldDropFrames = 5;
@@ -50,6 +49,8 @@ public class GameState extends State {
 	
 	private ComboCounter comboCounter = new ComboCounter();
 	
+	private PercentEditor percentEditor;
+	
 	private boolean isSmash = true;
 	public static int smashStageLeft = 150;
 	public static int smashStageRight = 1130;
@@ -82,7 +83,8 @@ public class GameState extends State {
 		mapRendered = false;
 		
 		this.mode = mode;
-		this.map = map;
+		//this.map = map;
+		this.map = 0;
 		this.suddenDeath = suddenDeath;
 		
 
@@ -100,21 +102,14 @@ public class GameState extends State {
 		
 		if (mode <= 2) {
 			
-			if (isSmash) {
-				floorY = 570;
-				
-				player1 = new SmashPlayer(game, 1, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer1Char(), 240, floorY - 200, "JOGADOR 1");
-				//player2 = new SmashPlayer(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), 840, floorY - 200, "JOGADOR 2");
-				//player2 = new SmashBrunoBotHard(game, 2, new Bruno(1), 840, floorY - 200);
-				//player2 = new SmashCarolBotHard(game, 2, new Carol(1), 840, floorY - 200);
-				//player2 = new SmashLacerdaBotHard(game, 2, new Lacerda(1), 840, floorY - 200);
-				player2 = new SmashObinoBotHard(game, 2, new Obino(1), 840, floorY - 200);
+			
+			player1 = new SmashPlayer(game, 1, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer1Char(), 240, floorY - 200, "JOGADOR 1");
+			player2 = new SmashPlayer(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), 840, floorY - 200, "JOGADOR 2");
+			//player2 = new SmashBrunoBotHard(game, 2, new Bruno(1), 840, floorY - 200);
+			//player2 = new SmashCarolBotHard(game, 2, new Carol(1), 840, floorY - 200);
+			//player2 = new SmashLacerdaBotHard(game, 2, new Lacerda(1), 840, floorY - 200);
+			//player2 = new SmashObinoBotHard(game, 2, new Obino(1), 840, floorY - 200);
 
-			}
-			else {
-				player1 = new Player(game, 1, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer1Char(), 240, floorY - 200, "JOGADOR 1");
-				player2 = new Player(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), 840, floorY - 200, "JOGADOR 2");
-			}
 
 			
 		}
@@ -147,8 +142,7 @@ public class GameState extends State {
 		winner = 0;
 		
 		if (suddenDeath) {
-			
-			maxScore = 5;
+			maxScore = 1;
 			suddenDeath();
 		}
 		else if (isSmash) {
@@ -184,6 +178,8 @@ public class GameState extends State {
 			trainingBotButton = new Button(game, 10, 210, 120, 40, Color.darkGray, "LIGAR/DESLIGAR", Assets.font10, null, true);
 			botBehaviorButton = new Button(game, 10, 260, 120, 40, Color.darkGray, "COMPORTAMENTO", Assets.font10, null, true);
 			botEscapeButton = new Button(game, 10, 310, 120, 40, Color.darkGray, "ESCAPAR COMBO", Assets.font10, null, true);
+			percentEditor = new PercentEditor(game);
+					
 			//botPlayerButton = new Button(game, 10, 360, 120, 40, Color.darkGray, "JOGADOR DO BOT", Assets.font10, null, true);
 		}
 		
@@ -313,6 +309,8 @@ public class GameState extends State {
 						player1.maxMagic();
 						player2.maxMagic();
 						
+						percentEditor.tick();
+						
 						if (resetButton.buttonPressed()) {
 							
 							player1.maxHP();
@@ -323,6 +321,7 @@ public class GameState extends State {
 							}
 							player1.restoreShield();
 							player2.restoreShield();
+							percentEditor.resetBotPercent();
 						}
 						
 						if (hitboxButton.buttonPressed()) {
@@ -380,7 +379,7 @@ public class GameState extends State {
 								((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char().resetAttackCounters();
 							}
 							else {
-								player2 = new Player(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y, "JOGADOR 2");
+								player2 = new SmashPlayer(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y, "JOGADOR 2");
 								player2.setOpponent(player1);
 								player1.setOpponent(player2);
 								((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char().resetAttackCounters();
@@ -418,16 +417,16 @@ public class GameState extends State {
 								}
 								else if (botBehavior == 5) {
 									if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Bruno) {
-										player2 = new BrunoBotEasy(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+										player2 = new SmashBrunoBotEasy(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
 									}
 									else if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Carol) {
-										player2 = new CarolBotEasy(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+										player2 = new SmashCarolBotEasy(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
 									}
 									else if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Lacerda) {
-										player2 = new LacerdaBotEasy(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+										player2 = new SmashLacerdaBotEasy(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
 									}
 									else if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Obino) {
-										player2 = new ObinoBotEasy(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+										player2 = new SmashObinoBotEasy(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
 									}
 									player2.setOpponent(player1);
 									player1.setOpponent(player2);
@@ -435,16 +434,16 @@ public class GameState extends State {
 								}
 								else if (botBehavior == 6) {
 									if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Bruno) {
-										player2 = new BrunoBotMedium(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+										player2 = new SmashBrunoBotMedium(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
 									}
 									else if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Carol) {
-										player2 = new CarolBotMedium(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+										player2 = new SmashCarolBotMedium(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
 									}
 									else if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Lacerda) {
-										player2 = new LacerdaBotMedium(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+										player2 = new SmashLacerdaBotMedium(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
 									}
 									else if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Obino) {
-										player2 = new ObinoBotMedium(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+										player2 = new SmashObinoBotMedium(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
 									}
 									player2.setOpponent(player1);
 									player1.setOpponent(player2);
@@ -452,16 +451,16 @@ public class GameState extends State {
 								}
 								else if (botBehavior == 7) {
 									if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Bruno) {
-										player2 = new BrunoBotHard(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+										player2 = new SmashBrunoBotHard(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
 									}
 									else if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Carol) {
-										player2 = new CarolBotHard(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+										player2 = new SmashCarolBotHard(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
 									}
 									else if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Lacerda) {
-										player2 = new LacerdaBotHard(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+										player2 = new SmashLacerdaBotHard(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
 									}
 									else if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Obino) {
-										player2 = new ObinoBotHard(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+										player2 = new SmashObinoBotHard(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
 									}
 									player2.setOpponent(player1);
 									player1.setOpponent(player2);
@@ -536,37 +535,41 @@ public class GameState extends State {
 					
 				}
 				
-				if (!training || isSmash) {
-					if (player1.getHealth() <= 0 && player2.getHealth() <= 0) {
+				if (true) {
+
+					if (player1.getHealth() <= 0 && player2.getHealth() <= 0 && player1.score == maxScore-1 && player2.score == maxScore-1) {
 						
 				
-					
+				
 						fighting = false;
 						winner = -1;
+						
 
 						
 					}
 					
-					else if (player1.getHealth() <= 0 && player2.getHealth() > 0) {
-						
-
-						fighting = false;
-						if (isSmash){
+					else { 
+							if (player1.getHealth() <= 0) {
+							
+	
+							fighting = false;
+	
 							player1.restoreRound();
-							//GameState.setParryFreezeCounter(10);
+							if (!training)
+								player2.increaseScore();
+							
 						}
-						player2.increaseScore();
-					}
 					
-					else if (player2.getHealth() <= 0 && player1.getHealth() > 0) {
+						if (player2.getHealth() <= 0) {
 						
-
-						fighting = false;
-						if (isSmash){
+							fighting = false;
 							player2.restoreRound();
-							//GameState.setParryFreezeCounter(10);
+							if (!training)
+								player1.increaseScore();
+							else {
+								percentEditor.resetBotPercent();
+							}
 						}
-						player1.increaseScore();
 					}
 				}
 				
@@ -616,7 +619,7 @@ public class GameState extends State {
 			
 			if (countdownTimer < 210) {
 				
-				if (isSmash && player1.getScore() + player2.getScore() != 0) {
+				if (training || !suddenDeath && isSmash && player1.getScore() + player2.getScore() != 0) {
 					countdownTimer = 209;
 				}
 				countdownTimer++;
@@ -756,10 +759,7 @@ public class GameState extends State {
 		if (map == 0) {
 			
 			g.setColor(Color.black);
-			if (!isSmash)
-				g.fillRect(0, floorY, game.getDisplay().getWidth(), floorHeight);
-			else
-				g.fillRect(smashStageLeft, floorY, smashStageRight - smashStageLeft, floorHeight);
+			g.fillRect(smashStageLeft, floorY, smashStageRight - smashStageLeft, floorHeight);
 		}
 		
 		player1.render(g, showBoxes);
@@ -891,7 +891,7 @@ public class GameState extends State {
 				}
 			}
 			
-			if (isSmash && player1.getScore() + player2.getScore() == 0) {
+			if (((isSmash && player1.getScore() + player2.getScore() == 0) || suddenDeath) && !training) {
 				if (countdownTimer < 60) {
 					
 					g.drawImage(Assets.countdown[0], 540, 260, 200, 200, null);
@@ -1091,6 +1091,7 @@ public class GameState extends State {
 			
 			
 			comboCounter.render(g);
+			percentEditor.render(g);
 
 			if (gameSpeed == 1) {
 				
@@ -1183,7 +1184,7 @@ public class GameState extends State {
 	}
 	
 	private void suddenDeath() {
-		
+		suddenDeath = true;
 		countdownTimer = 0;
 		winner = 0;
 		hitEffectActive = false;
@@ -1235,6 +1236,10 @@ public class GameState extends State {
 	public Player getPlayer2() {
 		
 		return player2;
+	}
+	
+	public SmashPlayer getSmashPlayer2() {
+		return (SmashPlayer)player2;
 	}
 	
 	public static int getParryFreezeCounter() {

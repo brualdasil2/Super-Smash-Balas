@@ -19,7 +19,7 @@ public class MenuState extends State{
 		pVpButton = new Button(game, 550, 500, 80, 40, Color.black, "P vs P", Assets.font15, null, false);
 		botButton = new Button(game, 650, 500, 80, 40, Color.black, "P vs BOT", Assets.font15, null, false);
 		keysButton = new Button(game, 510, 560, 120, 40, Color.black, "CONTROLES", Assets.font15, null, false);
-		minigamesButton = new Button(game, 650, 560, 120, 40, Color.black, "MINIGAMES", Assets.font15, null, false);
+		minigamesButton = new Button(game, 650, 560, 120, 40, Color.gray, "MINIGAMES", Assets.font15, null, false);
 		
 		rendered = false;
 		SoundManager.play("sounds/Nothing.wav", false);
@@ -49,11 +49,11 @@ public class MenuState extends State{
 			((KeyEditState)(game.getKeyEditState())).init();
 		}
 		
-		if (minigamesButton.buttonPressed()) {
+		/*if (minigamesButton.buttonPressed()) {
 			
 			State.setState(game.getMinigamesState());
 			((MinigamesState)(game.getMinigamesState())).init();
-		}
+		}*/
 
 	}
 
@@ -66,7 +66,7 @@ public class MenuState extends State{
 			g.clearRect(0, 0, 1280, 720);
 			//Text.drawString(g, "SUPER SMASH BALAS", 640, 300, true, Color.black, Assets.font30);
 			g.drawImage(Assets.logo, 440, 100, 400, 400, null);
-			Text.drawString(g, "Ver. 10.1", 10, 710, false, Color.black, Assets.font15);
+			Text.drawString(g, "Ver. SMASH 0.2", 10, 710, false, Color.black, Assets.font15);
 			pVpButton.drawButton(g);
 			botButton.drawButton(g);
 			keysButton.drawButton(g);

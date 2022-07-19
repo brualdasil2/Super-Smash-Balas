@@ -66,4 +66,12 @@ public class Attack {
 		
 		this.damage = damage;
 	}
+	
+	public void setKnockbackXSpeed(int xSpeed) {
+		this.knockbackXspeed = xSpeed;
+	}
+	
+	public void setKnockbackYSpeed(int ySpeed) {
+		this.knockbackYspeed = ySpeed;
+	}
 }

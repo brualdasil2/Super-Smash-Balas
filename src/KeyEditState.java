@@ -23,8 +23,8 @@ public class KeyEditState extends State {
 	private static int p2tempControls[] = new int[7];
 	private static int p1controls[] = new int[7];
 	private static int p2controls[] = new int[7];
-	private static KeyEditButton p1leftButton, p1rightButton, p1upButton, p1shieldButton, p1jumpButton, p1attackButton, p1specialButton,
-	p2leftButton, p2rightButton, p2upButton, p2shieldButton, p2jumpButton, p2attackButton, p2specialButton,
+	private static KeyEditButton p1leftButton, p1rightButton, p1upButton, p1shieldButton, p1jumpButton, p1attackButton, p1specialButton, p1airdashButton,
+	p2leftButton, p2rightButton, p2upButton, p2shieldButton, p2jumpButton, p2attackButton, p2specialButton, p2airdashButton,
 	pauseButton;
 	
 	private static int p1Up, p1Left, p1Shield, p1Right, p1Jump, p1Attack, p1Special;
@@ -41,6 +41,7 @@ public class KeyEditState extends State {
 		p1jumpButton = new KeyEditButton(game, 300, 470, 100, 40, "CAPS", KeyEvent.VK_CAPS_LOCK);
 		p1attackButton = new KeyEditButton(game, 300, 520, 100, 40, "SHIFT", KeyEvent.VK_SHIFT);
 		p1specialButton = new KeyEditButton(game, 300, 570, 100, 40, "CTRL", KeyEvent.VK_CONTROL);
+		p1airdashButton = new KeyEditButton(game, 300, 620, 100, 40, "Q", KeyEvent.VK_Q);
 
 		p2leftButton = new KeyEditButton(game, 890, 170, 100, 40, "J", KeyEvent.VK_J);
 		p2rightButton = new KeyEditButton(game, 890, 220, 100, 40, "L", KeyEvent.VK_L);
@@ -49,6 +50,7 @@ public class KeyEditState extends State {
 		p2jumpButton = new KeyEditButton(game, 890, 470, 100, 40, "G", KeyEvent.VK_G);
 		p2attackButton = new KeyEditButton(game, 890, 520, 100, 40, "V", KeyEvent.VK_V);
 		p2specialButton = new KeyEditButton(game, 890, 570, 100, 40, "B", KeyEvent.VK_B);
+		p2airdashButton = new KeyEditButton(game, 890, 620, 100, 40, "Y", KeyEvent.VK_Y);
 		
 		pauseButton = new KeyEditButton(game, 590, 370, 100, 40, "P", KeyEvent.VK_P);
 
@@ -83,6 +85,7 @@ public class KeyEditState extends State {
 		p1jumpButton.tick();
 		p1attackButton.tick();
 		p1specialButton.tick();
+		p1airdashButton.tick();
 		
 		p2leftButton.tick();
 		p2rightButton.tick();
@@ -91,6 +94,7 @@ public class KeyEditState extends State {
 		p2jumpButton.tick();
 		p2attackButton.tick();
 		p2specialButton.tick();
+		p2airdashButton.tick();
 		
 		pauseButton.tick();
 		
@@ -111,10 +115,10 @@ public class KeyEditState extends State {
 			
 			g.setColor(Color.gray);
 			g.fillRoundRect(20, 150, 250, 230, 20, 20);
-			g.fillRoundRect(20, 450, 250, 180, 20, 20);
+			g.fillRoundRect(20, 450, 250, 230, 20, 20);
 			
 			g.fillRoundRect(1010, 150, 250, 230, 20, 20);
-			g.fillRoundRect(1010, 450, 250, 180, 20, 20);
+			g.fillRoundRect(1010, 450, 250, 230, 20, 20);
 			
 			g.setColor(Color.white);
 			g.fillRect(40, 170, 210, 40);
@@ -125,6 +129,7 @@ public class KeyEditState extends State {
 			g.fillRect(40, 470, 210, 40);
 			g.fillRect(40, 520, 210, 40);
 			g.fillRect(40, 570, 210, 40);
+			g.fillRect(40, 620, 210, 40);
 			
 			
 			g.fillRect(1030, 170, 210, 40);
@@ -135,6 +140,7 @@ public class KeyEditState extends State {
 			g.fillRect(1030, 470, 210, 40);
 			g.fillRect(1030, 520, 210, 40);
 			g.fillRect(1030, 570, 210, 40);
+			g.fillRect(1030, 620, 210, 40);
 			
 			
 			Text.drawString(g, "ESQUERDA", 145, 190, true, Color.black, Assets.font13);
@@ -144,6 +150,7 @@ public class KeyEditState extends State {
 			Text.drawString(g, "PULO", 145, 490, true, Color.black, Assets.font13);
 			Text.drawString(g, "ATAQUE", 145, 540, true, Color.black, Assets.font13);
 			Text.drawString(g, "ESPECIAL", 145, 590, true, Color.black, Assets.font13);
+			Text.drawString(g, "AIRDASH", 145, 640, true, Color.black, Assets.font13);
 			
 			Text.drawString(g, "ESQUERDA", 1135, 190, true, Color.black, Assets.font13);
 			Text.drawString(g, "DIREITA", 1135, 240, true, Color.black, Assets.font13);
@@ -152,6 +159,7 @@ public class KeyEditState extends State {
 			Text.drawString(g, "PULO", 1135, 490, true, Color.black, Assets.font13);
 			Text.drawString(g, "ATAQUE", 1135, 540, true, Color.black, Assets.font13);
 			Text.drawString(g, "ESPECIAL", 1135, 590, true, Color.black, Assets.font13);
+			Text.drawString(g, "AIRDASH", 1135, 640, true, Color.black, Assets.font13);
 			
 
 			
@@ -163,6 +171,7 @@ public class KeyEditState extends State {
 			p1jumpButton.drawButton(g);
 			p1attackButton.drawButton(g);
 			p1specialButton.drawButton(g);
+			p1airdashButton.drawButton(g);
 			
 			p2leftButton.drawButton(g);
 			p2rightButton.drawButton(g);
@@ -171,6 +180,7 @@ public class KeyEditState extends State {
 			p2jumpButton.drawButton(g);
 			p2attackButton.drawButton(g);
 			p2specialButton.drawButton(g);
+			p2airdashButton.drawButton(g);
 			
 			pauseButton.drawButton(g);
 	
@@ -218,6 +228,11 @@ public class KeyEditState extends State {
 		return p1specialButton.getKeyCode();
 	}
 	
+	public static int getp1Airdash() {
+		
+		return p1airdashButton.getKeyCode();
+	}
+	
 	public static int getp2Up() {
 		
 		return p2upButton.getKeyCode();
@@ -252,6 +267,11 @@ public class KeyEditState extends State {
 	public static int getp2Special() {
 		
 		return p2specialButton.getKeyCode();
+	}
+	
+	public static int getp2Airdash() {
+		
+		return p2airdashButton.getKeyCode();
 	}
 	
 	public static int getPause() {

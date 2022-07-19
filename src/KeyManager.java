@@ -29,7 +29,7 @@ public class KeyManager implements KeyListener {
 			shield = keys[KeyEditState.getp1Shield()];
 			jump = keys[KeyEditState.getp1Jump()];
 			special = keys[KeyEditState.getp1Special()];
-			airdash = keys[KeyEvent.VK_Q];
+			airdash = keys[KeyEditState.getp1Airdash()];
 
 		
 		}
@@ -43,7 +43,7 @@ public class KeyManager implements KeyListener {
 			shield = keys[KeyEditState.getp2Shield()];
 			jump = keys[KeyEditState.getp2Jump()];
 			special = keys[KeyEditState.getp2Special()];
-			airdash = keys[KeyEvent.VK_Y];
+			airdash = keys[KeyEditState.getp2Airdash()];
 		}
 	}
 	

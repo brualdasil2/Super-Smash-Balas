@@ -12,7 +12,7 @@ public class ScreenTesting {
 		
 		//Launcher
 		
-		Game game = new Game("Super Smash Balas", frameWidth, frameHeight);	
+		Game game = new Game("Super Smash Balas - Versão Smash", frameWidth, frameHeight);	
 		game.start(); //Start thread
 		
 	}
