@@ -65,7 +65,7 @@ public class Lacerda extends Character {
 		int opponentKnockbackY = knockbackY;
 		
 		double opponentKnockbackModule = Math.sqrt((double)opponentKnockbackX*opponentKnockbackX + (double)opponentKnockbackY*opponentKnockbackY);
-		return (int)Math.ceil(1.5*Math.sqrt(2)*opponentKnockbackModule/2); 
+		return (int)Math.ceil(1.2*Math.sqrt(2)*opponentKnockbackModule/2); 
 	}
 	
 	private boolean checkCounterHit(Player player) {

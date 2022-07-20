@@ -4285,8 +4285,8 @@ public abstract class AttackCreator {
 															      new AttackFrame(5, Assets.lacerda1FairRight[4], null, lacerdaNeutralSpecial2RightHitboxes4, 400, 200)}};
 				   
 		
-		lacerdaNeutralSpecial2Right = new Attack[] {new Attack(lacerdaNeutralSpecial2RightFrames[0], 6, 0, 15, -15, 7, 30, brunoCollisionbox),
-													new Attack(lacerdaNeutralSpecial2RightFrames[1], 6, 0, 15, -15, 7, 30, brunoCollisionbox)};
+		lacerdaNeutralSpecial2Right = new Attack[] {new Attack(lacerdaNeutralSpecial2RightFrames[0], 6, 0, 15, -15, 7, 35, brunoCollisionbox),
+													new Attack(lacerdaNeutralSpecial2RightFrames[1], 6, 0, 15, -15, 7, 35, brunoCollisionbox)};
 		
 		
 		
@@ -4344,8 +4344,8 @@ public abstract class AttackCreator {
 															      new AttackFrame(5, Assets.lacerda1FairLeft[4], null, lacerdaNeutralSpecial2LeftHitboxes4, 400, 200, -200, 0)}};
 				   
 		
-		lacerdaNeutralSpecial2Left = new Attack[] {new Attack(lacerdaNeutralSpecial2LeftFrames[0], 6, 0, -15, -15, 7, 30, brunoCollisionbox),
-													new Attack(lacerdaNeutralSpecial2LeftFrames[1], 6, 0, -15, -15, 7, 30, brunoCollisionbox)};
+		lacerdaNeutralSpecial2Left = new Attack[] {new Attack(lacerdaNeutralSpecial2LeftFrames[0], 6, 0, -15, -15, 7, 35, brunoCollisionbox),
+													new Attack(lacerdaNeutralSpecial2LeftFrames[1], 6, 0, -15, -15, 7, 35, brunoCollisionbox)};
 		
 		
 		
