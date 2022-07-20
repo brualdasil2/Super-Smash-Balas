@@ -508,7 +508,7 @@ public class Player {
 								
 								insideHitbox = true;
 								shield = 100;
-								GameState.setParryFreezeCounter(30);
+								GameState.setParryFreezeCounter(15);
 								parried = true;
 								shielding = false;
 								invincibleCounter = 15;
@@ -609,7 +609,7 @@ public class Player {
 															magic = 10;
 													}
 													shield = 100;
-													GameState.setParryFreezeCounter(30);
+													GameState.setParryFreezeCounter(15);
 													parried = true;
 													shielding = false;
 													

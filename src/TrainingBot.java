@@ -158,14 +158,14 @@ public class TrainingBot extends Player {
 			combos.startCombo(1);
 		}
 		
-		/*
+		
 		pressingJump = game.getKeyManager(playerNumb).jump;
 		pressingAttack = game.getKeyManager(playerNumb).attack;
 		pressingSpecial = game.getKeyManager(playerNumb).special;
 		pressingUp = game.getKeyManager(playerNumb).up;
 		pressingShield = game.getKeyManager(playerNumb).shield;
 		pressingLeft = game.getKeyManager(playerNumb).left;
-		pressingRight = game.getKeyManager(playerNumb).right;*/
+		pressingRight = game.getKeyManager(playerNumb).right;
 		
 
 			
