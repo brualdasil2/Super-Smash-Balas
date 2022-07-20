@@ -22,11 +22,7 @@ public class SmashPlayer extends Player {
 	}
 
 	private double knockbackMultiplier() {
-		double superCarolMultiplier = 1;
-		if (opponent.character.airSpeed == 12) {
-			superCarolMultiplier = 1.2;
-		}
-		return ((0.7 + 0.00004524 * Math.pow(percent, 2) + 0.002548 * percent)/character.weight)*superCarolMultiplier;
+		return ((0.7 + 0.00004524 * Math.pow(percent, 2) + 0.002548 * percent)/character.weight);
 	}
 
 	private double hitstunMultiplier() {

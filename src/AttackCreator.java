@@ -2418,8 +2418,8 @@ public abstract class AttackCreator {
 		
 		carolBairRight = new Attack[] {new Attack(carolBairRightFrames[0], 5, carolBairDamage, -25, -13, 7, 30, carolCollisionbox),
 				   					   new Attack(carolBairRightFrames[1], 5, carolBairDamage, -25, -13, 7, 30, carolCollisionbox),
-				   					   new Attack(carolBairRightFrames[2], 5, supercarolBairDamage, -25, -13, 7, 30, carolCollisionbox),
-				   					   new Attack(carolBairRightFrames[3], 5, supercarolBairDamage, -25, -13, 7, 30, carolCollisionbox)};
+				   					   new Attack(carolBairRightFrames[2], 5, supercarolBairDamage, -30, -15, 7, 30, carolCollisionbox),
+				   					   new Attack(carolBairRightFrames[3], 5, supercarolBairDamage, -30, -15, 7, 30, carolCollisionbox)};
 		
 		
 		carolBairLeftHurtboxes = new Hurtbox[] {new Hurtbox(123, 191, 12),
@@ -2471,8 +2471,8 @@ public abstract class AttackCreator {
 		
 		carolBairLeft = new Attack[] {new Attack(carolBairLeftFrames[0], 5, carolBairDamage, 25, -13, 7, 30, carolCollisionbox),
 				   					  new Attack(carolBairLeftFrames[1], 5, carolBairDamage, 25, -13, 7, 30, carolCollisionbox),
-				   			  		  new Attack(carolBairLeftFrames[2], 5, supercarolBairDamage, 25, -13, 7, 30, carolCollisionbox),
-				   					  new Attack(carolBairLeftFrames[3], 5, supercarolBairDamage, 25, -13, 7, 30, carolCollisionbox)};
+				   			  		  new Attack(carolBairLeftFrames[2], 5, supercarolBairDamage, 30, -15, 7, 30, carolCollisionbox),
+				   					  new Attack(carolBairLeftFrames[3], 5, supercarolBairDamage, 30, -15, 7, 30, carolCollisionbox)};
 		
 		
 		
@@ -2527,8 +2527,8 @@ public abstract class AttackCreator {
 													 
 		carolFairRight = new Attack[] {new Attack(carolFairRightFrames[0], 8, carolFairDamage, 10, -10, 7, 25, carolCollisionbox),
 									   new Attack(carolFairRightFrames[1], 8, carolFairDamage, 10, -10, 7, 25, carolCollisionbox),
-									   new Attack(carolFairRightFrames[2], 8, supercarolFairDamage, 10, -10, 7, 25, carolCollisionbox),
-									   new Attack(carolFairRightFrames[3], 8, supercarolFairDamage, 10, -10, 7, 25, carolCollisionbox)};
+									   new Attack(carolFairRightFrames[2], 8, supercarolFairDamage, 12, -12, 7, 25, carolCollisionbox),
+									   new Attack(carolFairRightFrames[3], 8, supercarolFairDamage, 12, -12, 7, 25, carolCollisionbox)};
 		
 		
 		carolFairLeftHitboxes0 = new Hitbox[] {new  Hitbox(20, 118, 35)};
@@ -2581,8 +2581,8 @@ public abstract class AttackCreator {
 													 
 		carolFairLeft = new Attack[] {new Attack(carolFairLeftFrames[0], 8, carolFairDamage, -10, -10, 7, 25, carolCollisionbox),
 									  new Attack(carolFairLeftFrames[1], 8, carolFairDamage, -10, -10, 7, 25, carolCollisionbox),
-									  new Attack(carolFairLeftFrames[2], 8, supercarolFairDamage, -10, -10, 7, 25, carolCollisionbox),
-									  new Attack(carolFairLeftFrames[3], 8, supercarolFairDamage, -10, -10, 7, 25, carolCollisionbox)};
+									  new Attack(carolFairLeftFrames[2], 8, supercarolFairDamage, -12, -12, 7, 25, carolCollisionbox),
+									  new Attack(carolFairLeftFrames[3], 8, supercarolFairDamage, -12, -12, 7, 25, carolCollisionbox)};
 		
 		
 		
@@ -2641,8 +2641,8 @@ public abstract class AttackCreator {
 		
 		carolUpAirRight = new Attack[] {new Attack(carolUpAirRightFrames[0], 11, carolUpAirDamage, 0, -20, 7, 25, carolCollisionbox),
 										new Attack(carolUpAirRightFrames[1], 11, carolUpAirDamage, 0, -20, 7, 25, carolCollisionbox),
-										new Attack(carolUpAirRightFrames[2], 11, supercarolUpAirDamage, 0, -20, 7, 25, carolCollisionbox),
-										new Attack(carolUpAirRightFrames[3], 11, supercarolUpAirDamage, 0, -20, 7, 25, carolCollisionbox)};
+										new Attack(carolUpAirRightFrames[2], 11, supercarolUpAirDamage, 0, -24, 7, 25, carolCollisionbox),
+										new Attack(carolUpAirRightFrames[3], 11, supercarolUpAirDamage, 0, -24, 7, 25, carolCollisionbox)};
 		
 		
 		carolUpAirLeftFrames = new AttackFrame[][] {{new AttackFrame(6, Assets.carol0UpAirLeft[0], carolStandingLeftHurtboxes, null, 200, 400, 0, -200),
@@ -2696,8 +2696,8 @@ public abstract class AttackCreator {
 
 			carolUpAirLeft = new Attack[] {new Attack(carolUpAirLeftFrames[0], 11, carolUpAirDamage, 0, -20, 7, 25, carolCollisionbox),
 										   new Attack(carolUpAirLeftFrames[1], 11, carolUpAirDamage, 0, -20, 7, 25, carolCollisionbox),
-										   new Attack(carolUpAirLeftFrames[2], 11, supercarolUpAirDamage, 0, -20, 7, 25, carolCollisionbox),
-										   new Attack(carolUpAirLeftFrames[3], 11, supercarolUpAirDamage, 0, -20, 7, 25, carolCollisionbox)};
+										   new Attack(carolUpAirLeftFrames[2], 11, supercarolUpAirDamage, 0, -24, 7, 25, carolCollisionbox),
+										   new Attack(carolUpAirLeftFrames[3], 11, supercarolUpAirDamage, 0, -24, 7, 25, carolCollisionbox)};
 			
 			
 			
