@@ -5,7 +5,7 @@ public class TrainingBot extends Player {
 	private boolean opponentNear, opponentOnAir, opponentOnTop, opponentOnLeft, opponentOnRight, opponentAttacking, opponentShielding, opponentCandyComing,
 					onCenter, gotHit = false;
 	
-	private LacerdaCombos combos = new LacerdaCombos(this);
+	//private LacerdaCombos combos = new LacerdaCombos(this);
 	
 	public TrainingBot(Game game, int playerNumb, Character character, double x, double y) {
 		
@@ -150,13 +150,13 @@ public class TrainingBot extends Player {
 		pressingLeft = false;
 		pressingRight = false;
 		
-		if (combos.isComboing()) {
+		/*if (combos.isComboing()) {
 			combos.tick();
 		}
 		
 		if (game.getKeyManager(playerNumb).jump) {
 			combos.startCombo(1);
-		}
+		}*/
 		
 		
 		pressingJump = game.getKeyManager(playerNumb).jump;

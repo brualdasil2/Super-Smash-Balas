@@ -208,7 +208,7 @@ public class ChooseBotState extends State{
 			((GameState)(game.getGameState())).init(2 + playAs, botChar, suddenDeath);
 		}
 		
-		if (true) {
+		if (botChar == 1 || botChar == 2) {
 			if (expertButton.buttonPressed()) {
 				
 				
