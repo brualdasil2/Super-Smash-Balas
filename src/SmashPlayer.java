@@ -1,5 +1,7 @@
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 public class SmashPlayer extends Player {
 
@@ -1066,9 +1068,20 @@ public class SmashPlayer extends Player {
 	@Override
 	public void render(Graphics g, boolean showBoxes) {
 		
-		if (invisibleCounter == 0)
-			g.drawImage(currentFrame.getImage(), (int) x + currentFrame.getXOffset(), (int) y + currentFrame.getYOffset(), currentFrame.getWidth(), currentFrame.getHeight(), null);
-
+		if (invisibleCounter == 0) {
+			if (invincibleCounter > 0) {
+	            AlphaComposite alcomTransp = AlphaComposite.getInstance(
+	                    AlphaComposite.SRC_OVER, 0.5f);
+	            ((Graphics2D) g).setComposite(alcomTransp);
+				g.drawImage(currentFrame.getImage(), (int) x + currentFrame.getXOffset(), (int) y + currentFrame.getYOffset(), currentFrame.getWidth(), currentFrame.getHeight(), null);
+				AlphaComposite alcomOpaque = AlphaComposite.getInstance(
+	                    AlphaComposite.SRC_OVER, 1.0f);
+	            ((Graphics2D) g).setComposite(alcomOpaque);
+			}
+			else {
+				g.drawImage(currentFrame.getImage(), (int) x + currentFrame.getXOffset(), (int) y + currentFrame.getYOffset(), currentFrame.getWidth(), currentFrame.getHeight(), null);
+			}
+		}
 		showHurtboxes(showBoxes, g);
 		showHitboxes(showBoxes, g);
 		showCollisionboxes(false, g);

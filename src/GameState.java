@@ -83,8 +83,8 @@ public class GameState extends State {
 		mapRendered = false;
 		
 		this.mode = mode;
-		//this.map = map;
-		this.map = 0;
+		this.map = map;
+		//this.map = 0;
 		this.suddenDeath = suddenDeath;
 		
 
@@ -190,7 +190,10 @@ public class GameState extends State {
 
 		//System.out.println(player2.getX() + 100);
 		
-		if (fighting) {
+		
+		if (fighting) { 
+			
+			screenRefreshManager.setChange(30, 600, 300, 100);
 
 			if (game.getKeyManager(1).pause) {
 				
@@ -766,6 +769,8 @@ public class GameState extends State {
 		player2.render(g, showBoxes);
 		magicBall.render(g);
 		
+		
+		
 		if (!projectiles.isEmpty()) {
 			
 			for (Projectile projectile : projectiles) {
@@ -802,8 +807,15 @@ public class GameState extends State {
 				g.fillRect(690, 20, 2*player2.getHealth(), 20);
 		}
 		else {
-			Text.drawString(g, "" + ((SmashPlayer)player1).getPercent() + "%", 590 - g.getFontMetrics(Assets.font15).stringWidth("" + ((SmashPlayer)player1).getPercent() + "%"), 37, false, Color.black, Assets.font25);
-			Text.drawString(g, "" + ((SmashPlayer)player2).getPercent() + "%", 690, 37, false, Color.black, Assets.font25);
+			Color textColor;
+			if (map == 2 || map == 3) {
+				textColor = Color.white;
+			}
+			else {
+				textColor = Color.black;
+			}
+			Text.drawString(g, "" + ((SmashPlayer)player1).getPercent() + "%", 590 - g.getFontMetrics(Assets.font15).stringWidth("" + ((SmashPlayer)player1).getPercent() + "%"), 37, false, textColor, Assets.font25);
+			Text.drawString(g, "" + ((SmashPlayer)player2).getPercent() + "%", 690, 37, false, textColor, Assets.font25);
 		}
 		
 		g.setColor(Color.green);
