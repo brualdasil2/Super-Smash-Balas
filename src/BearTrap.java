@@ -40,14 +40,14 @@ public class BearTrap extends Projectile {
 		
 		updateImage();
 		
-		if (x + collisionbox.getX() + collisionbox.getWidth() > GameState.rightWall) {
+		if (x + collisionbox.getX() + collisionbox.getWidth() > GameState.smashStageRight) {
 			
-			x = GameState.rightWall - 175;
+			x = GameState.smashStageRight - 175;
 		}
 		
-		if (x + collisionbox.getX() < GameState.leftWall) {
+		if (x + collisionbox.getX() < GameState.smashStageLeft) {
 			
-			x = GameState.leftWall;
+			x = GameState.smashStageLeft;
 		}
 		
 		if (hitting) {

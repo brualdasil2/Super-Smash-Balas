@@ -645,49 +645,50 @@ public class SmashPlayer extends Player {
 
 										else {
 
-											
+											if (invincibleCounter == 0) {
 
-											percent += GameState.projectiles.get(i).getDamage();
-											health -= GameState.projectiles.get(i).getDamage();
-											ySpeed = GameState.projectiles.get(i).getKnockbackYspeed()
-													* knockbackMultiplier();
-											xSpeed = knockbackMultiplier()
-													* ((GameState.projectiles.get(i).getXSpeed() > 0)
-															? GameState.projectiles.get(i).getKnockbackXspeed()
-															: -GameState.projectiles.get(i).getKnockbackXspeed());
-											int hSf = (int) (GameState.projectiles.get(i).getHitstunFrames()
-													* hitstunMultiplier());
-											hitstunFrames = hSf < MIN_HITSTUN ? MIN_HITSTUN : hSf;
-											freezeFrames = GameState.projectiles.get(i).getFreezeFrames();
-											
-											
-
-											if (GameState.projectiles.get(i) instanceof BearTrap) {
-
-												((BearTrap) (GameState.projectiles.get(i))).disableHitbox();
-												((BearTrap) (GameState.projectiles.get(i))).setFrameCounter(120);
-											} else {
-
-												if (GameState.projectiles.get(i) instanceof SnowBall) {
-
-													frozen = true;
-													frozenCounter = 1200;
-													SoundManager.play("sounds/Freeze.wav", false);
+												percent += GameState.projectiles.get(i).getDamage();
+												health -= GameState.projectiles.get(i).getDamage();
+												ySpeed = GameState.projectiles.get(i).getKnockbackYspeed()
+														* knockbackMultiplier();
+												xSpeed = knockbackMultiplier()
+														* ((GameState.projectiles.get(i).getXSpeed() > 0)
+																? GameState.projectiles.get(i).getKnockbackXspeed()
+																: -GameState.projectiles.get(i).getKnockbackXspeed());
+												int hSf = (int) (GameState.projectiles.get(i).getHitstunFrames()
+														* hitstunMultiplier());
+												hitstunFrames = hSf < MIN_HITSTUN ? MIN_HITSTUN : hSf;
+												freezeFrames = GameState.projectiles.get(i).getFreezeFrames();
+												
+												
+	
+												if (GameState.projectiles.get(i) instanceof BearTrap) {
+	
+													((BearTrap) (GameState.projectiles.get(i))).disableHitbox();
+													((BearTrap) (GameState.projectiles.get(i))).setFrameCounter(120);
+												} else {
+	
+													if (GameState.projectiles.get(i) instanceof SnowBall) {
+	
+														frozen = true;
+														frozenCounter = 1200;
+														SoundManager.play("sounds/Freeze.wav", false);
+													}
+													GameState.projectiles.get(i).updateImage();
+													GameState.projectiles.remove(i);
 												}
-												GameState.projectiles.get(i).updateImage();
-												GameState.projectiles.remove(i);
+	
+												if (simulateKill()) {
+													killEffect(hurtbox);
+												}
+												else {
+													GameState.hitEffect.startHitEffect(
+															(int) x + hurtbox.getX() - GameState.hitEffect.getWidth() / 2,
+															(int) y + hurtbox.getY() - GameState.hitEffect.getHeight() / 2);
+													SoundManager.play("sounds/PunchHit.wav", false);
+												}
+												break;
 											}
-
-											if (simulateKill()) {
-												killEffect(hurtbox);
-											}
-											else {
-												GameState.hitEffect.startHitEffect(
-														(int) x + hurtbox.getX() - GameState.hitEffect.getWidth() / 2,
-														(int) y + hurtbox.getY() - GameState.hitEffect.getHeight() / 2);
-												SoundManager.play("sounds/PunchHit.wav", false);
-											}
-											break;
 										}
 
 									}

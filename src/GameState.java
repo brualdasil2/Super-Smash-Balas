@@ -318,10 +318,10 @@ public class GameState extends State {
 							
 							player1.maxHP();
 							player2.maxHP();
-							if (isSmash) {
+							/*if (isSmash) {
 								player1.restoreRound();
 								player2.restoreRound();
-							}
+							}*/
 							player1.restoreShield();
 							player2.restoreShield();
 							percentEditor.resetBotPercent();
@@ -819,7 +819,12 @@ public class GameState extends State {
 		}
 		
 		g.setColor(Color.green);
+		if (player1.getShield() < 20)
+			g.setColor(Color.decode("1547309"));
 		g.fillRect(390 + (200 - 2*player1.getShield()), 45, 2*player1.getShield(), 20);
+		g.setColor(Color.green);
+		if (player2.getShield() < 20)
+			g.setColor(Color.decode("1547309"));
 		g.fillRect(690, 45, 2*player2.getShield(), 20);
 		
 		g.setColor(Color.decode("2799606"));
