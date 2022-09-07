@@ -16,6 +16,8 @@ public class SmashPlayer extends Player {
 	private boolean airdashingRight = false, airdashingLeft = false, airdashingDown = false, airdashingUp = false;
 	private int MIN_HITSTUN = 20;
 	private int invisibleCounter = 0;
+	private int shieldDropFrames = 0;
+	private boolean jumping = false;
 
 	public SmashPlayer(Game game, int playerNumb, Character character, double x, double y, String name) {
 		super(game, playerNumb, character, x, y, name);
@@ -30,6 +32,36 @@ public class SmashPlayer extends Player {
 	private double hitstunMultiplier() {
 		return (0.7 + 0.00001310 * Math.pow(percent, 2) + 0.003369 * percent);
 	}
+	
+	protected void instantDropShield() {
+		
+		if (shielding) {
+			
+			if (freezeFrames == 0){
+				
+				shielding = false;
+				shieldStun = false;
+				setStanding();
+			}
+		}
+	}
+	
+	protected void dropShield() {
+		
+		if (shielding) {
+			
+			if (freezeFrames == 0){
+				
+				shielding = false;
+				shieldStun = false;
+				freezeFrames = GameState.shieldDropFrames;
+				shieldDropFrames = freezeFrames;
+				setStanding();
+			}
+		}
+	}
+	
+	
 
 	protected void getInput() {
 
@@ -47,22 +79,20 @@ public class SmashPlayer extends Player {
 
 		// PRESS JUMP
 		if (pressingJump) {
-
-			if (freezeFrames == 0) {
+			if (freezeFrames == 0 || (shieldDropFrames > 0 && shieldDropFrames == freezeFrames)) {
+				
 				if (!jumpClicked) {
+					if (!attacking) {
 
-					if (!shielding) {
-						if (!attacking) {
+						if (hitstunFrames == 0 && airdashCounter == 0) {
+							if (jumps > 0) {
 
-							if (hitstunFrames == 0 && airdashCounter == 0) {
-								if (jumps > 0) {
-
-									ySpeed = -jumpSpeed;
-									jumpClicked = true;
-									fastFalling = false;
-									jumps--;
-
-								}
+								ySpeed = -jumpSpeed;
+								jumpClicked = true;
+								fastFalling = false;
+								jumps--;
+								freezeFrames = 0;
+								jumping = true;
 							}
 						}
 					}
@@ -161,14 +191,13 @@ public class SmashPlayer extends Player {
 
 		// PRESS ATTACK
 		if (pressingAttack) {
-
 			if (freezeFrames == 0) {
 				if (!shielding) {
 					if (hitstunFrames == 0) {
 						if (!attacking) {
 							if (!pressingSpecial) {
 
-								if (!onAir) {
+								if (!onAir && !jumping) {
 									if (pressingRight || pressingLeft) {
 
 										dashing = true;
@@ -279,62 +308,69 @@ public class SmashPlayer extends Player {
 		}
 
 		// PRESS SHIELD
-		if (pressingShield && !pressingJump && !pressingAttack && !pressingSpecial) {
-
-			if (shield > 0) {
-				if (freezeFrames == 0) {
-					if (hitstunFrames == 0 && airdashCounter == 0) {
-
-						if (!attacking) {
-							if (!onAir && ySpeed == 0) {
-
-								if (!shielding) {
-
-									parryCounter = 5;
-								}
-
-								shielding = true;
-								shield--;
-
-								if (lookDirection == 1) {
-									currentFrame = character.getShieldingRight().getFrames()[0];
-									currentAttack = character.getShieldingRight();
-								}
-
-								else if (lookDirection == 0) {
-									currentFrame = character.getShieldingLeft().getFrames()[0];
-									currentAttack = character.getShieldingLeft();
-								}
-
-							} else {
-
-								shielding = false;
-							}
-						}
-
-						if (onAir) {
-
-							if (ySpeed > 0) {
-
-								if (!fastFalling) {
-
-									fastFalling = true;
-									ySpeed += 12;
+		if (pressingShield) {
+			if (!jumping) {
+				if (shield > 0) {
+					if (freezeFrames == 0) {
+						if (hitstunFrames == 0 && airdashCounter == 0) {
+	
+							if (!attacking) {
+								if (!onAir && ySpeed == 0) {
+	
+									if (!shielding) {
+	
+										parryCounter = 5;
+									}
+	
+									shielding = true;
+									shield--;
+	
+									if (lookDirection == 1) {
+										currentFrame = character.getShieldingRight().getFrames()[0];
+										currentAttack = character.getShieldingRight();
+									}
+	
+									else if (lookDirection == 0) {
+										currentFrame = character.getShieldingLeft().getFrames()[0];
+										currentAttack = character.getShieldingLeft();
+									}
+	
+								} else {
+	
+									shielding = false;
 								}
 							}
+	
+							if (onAir) {
+	
+								if (ySpeed > 0) {
+	
+									if (!fastFalling) {
+	
+										fastFalling = true;
+										ySpeed += 12;
+									}
+								}
+							}
+						} else {
+	
+							shielding = false;
 						}
-					} else {
-
-						shielding = false;
 					}
+				} else {
+	
+					dropShield();
 				}
 			} else {
-
-				dropShield();
+				instantDropShield();
 			}
 		} else {
-
-			dropShield();
+			if (!jumping) {
+				dropShield();
+			} else {
+				instantDropShield();
+			}
+			
 		}
 
 		// AIRDASH
@@ -857,6 +893,11 @@ public class SmashPlayer extends Player {
 		countHitstun();
 
 		countFreezeFrames();
+		
+		if (shieldDropFrames > 0) {
+			shieldDropFrames--;
+		}
+
 
 		countParryFrames();
 
@@ -871,6 +912,8 @@ public class SmashPlayer extends Player {
 		
 		onAir = checkOnAir();
 		checkInput();
+		System.out.println("" + jumping + " " + ySpeed + " " + freezeFrames);
+		jumping = false; // só pra rising aerial
 
 		// GRAVITY AND KNOCKBACK
 
@@ -901,7 +944,6 @@ public class SmashPlayer extends Player {
 
 			// if fell on ground
 			if ((ySpeed != 0 && y + currentFrame.getHeight() < GameState.floorY + ySpeed + 20) || airdashCounter > 0) {
-
 				if (hitstunFrames == 0 && airdashCounter == 0) {
 
 					ySpeed = 0;
@@ -1144,7 +1186,11 @@ public class SmashPlayer extends Player {
 		
 		setStanding();
 	}
-	
+	public void maxHP() {
+		
+		health = 1500;
+		percent = 0;
+	}
 	public void restoreRound() {
 
 		percent = 0;

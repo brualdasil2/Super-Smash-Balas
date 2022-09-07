@@ -308,7 +308,8 @@ public class CharacterSelectState extends State {
 				
 				case 0: 
 					g.setColor(Color.black);
-					g.fillRect(462, 286, 356, 14);
+					//g.drawRect(462, 100, 356, 200);
+					g.fillRect(462+42, 286-28, 356-84, 14+28);
 					Text.drawString(g, "Sala de Treino", 640, 320, true, Color.white, Assets.font20);
 					break;
 				

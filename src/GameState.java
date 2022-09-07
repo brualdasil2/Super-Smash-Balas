@@ -762,7 +762,7 @@ public class GameState extends State {
 		if (map == 0) {
 			
 			g.setColor(Color.black);
-			g.fillRect(smashStageLeft, floorY, smashStageRight - smashStageLeft, floorHeight);
+			g.fillRect(smashStageLeft, floorY, smashStageRight - smashStageLeft, floorY);
 		}
 		
 		player1.render(g, showBoxes);
