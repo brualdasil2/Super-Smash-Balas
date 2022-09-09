@@ -18,6 +18,7 @@ public class SmashPlayer extends Player {
 	private int invisibleCounter = 0;
 	private int shieldDropFrames = 0;
 	private boolean jumping = false;
+	private double prevX, prevY ;
 
 	public SmashPlayer(Game game, int playerNumb, Character character, double x, double y, String name) {
 		super(game, playerNumb, character, x, y, name);
@@ -912,7 +913,6 @@ public class SmashPlayer extends Player {
 		
 		onAir = checkOnAir();
 		checkInput();
-		System.out.println("" + jumping + " " + ySpeed + " " + freezeFrames);
 		jumping = false; // só pra rising aerial
 
 		// GRAVITY AND KNOCKBACK
@@ -948,7 +948,19 @@ public class SmashPlayer extends Player {
 
 					ySpeed = 0;
 					xSpeed = 0;
-					y = GameState.floorY - currentFrame.getHeight();
+					if (prevY > GameState.floorY - currentFrame.getHeight() + 50) {
+						System.out.println("mudou x");
+						y = prevY;
+						if (prevX < GameState.smashStageLeft) {
+							x = GameState.smashStageLeft - currentFrame.getWidth() + currentAttack.getCollisionbox().getX() - 1;
+						}
+						else {
+							x = GameState.smashStageRight - currentAttack.getCollisionbox().getX() + 1;
+						}
+					}
+					else {
+						y = GameState.floorY - currentFrame.getHeight();
+					}
 					fastFalling = false;
 
 					if (!attacking) {
@@ -989,6 +1001,9 @@ public class SmashPlayer extends Player {
 
 		}
 
+		prevX = x;
+		prevY = y;
+		
 		// USING ATTACKS
 
 		if (jabbing) {
