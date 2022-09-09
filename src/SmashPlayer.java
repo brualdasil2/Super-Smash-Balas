@@ -517,10 +517,11 @@ public class SmashPlayer extends Player {
 							if (parryCounter > 0) {
 
 								if (character instanceof Lacerda) {
-
+									System.out.println(magic);
 									increaseMagic(1);
 									if (magic > 10)
 										magic = 10;
+									System.out.println(magic);
 								}
 
 								insideHitbox = true;
@@ -867,17 +868,27 @@ public class SmashPlayer extends Player {
 			double MyCollisionCenterX = (MyCollisionRightX + MyCollisionLeftX) / 2;
 			// collision with stage
 
-			if (MyCollisionLeftX < GameState.smashStageRight && MyCollisionBottomY > GameState.floorY
+			if (MyCollisionLeftX <= GameState.smashStageRight && MyCollisionBottomY > GameState.floorY
 					&& MyCollisionLeftX > GameState.smashStageRight - 100) {
 
 				x = GameState.smashStageRight - currentAttack.getCollisionbox().getX() + 1;
+				System.out.println("Colidiu");
+				if (airdashingLeft) {
+					jumps = character.getJumps();
+					airdashes = 1;
+				}
 			}
 
-			else if (MyCollisionRightX > GameState.smashStageLeft && MyCollisionBottomY > GameState.floorY
+			else if (MyCollisionRightX >= GameState.smashStageLeft && MyCollisionBottomY > GameState.floorY
 					&& MyCollisionRightX < GameState.smashStageLeft + 100) {
 
 				x = GameState.smashStageLeft - currentAttack.getCollisionbox().getWidth()
 						- currentAttack.getCollisionbox().getX() - 1;
+				System.out.println("Colidiu");
+				if (airdashingRight) {
+					jumps = character.getJumps();
+					airdashes = 1;
+				}
 				// x = GameState.rightWall - currentAttack.getCollisionbox().getWidth() -
 				// currentAttack.getCollisionbox().getX() - 1;
 			}
@@ -949,13 +960,15 @@ public class SmashPlayer extends Player {
 					ySpeed = 0;
 					xSpeed = 0;
 					if (prevY > GameState.floorY - currentFrame.getHeight() + 50) {
-						System.out.println("mudou x");
-						y = prevY;
-						if (prevX < GameState.smashStageLeft) {
-							x = GameState.smashStageLeft - currentFrame.getWidth() + currentAttack.getCollisionbox().getX() - 1;
-						}
-						else {
-							x = GameState.smashStageRight - currentAttack.getCollisionbox().getX() + 1;
+						if (character instanceof Lacerda && upSpecialing) {
+							System.out.println("LacerdaTP");
+							y = prevY;
+							if (prevX < GameState.smashStageLeft) {
+								x = GameState.smashStageLeft - currentFrame.getWidth() + currentAttack.getCollisionbox().getX() - 1;
+							}
+							else {
+								x = GameState.smashStageRight - currentAttack.getCollisionbox().getX() + 1;
+							}
 						}
 					}
 					else {

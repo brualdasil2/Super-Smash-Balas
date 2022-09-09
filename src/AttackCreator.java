@@ -749,8 +749,8 @@ public abstract class AttackCreator {
 												     new AttackFrame(10, Assets.bruno1DashRight[4], brunoDashRightHurtboxes4, null, 200, 200),
 												     new AttackFrame(10, Assets.bruno1WalkingRight[0], brunoWalkingRightHurtboxes0, null, 200, 200)}};
 		
-		brunoDashRight = new Attack[] {new Attack(brunoDashRightFrames[0], 8, brunoDashDamage, 15, -10, 7, 20, brunoCollisionbox),
-									   new Attack(brunoDashRightFrames[1], 8, brunoDashDamage, 15, -10, 7, 20, brunoCollisionbox)};
+		brunoDashRight = new Attack[] {new Attack(brunoDashRightFrames[0], 8, brunoDashDamage, 20, -10, 7, 20, brunoCollisionbox),
+									   new Attack(brunoDashRightFrames[1], 8, brunoDashDamage, 20, -10, 7, 20, brunoCollisionbox)};
 		
 		
 		brunoDashLeftHurtboxes0 = new Hurtbox[] {new Hurtbox(133, 191, 12),
@@ -858,8 +858,8 @@ public abstract class AttackCreator {
 												    new AttackFrame(10, Assets.bruno1DashLeft[4], brunoDashLeftHurtboxes4, null, 200, 200),
 												    new AttackFrame(10, Assets.bruno1WalkingLeft[0], brunoWalkingLeftHurtboxes0, null, 200, 200)}};
 		
-		brunoDashLeft = new Attack[] {new Attack(brunoDashLeftFrames[0], 8, brunoDashDamage, -15, -10, 7, 20, brunoCollisionbox),
-									  new Attack(brunoDashLeftFrames[1], 8, brunoDashDamage, -15, -10, 7, 20, brunoCollisionbox)};
+		brunoDashLeft = new Attack[] {new Attack(brunoDashLeftFrames[0], 8, brunoDashDamage, -20, -10, 7, 20, brunoCollisionbox),
+									  new Attack(brunoDashLeftFrames[1], 8, brunoDashDamage, -20, -10, 7, 20, brunoCollisionbox)};
 		
 		
 		brunoUpTiltRightHurtboxes0 = new Hurtbox[] {new Hurtbox(67, 191, 12),

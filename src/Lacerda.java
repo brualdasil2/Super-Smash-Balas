@@ -670,7 +670,7 @@ public class Lacerda extends Character {
 			attackUF++;
 		}
 		
-		if (attackUF == 0) {
+		if (attackUF == 0 && !countering) {
 			
 			if (attackIF == 1) {
 				
