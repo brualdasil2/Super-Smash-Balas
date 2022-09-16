@@ -19,6 +19,7 @@ public class SmashPlayer extends Player {
 	private int shieldDropFrames = 0;
 	private boolean jumping = false;
 	private double prevX, prevY ;
+	private boolean keyPressingLeft = false, keyPressingRight = false;
 
 	public SmashPlayer(Game game, int playerNumb, Character character, double x, double y, String name) {
 		super(game, playerNumb, character, x, y, name);
@@ -71,9 +72,29 @@ public class SmashPlayer extends Player {
 		pressingSpecial = game.getKeyManager(playerNumb).special;
 		pressingUp = game.getKeyManager(playerNumb).up;
 		pressingShield = game.getKeyManager(playerNumb).shield;
-		pressingLeft = game.getKeyManager(playerNumb).left;
-		pressingRight = game.getKeyManager(playerNumb).right;
 		pressingAirdash = game.getKeyManager(playerNumb).airdash;
+		boolean wasPressingLeft = keyPressingLeft;
+		boolean wasPressingRight = keyPressingRight;
+		keyPressingLeft = game.getKeyManager(playerNumb).left;
+		keyPressingRight = game.getKeyManager(playerNumb).right;
+		
+		if (keyPressingLeft && keyPressingRight) {
+			if (wasPressingLeft && !wasPressingRight) {
+				pressingRight = true;
+				pressingLeft = false;
+			}
+			else if (wasPressingRight && !wasPressingLeft) {
+				pressingLeft = true;
+				pressingRight = false;
+			}
+		}
+		else {
+			pressingLeft = keyPressingLeft;
+			pressingRight = keyPressingRight;
+		}
+
+		
+		
 	}
 
 	protected void checkInput() {
