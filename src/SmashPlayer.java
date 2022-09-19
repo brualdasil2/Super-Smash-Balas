@@ -211,6 +211,72 @@ public class SmashPlayer extends Player {
 			}
 		}
 
+		// PRESS SHIELD
+		if (pressingShield) {
+			if (!jumping) {
+				if (shield > 0) {
+					if (freezeFrames == 0) {
+						if (hitstunFrames == 0 && airdashCounter == 0) {
+	
+							if (!attacking) {
+								if (!onAir && ySpeed == 0) {
+	
+									if (!shielding) {
+	
+										parryCounter = 5;
+									}
+	
+									shielding = true;
+									shield--;
+	
+									if (lookDirection == 1) {
+										currentFrame = character.getShieldingRight().getFrames()[0];
+										currentAttack = character.getShieldingRight();
+									}
+	
+									else if (lookDirection == 0) {
+										currentFrame = character.getShieldingLeft().getFrames()[0];
+										currentAttack = character.getShieldingLeft();
+									}
+	
+								} else {
+	
+									shielding = false;
+								}
+							}
+	
+							if (onAir) {
+	
+								if (ySpeed > 0) {
+	
+									if (!fastFalling) {
+	
+										fastFalling = true;
+										ySpeed += 12;
+									}
+								}
+							}
+						} else {
+	
+							shielding = false;
+						}
+					}
+				} else {
+	
+					dropShield();
+				}
+			} else {
+				instantDropShield();
+			}
+		} else {
+			if (!jumping) {
+				dropShield();
+			} else {
+				instantDropShield();
+			}
+			
+		}
+		
 		// PRESS ATTACK
 		if (pressingAttack) {
 			if (freezeFrames == 0) {
@@ -329,71 +395,7 @@ public class SmashPlayer extends Player {
 			}
 		}
 
-		// PRESS SHIELD
-		if (pressingShield) {
-			if (!jumping) {
-				if (shield > 0) {
-					if (freezeFrames == 0) {
-						if (hitstunFrames == 0 && airdashCounter == 0) {
-	
-							if (!attacking) {
-								if (!onAir && ySpeed == 0) {
-	
-									if (!shielding) {
-	
-										parryCounter = 5;
-									}
-	
-									shielding = true;
-									shield--;
-	
-									if (lookDirection == 1) {
-										currentFrame = character.getShieldingRight().getFrames()[0];
-										currentAttack = character.getShieldingRight();
-									}
-	
-									else if (lookDirection == 0) {
-										currentFrame = character.getShieldingLeft().getFrames()[0];
-										currentAttack = character.getShieldingLeft();
-									}
-	
-								} else {
-	
-									shielding = false;
-								}
-							}
-	
-							if (onAir) {
-	
-								if (ySpeed > 0) {
-	
-									if (!fastFalling) {
-	
-										fastFalling = true;
-										ySpeed += 12;
-									}
-								}
-							}
-						} else {
-	
-							shielding = false;
-						}
-					}
-				} else {
-	
-					dropShield();
-				}
-			} else {
-				instantDropShield();
-			}
-		} else {
-			if (!jumping) {
-				dropShield();
-			} else {
-				instantDropShield();
-			}
-			
-		}
+
 
 		// AIRDASH
 		if (pressingAirdash) {
