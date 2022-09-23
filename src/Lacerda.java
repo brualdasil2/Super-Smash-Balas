@@ -7,6 +7,7 @@ public class Lacerda extends Character {
 	private int counterProjectileDamage = 0;
 	private int counterProjectileKnockbackXSpeed = 0;
 	private int counterProjectileKnockbackYSpeed = 0;
+	private int upBdistance = 400;
 	
 	public Lacerda(int skin) {
 		
@@ -553,7 +554,7 @@ public class Lacerda extends Character {
 					player.decreaseMagic(sideSpecialMagic);
 				}
 				
-				if (attackIF == 5) {
+				if (attackIF == 3) {
 					
 					if (player.pressingSpecial) {
 						
@@ -821,22 +822,22 @@ public class Lacerda extends Character {
 			
 			if (player.pressingRight && !(player.pressingLeft || player.pressingShield)) {
 				
-				player.increaseX(600);
+				player.increaseX(upBdistance);
 				player.setYSpeed(-1);
 			}
 			else if (player.pressingLeft && !(player.pressingRight || player.pressingShield)) {
 				
-				player.increaseX(-600);
+				player.increaseX(-upBdistance);
 				player.setYSpeed(-1);
 			}
 			else if (player.pressingShield && !(player.pressingRight || player.pressingLeft)) {
 				
-				player.increaseY(600);
+				player.increaseY(upBdistance);
 				player.setYSpeed(1);
 			}
 			else {
 				
-				player.increaseY(-600);
+				player.increaseY(-upBdistance);
 				player.setYSpeed(-1);
 			}
 			

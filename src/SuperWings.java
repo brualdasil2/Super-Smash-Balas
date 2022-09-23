@@ -9,7 +9,7 @@ public class SuperWings extends Projectile {
 		
 		super(owner, x, y, xSpeed, ySpeed);
 		
-		frameCounter = 1200;
+		frameCounter = 900;
 		hitboxes = null;
 	}
 	

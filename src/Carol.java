@@ -35,7 +35,7 @@ public class Carol extends Character {
 		
 		
 		sideSpecialMagic = 1;
-		neutralSpecialMagic = 3;
+		neutralSpecialMagic = 2;
 		upSpecialMagic = 6;
 		
 		jumpSpeed = 18;

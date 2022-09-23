@@ -18,12 +18,12 @@ public class Rosa extends Projectile {
 								 new Hitbox(50, 60, 20),
 								 new Hitbox(45, 80, 20)};
 		
-		damage = 25;
+		damage = 12;
 		knockbackXspeed = 0;
 		knockbackYspeed = -12;
 		freezeFrames = 7;
 		hitstunFrames = 30;	
-		frameCounter = 900;
+		frameCounter = 480;
 	}
 	
 	@Override
