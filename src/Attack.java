@@ -8,6 +8,7 @@ public class Attack {
 	private int hitstunFrames;
 	private int freezeFrames;
 	private Collisionbox collisionbox;
+	private int baseKnockbackXspeed, baseKnockbackYspeed;
 	
 	public Attack(AttackFrame frames[], int uniqueFrames, int damage, int knockbackXspeed, int knockbackYspeed, int freezeFrames, int hitstunFrames, Collisionbox collisionbox) {
 		
@@ -19,6 +20,22 @@ public class Attack {
 		this.freezeFrames = freezeFrames;
 		this.hitstunFrames = hitstunFrames;
 		this.collisionbox = collisionbox;
+		this.baseKnockbackXspeed = 0;
+		this.baseKnockbackYspeed = 0;
+	}
+	
+	public Attack(AttackFrame frames[], int uniqueFrames, int damage, int knockbackXspeed, int knockbackYspeed, int freezeFrames, int hitstunFrames, Collisionbox collisionbox, int baseKnockbackXspeed, int baseKnockbackYspeed) {
+		
+		this.frames = frames;
+		this.uniqueFrames = uniqueFrames;
+		this.damage = damage;
+		this.knockbackXspeed = knockbackXspeed;
+		this.knockbackYspeed = knockbackYspeed;
+		this.freezeFrames = freezeFrames;
+		this.hitstunFrames = hitstunFrames;
+		this.collisionbox = collisionbox;
+		this.baseKnockbackXspeed = baseKnockbackXspeed;
+		this.baseKnockbackYspeed = baseKnockbackYspeed;
 	}
 	
 	
@@ -45,8 +62,17 @@ public class Attack {
 
 	public int getKnockbackYspeed() {
 	
-	return knockbackYspeed;
-}
+		return knockbackYspeed;
+	}
+	public int getBaseKnockbackXspeed() {
+		
+		return baseKnockbackXspeed;
+	}
+
+	public int getBaseKnockbackYspeed() {
+	
+		return baseKnockbackYspeed;
+	}
 	public int getFreezeFrames() {
 		
 		return freezeFrames;

@@ -253,7 +253,7 @@ public abstract class AttackCreator {
 	private static int brunoDashDamage = 15;
 	private static int brunoUpTiltDamage = 12;
 	private static int brunoBairDamage = 20;
-	private static int brunoFairDamage = 6;
+	private static int brunoFairDamage = 8;
 	private static int brunoUpAirDamage = 15;
 	
 	private static int carolJabDamage = 7;
@@ -539,16 +539,16 @@ public abstract class AttackCreator {
 		brunoJabRightHitboxes = new Hitbox[] {new Hitbox(160, 95, 15),
 											  new Hitbox(135, 95, 15)};
 		
-		brunoJabRightFrames = new AttackFrame[][] {{new AttackFrame(2, Assets.bruno0JabRight[0], brunoJabRightHurtboxes0, null, 200, 200),
-												    new AttackFrame(2, Assets.bruno0JabRight[1], brunoJabRightHurtboxes1, null, 200, 200),
+		brunoJabRightFrames = new AttackFrame[][] {{new AttackFrame(1, Assets.bruno0JabRight[0], brunoJabRightHurtboxes0, null, 200, 200),
+												    new AttackFrame(1, Assets.bruno0JabRight[1], brunoJabRightHurtboxes1, null, 200, 200),
 												    new AttackFrame(5, Assets.bruno0JabRight[2], brunoJabRightHurtboxes2, brunoJabRightHitboxes, 200, 200),
-												    new AttackFrame(10, Assets.bruno0JabRight[2], brunoJabRightHurtboxes2, null, 200, 200),
+												    new AttackFrame(8, Assets.bruno0JabRight[2], brunoJabRightHurtboxes2, null, 200, 200),
 												    new AttackFrame(5, Assets.bruno0JabRight[3], brunoJabRightHurtboxes3, null, 200, 200)},
 													
-												   {new AttackFrame(2, Assets.bruno1JabRight[0], brunoJabRightHurtboxes0, null, 200, 200),
-													new AttackFrame(2, Assets.bruno1JabRight[1], brunoJabRightHurtboxes1, null, 200, 200),
+												   {new AttackFrame(1, Assets.bruno1JabRight[0], brunoJabRightHurtboxes0, null, 200, 200),
+													new AttackFrame(1, Assets.bruno1JabRight[1], brunoJabRightHurtboxes1, null, 200, 200),
 													new AttackFrame(5, Assets.bruno1JabRight[2], brunoJabRightHurtboxes2, brunoJabRightHitboxes, 200, 200),
-													new AttackFrame(10, Assets.bruno1JabRight[2], brunoJabRightHurtboxes2, null, 200, 200),
+													new AttackFrame(8, Assets.bruno1JabRight[2], brunoJabRightHurtboxes2, null, 200, 200),
 													new AttackFrame(5, Assets.bruno1JabRight[3], brunoJabRightHurtboxes3, null, 200, 200)}};
 		
 		brunoJabRight = new Attack[] {new Attack(brunoJabRightFrames[0], 5, brunoJabDamage, 5, -15, 7, 20, brunoCollisionbox),
@@ -628,16 +628,16 @@ public abstract class AttackCreator {
 		brunoJabLeftHitboxes = new Hitbox[] {new Hitbox(40, 95, 15),
 											 new Hitbox(65, 95, 15)};
 		
-		brunoJabLeftFrames = new AttackFrame[][] {{new AttackFrame(2, Assets.bruno0JabLeft[0], brunoJabLeftHurtboxes0, null, 200, 200),
-												   new AttackFrame(2, Assets.bruno0JabLeft[1], brunoJabLeftHurtboxes1, null, 200, 200),
+		brunoJabLeftFrames = new AttackFrame[][] {{new AttackFrame(1, Assets.bruno0JabLeft[0], brunoJabLeftHurtboxes0, null, 200, 200),
+												   new AttackFrame(1, Assets.bruno0JabLeft[1], brunoJabLeftHurtboxes1, null, 200, 200),
 												   new AttackFrame(5, Assets.bruno0JabLeft[2], brunoJabLeftHurtboxes2, brunoJabLeftHitboxes, 200, 200),
-												   new AttackFrame(10, Assets.bruno0JabLeft[2], brunoJabLeftHurtboxes2, null, 200, 200),
+												   new AttackFrame(8, Assets.bruno0JabLeft[2], brunoJabLeftHurtboxes2, null, 200, 200),
 												   new AttackFrame(5, Assets.bruno0JabLeft[3], brunoJabLeftHurtboxes3, null, 200, 200)},
 			
-												  {new AttackFrame(2, Assets.bruno1JabLeft[0], brunoJabLeftHurtboxes0, null, 200, 200),
-												   new AttackFrame(2, Assets.bruno1JabLeft[1], brunoJabLeftHurtboxes1, null, 200, 200),
+												  {new AttackFrame(1, Assets.bruno1JabLeft[0], brunoJabLeftHurtboxes0, null, 200, 200),
+												   new AttackFrame(1, Assets.bruno1JabLeft[1], brunoJabLeftHurtboxes1, null, 200, 200),
 												   new AttackFrame(5, Assets.bruno1JabLeft[2], brunoJabLeftHurtboxes2, brunoJabLeftHitboxes, 200, 200),
-												   new AttackFrame(10, Assets.bruno1JabLeft[2], brunoJabLeftHurtboxes2, null, 200, 200),
+												   new AttackFrame(8, Assets.bruno1JabLeft[2], brunoJabLeftHurtboxes2, null, 200, 200),
 												   new AttackFrame(5, Assets.bruno1JabLeft[3], brunoJabLeftHurtboxes3, null, 200, 200)}};
 		
 		brunoJabLeft = new Attack[] {new Attack(brunoJabLeftFrames[0], 5, brunoJabDamage, -5, -15, 7, 20, brunoCollisionbox),
@@ -949,7 +949,7 @@ public abstract class AttackCreator {
 													   new AttackFrame(3, Assets.bruno0UpTiltRight[2], brunoUpTiltRightHurtboxes2, brunoUpTiltRightHitboxes1, 200, 400, 0, -200),
 													   new AttackFrame(3, Assets.bruno0UpTiltRight[3], brunoUpTiltRightHurtboxes3, brunoUpTiltRightHitboxes2, 200, 400, 0, -200),
 													   new AttackFrame(5, Assets.bruno0UpTiltRight[3], brunoUpTiltRightHurtboxes3, null, 200, 400, 0, -200),
-													   new AttackFrame(7, Assets.bruno0StandingRight[0], brunoStandingRightHurtboxes, null, 200, 200)},
+													   new AttackFrame(4, Assets.bruno0StandingRight[0], brunoStandingRightHurtboxes, null, 200, 200)},
 			
 													  {new AttackFrame(1, Assets.bruno1StandingRight[0], brunoStandingRightHurtboxes, null, 200, 200),
 													   new AttackFrame(6, Assets.bruno1UpTiltRight[0], brunoUpTiltRightHurtboxes0, null, 200, 400, 0, -200),
@@ -957,11 +957,11 @@ public abstract class AttackCreator {
 													   new AttackFrame(3, Assets.bruno1UpTiltRight[2], brunoUpTiltRightHurtboxes2, brunoUpTiltRightHitboxes1, 200, 400, 0, -200),
 													   new AttackFrame(3, Assets.bruno1UpTiltRight[3], brunoUpTiltRightHurtboxes3, brunoUpTiltRightHitboxes2, 200, 400, 0, -200),
 													   new AttackFrame(5, Assets.bruno1UpTiltRight[3], brunoUpTiltRightHurtboxes3, null, 200, 400, 0, -200),
-													   new AttackFrame(7, Assets.bruno1StandingRight[0], brunoStandingRightHurtboxes, null, 200, 200)}};
+													   new AttackFrame(4, Assets.bruno1StandingRight[0], brunoStandingRightHurtboxes, null, 200, 200)}};
 		
 													   
-		brunoUpTiltRight = new Attack[] {new Attack(brunoUpTiltRightFrames[0], 7, brunoUpTiltDamage, 0, -20, 7, 30, brunoCollisionbox),
-										 new Attack(brunoUpTiltRightFrames[1], 7, brunoUpTiltDamage, 0, -20, 7, 30, brunoCollisionbox)};
+		brunoUpTiltRight = new Attack[] {new Attack(brunoUpTiltRightFrames[0], 7, brunoUpTiltDamage, -3, -20, 7, 35, brunoCollisionbox, 0, -3),
+										 new Attack(brunoUpTiltRightFrames[1], 7, brunoUpTiltDamage, -3, -20, 7, 35, brunoCollisionbox, 0, -3)};
 		
 		
 		brunoUpTiltLeftHurtboxes0 = new Hurtbox[] {new Hurtbox(133, 191, 12),
@@ -1051,7 +1051,7 @@ public abstract class AttackCreator {
 													  new AttackFrame(3, Assets.bruno0UpTiltLeft[2], brunoUpTiltLeftHurtboxes2, brunoUpTiltLeftHitboxes1, 200, 400, 0, -200),
 													  new AttackFrame(3, Assets.bruno0UpTiltLeft[3], brunoUpTiltLeftHurtboxes3, brunoUpTiltLeftHitboxes2, 200, 400, 0, -200),
 													  new AttackFrame(5, Assets.bruno0UpTiltLeft[3], brunoUpTiltLeftHurtboxes3, null, 200, 400, 0, -200),
-													  new AttackFrame(7, Assets.bruno0StandingLeft[0], brunoStandingLeftHurtboxes, null, 200, 200)},
+													  new AttackFrame(4, Assets.bruno0StandingLeft[0], brunoStandingLeftHurtboxes, null, 200, 200)},
 			
 													 {new AttackFrame(1, Assets.bruno1StandingLeft[0], brunoStandingLeftHurtboxes, null, 200, 200),
 													  new AttackFrame(6, Assets.bruno1UpTiltLeft[0], brunoUpTiltLeftHurtboxes0, null, 200, 400, 0, -200),
@@ -1059,11 +1059,11 @@ public abstract class AttackCreator {
 													  new AttackFrame(3, Assets.bruno1UpTiltLeft[2], brunoUpTiltLeftHurtboxes2, brunoUpTiltLeftHitboxes1, 200, 400, 0, -200),
 													  new AttackFrame(3, Assets.bruno1UpTiltLeft[3], brunoUpTiltLeftHurtboxes3, brunoUpTiltLeftHitboxes2, 200, 400, 0, -200),
 													  new AttackFrame(5, Assets.bruno1UpTiltLeft[3], brunoUpTiltLeftHurtboxes3, null, 200, 400, 0, -200),
-													  new AttackFrame(7, Assets.bruno1StandingLeft[0], brunoStandingLeftHurtboxes, null, 200, 200)}};
+													  new AttackFrame(4, Assets.bruno1StandingLeft[0], brunoStandingLeftHurtboxes, null, 200, 200)}};
 		
 													   
-		brunoUpTiltLeft = new Attack[] {new Attack(brunoUpTiltLeftFrames[0], 7, brunoUpTiltDamage, 0, -20, 7, 30, brunoCollisionbox),
-										 new Attack(brunoUpTiltLeftFrames[1], 7, brunoUpTiltDamage, 0, -20, 7, 30, brunoCollisionbox)};
+		brunoUpTiltLeft = new Attack[] {new Attack(brunoUpTiltLeftFrames[0], 7, brunoUpTiltDamage, 3, -20, 7, 35, brunoCollisionbox, 0, -3),
+										 new Attack(brunoUpTiltLeftFrames[1], 7, brunoUpTiltDamage, 3, -20, 7, 35, brunoCollisionbox, 0, -3)};
 		
 		
 		
@@ -1118,14 +1118,14 @@ public abstract class AttackCreator {
 											   new Hitbox(10, 147, 23)};
 		
 		
-		brunoBairRightFrames = new AttackFrame[][] {{new AttackFrame(12, Assets.bruno0BairRight[0], brunoBairRightHurtboxes0, null, 200, 200),
+		brunoBairRightFrames = new AttackFrame[][] {{new AttackFrame(10, Assets.bruno0BairRight[0], brunoBairRightHurtboxes0, null, 200, 200),
 													 new AttackFrame(3, Assets.bruno0BairRight[1], brunoBairRightHurtboxes1, null, 200, 200),
 													 new AttackFrame(3, Assets.bruno0BairRight[2], brunoBairRightHurtboxes2, brunoBairRightHitboxes, 200, 200),
 													 new AttackFrame(10, Assets.bruno0BairRight[2], brunoBairRightHurtboxes2, null, 200, 200),
 													 new AttackFrame(10, Assets.bruno0BairRight[1], brunoBairRightHurtboxes1, null, 200, 200),
 													 new AttackFrame(7, Assets.bruno0StandingRight[0], brunoStandingRightHurtboxes, null, 200, 200)},
 			
-													{new AttackFrame(12, Assets.bruno1BairRight[0], brunoBairRightHurtboxes0, null, 200, 200),
+													{new AttackFrame(10, Assets.bruno1BairRight[0], brunoBairRightHurtboxes0, null, 200, 200),
 												     new AttackFrame(3, Assets.bruno1BairRight[1], brunoBairRightHurtboxes1, null, 200, 200),
 													 new AttackFrame(3, Assets.bruno1BairRight[2], brunoBairRightHurtboxes2, brunoBairRightHitboxes, 200, 200),
 													 new AttackFrame(10, Assets.bruno1BairRight[2], brunoBairRightHurtboxes2, null, 200, 200),
@@ -1188,14 +1188,14 @@ public abstract class AttackCreator {
 											  new Hitbox(190, 147, 23)};
 		
 		
-		brunoBairLeftFrames = new AttackFrame[][] {{new AttackFrame(12, Assets.bruno0BairLeft[0], brunoBairLeftHurtboxes0, null, 200, 200),
+		brunoBairLeftFrames = new AttackFrame[][] {{new AttackFrame(10, Assets.bruno0BairLeft[0], brunoBairLeftHurtboxes0, null, 200, 200),
 													 new AttackFrame(3, Assets.bruno0BairLeft[1], brunoBairLeftHurtboxes1, null, 200, 200),
 													 new AttackFrame(3, Assets.bruno0BairLeft[2], brunoBairLeftHurtboxes2, brunoBairLeftHitboxes, 200, 200),
 													 new AttackFrame(10, Assets.bruno0BairLeft[2], brunoBairLeftHurtboxes2, null, 200, 200),
 													 new AttackFrame(10, Assets.bruno0BairLeft[1], brunoBairLeftHurtboxes1, null, 200, 200),
 													 new AttackFrame(7, Assets.bruno0StandingLeft[0], brunoStandingLeftHurtboxes, null, 200, 200)},
 			
-													{new AttackFrame(12, Assets.bruno1BairLeft[0], brunoBairLeftHurtboxes0, null, 200, 200),
+													{new AttackFrame(10, Assets.bruno1BairLeft[0], brunoBairLeftHurtboxes0, null, 200, 200),
 												     new AttackFrame(3, Assets.bruno1BairLeft[1], brunoBairLeftHurtboxes1, null, 200, 200),
 													 new AttackFrame(3, Assets.bruno1BairLeft[2], brunoBairLeftHurtboxes2, brunoBairLeftHitboxes, 200, 200),
 													 new AttackFrame(10, Assets.bruno1BairLeft[2], brunoBairLeftHurtboxes2, null, 200, 200),

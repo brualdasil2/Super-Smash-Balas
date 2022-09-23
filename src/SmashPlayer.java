@@ -583,14 +583,10 @@ public class SmashPlayer extends Player {
 						else {
 
 							if (invincibleCounter == 0) {
-
-								ySpeed = opponent.getCurrentAttack().getKnockbackYspeed() * knockbackMultiplier();
-								xSpeed = opponent.getCurrentAttack().getKnockbackXspeed() * knockbackMultiplier();
+								ySpeed = (opponent.getCurrentAttack().getKnockbackYspeed() * knockbackMultiplier()) + ((double)opponent.getCurrentAttack().getBaseKnockbackYspeed()/opponent.character.weight);
+								xSpeed = (opponent.getCurrentAttack().getKnockbackXspeed() * knockbackMultiplier()) + ((double)opponent.getCurrentAttack().getBaseKnockbackXspeed()/opponent.character.weight);
 								int hSf = (int) (opponent.getCurrentAttack().getHitstunFrames() * hitstunMultiplier());
 								hitstunFrames = hSf < MIN_HITSTUN ? MIN_HITSTUN : hSf;
-								if (hitstunFrames == MIN_HITSTUN) {
-									//System.out.println("MIN HITSTUN");
-								}
 								freezeFrames = opponent.getCurrentAttack().getFreezeFrames();
 								percent += opponent.getCurrentAttack().getDamage();
 								health -= opponent.getCurrentAttack().getDamage();
@@ -1012,11 +1008,18 @@ public class SmashPlayer extends Player {
 
 					y = GameState.floorY - currentFrame.getHeight();
 					ySpeed = -ySpeed;
+					System.out.println("bounce!");
 				}
 				airdashCounter = 0;
 				if (airdashingDown) {
+					System.out.println("Ad bounce!");
 					airdashingDown = false;
-					ySpeed = -20;
+					if (!pressingShield) {
+						ySpeed = -20;
+					}
+					else {
+						ySpeed = 0;
+					}
 				}
 			}
 		}
