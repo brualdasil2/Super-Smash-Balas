@@ -144,7 +144,7 @@ public class SmashPlayer extends Player {
 							}
 						} else {
 
-							if (!(sideSpecialing || upSpecialing || neutralSpecialing)) {
+							if (!((upSpecialing && character instanceof Lacerda) || neutralSpecialing)) {
 
 								if (xSpeed < 0) {
 									if (frozen)
@@ -187,7 +187,7 @@ public class SmashPlayer extends Player {
 							}
 						} else {
 
-							if (!(sideSpecialing || upSpecialing || neutralSpecialing)) {
+							if (!((upSpecialing && character instanceof Lacerda) || neutralSpecialing)) {
 
 								if (xSpeed > 0) {
 									if (frozen)
@@ -352,7 +352,15 @@ public class SmashPlayer extends Player {
 						if (!attacking) {
 							if (!pressingAttack) {
 
-								if (pressingRight || pressingLeft) {
+								if (pressingUp) {
+
+									if (magic >= character.getUpSpecialMagic()) {
+
+										upSpecialing = true;
+									}
+
+								}
+								else if (pressingRight || pressingLeft) {
 
 									if (magic >= character.getSideSpecialMagic()) {
 
@@ -371,22 +379,10 @@ public class SmashPlayer extends Player {
 								}
 
 								else {
+									if (magic >= character.getNeutralSpecialMagic()) {
 
-									if (pressingUp) {
-
-										if (magic >= character.getUpSpecialMagic()) {
-
-											upSpecialing = true;
-										}
-
-									} else {
-
-										if (magic >= character.getNeutralSpecialMagic()) {
-
-											neutralSpecialing = true;
-										}
-
-									}
+										neutralSpecialing = true;
+									}	
 								}
 							}
 						}
