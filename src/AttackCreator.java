@@ -3948,7 +3948,7 @@ public abstract class AttackCreator {
 														   new AttackFrame(1, Assets.lacerda0UpSpecialLeft[7], null, null, 200, 200),
 														   new AttackFrame(1, Assets.lacerda0UpSpecialLeft[8], null, null, 200, 200),
 														   new AttackFrame(1, Assets.lacerda0UpSpecialLeft[9], null, null, 200, 200),
-														   new AttackFrame(5, Assets.lacerda0UpSpecialLeft[10], brunoFairLeftHurtboxes, null, 200, 200),
+														   new AttackFrame(5, Assets.lacerda0UpSpecialLeft[10], brunoFairLeftHurtboxes, lacerdaUpSpecialRightHitboxes, 200, 200),
 														   new AttackFrame(5, Assets.lacerda0UpSpecialLeft[11], brunoFairLeftHurtboxes, null, 200, 200)},
 										
 													       {new AttackFrame(2, Assets.lacerda1UpSpecialLeft[0], brunoFairLeftHurtboxes, null, 200, 200),
@@ -3961,7 +3961,7 @@ public abstract class AttackCreator {
 															new AttackFrame(1, Assets.lacerda1UpSpecialLeft[7], null, null, 200, 200),
 															new AttackFrame(1, Assets.lacerda1UpSpecialLeft[8], null, null, 200, 200),
 															new AttackFrame(1, Assets.lacerda1UpSpecialLeft[9], null, null, 200, 200),
-															new AttackFrame(5, Assets.lacerda1UpSpecialLeft[10], brunoFairLeftHurtboxes, null, 200, 200),
+															new AttackFrame(5, Assets.lacerda1UpSpecialLeft[10], brunoFairLeftHurtboxes, lacerdaUpSpecialRightHitboxes, 200, 200),
 															new AttackFrame(5, Assets.lacerda1UpSpecialLeft[11], brunoFairLeftHurtboxes, null, 200, 200)}};
 		
 		lacerdaUpSpecialLeft = new Attack[] {new Attack(lacerdaUpSpecialLeftFrames[0], 12, lacerdaUpSpecialDamage, -3, -10, 7, 25, brunoCollisionbox),
