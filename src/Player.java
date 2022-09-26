@@ -55,7 +55,7 @@ public class Player {
 	protected double OpCollisionCenterX;
 	protected boolean frozen = false;
 	protected int frozenCounter = 0;
-	
+	protected boolean wasTipper = false;
 	
 	protected Hurtbox killSparkHurtbox;
 	
@@ -472,6 +472,8 @@ public class Player {
 						killSparkHurtbox = hurtbox;
 						//opponent.setFreezeFrames(5);
 					}
+					wasTipper = hitbox.isTipper();
+					System.out.println(wasTipper);
 					return true;
 					
 				}
@@ -544,7 +546,6 @@ public class Player {
 						else {
 							
 							if (invincibleCounter == 0) {
-								
 								health -= opponent.getCurrentAttack().getDamage();
 								ySpeed = opponent.getCurrentAttack().getKnockbackYspeed();
 								xSpeed = opponent.getCurrentAttack().getKnockbackXspeed();
@@ -555,7 +556,6 @@ public class Player {
 							}
 							
 							insideHitbox = true;
-							
 							
 						}
 					}
@@ -573,7 +573,6 @@ public class Player {
 			
 			insideHitbox = false;
 		}
-		
 	}
 	
 	protected void projectileHitDetection() {
@@ -1101,7 +1100,6 @@ public class Player {
 		if (show) {
 			
 			if (currentFrame.getHitboxes() != null) {
-				g.setColor(new Color(255, 0, 0, 100));
 				drawHitboxes(g, currentFrame.getHitboxes());
 			}
 		}
@@ -1145,7 +1143,12 @@ public class Player {
 	protected void drawHitboxes(Graphics g, Hitbox[] hitboxes) {
 		
 		for (Hitbox hitbox: hitboxes) {
-			
+			if (hitbox.isTipper()) {
+				g.setColor(new Color(255, 0, 0, 200));
+			}
+			else {
+				g.setColor(new Color(255, 0, 0, 100));
+			}
 			drawHitbox(g, hitbox.getX(), hitbox.getY(), hitbox.getR());
 		}
 	}

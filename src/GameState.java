@@ -556,7 +556,7 @@ public class GameState extends State {
 							
 	
 							fighting = false;
-	
+							SoundManager.play("sounds/Death.wav", false);
 							player1.restoreRound();
 							if (!training)
 								player2.increaseScore();
@@ -566,6 +566,7 @@ public class GameState extends State {
 						if (player2.getHealth() <= 0) {
 						
 							fighting = false;
+							SoundManager.play("sounds/Death.wav", false);
 							player2.restoreRound();
 							if (!training)
 								player1.increaseScore();

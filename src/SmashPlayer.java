@@ -478,13 +478,13 @@ public class SmashPlayer extends Player {
 	}
 	
 	private void killEffect(Hurtbox hurtbox) {
-		System.out.println("VAI MORRER!!");
+		//System.out.println("VAI MORRER!!");
 		GameState.setParryFreezeCounter(30);
 		GameState.hitEffect.startHitEffect(
 				(int)x + hurtbox.getX() - GameState.hitEffect.getWidth()*4/2,
 				(int)y + hurtbox.getY() - GameState.hitEffect.getHeight()*4/2,
 				false, true);
-		SoundManager.play("sounds/Parry.wav", false);
+		SoundManager.play("sounds/PunchKill.wav", false);
 	}
 	
 	private boolean simulateKill() {
@@ -579,13 +579,25 @@ public class SmashPlayer extends Player {
 						else {
 
 							if (invincibleCounter == 0) {
-								ySpeed = (opponent.getCurrentAttack().getKnockbackYspeed() * knockbackMultiplier()) + ((double)opponent.getCurrentAttack().getBaseKnockbackYspeed()/opponent.character.weight);
-								xSpeed = (opponent.getCurrentAttack().getKnockbackXspeed() * knockbackMultiplier()) + ((double)opponent.getCurrentAttack().getBaseKnockbackXspeed()/opponent.character.weight);
+								int damage, ySp, xSp;
+								System.out.println("NO SP " + wasTipper);
+								if (wasTipper) {
+									damage = opponent.getCurrentAttack().getTipperDamage();
+									ySp = opponent.getCurrentAttack().getTipperKnockbackYspeed();
+									xSp = opponent.getCurrentAttack().getTipperKnockbackXspeed();
+								}
+								else {
+									damage = opponent.getCurrentAttack().getDamage();
+									ySp = opponent.getCurrentAttack().getKnockbackYspeed();
+									xSp = opponent.getCurrentAttack().getKnockbackXspeed();
+								}
+								ySpeed = (ySp * knockbackMultiplier()) + ((double)opponent.getCurrentAttack().getBaseKnockbackYspeed()/opponent.character.weight);
+								xSpeed = (xSp * knockbackMultiplier()) + ((double)opponent.getCurrentAttack().getBaseKnockbackXspeed()/opponent.character.weight);
 								int hSf = (int) (opponent.getCurrentAttack().getHitstunFrames() * hitstunMultiplier());
 								hitstunFrames = hSf < MIN_HITSTUN ? MIN_HITSTUN : hSf;
 								freezeFrames = opponent.getCurrentAttack().getFreezeFrames();
-								percent += opponent.getCurrentAttack().getDamage();
-								health -= opponent.getCurrentAttack().getDamage();
+								percent += damage;
+								health -= damage;
 								shielding = false;
 								airdashCounter = 0;
 								if (simulateKill()) {
@@ -614,7 +626,7 @@ public class SmashPlayer extends Player {
 
 			insideHitbox = false;
 		}
-
+		wasTipper = false;
 	}
 
 	protected void projectileHitDetection() {
@@ -724,7 +736,7 @@ public class SmashPlayer extends Player {
 													if (GameState.projectiles.get(i) instanceof SnowBall) {
 	
 														frozen = true;
-														frozenCounter = 1200;
+														frozenCounter = 600;
 														SoundManager.play("sounds/Freeze.wav", false);
 													}
 													GameState.projectiles.get(i).updateImage();
@@ -1004,11 +1016,11 @@ public class SmashPlayer extends Player {
 
 					y = GameState.floorY - currentFrame.getHeight();
 					ySpeed = -ySpeed;
-					System.out.println("bounce!");
+					//System.out.println("bounce!");
 				}
 				airdashCounter = 0;
 				if (airdashingDown) {
-					System.out.println("Ad bounce!");
+					//System.out.println("Ad bounce!");
 					airdashingDown = false;
 					if (!pressingShield) {
 						ySpeed = -20;

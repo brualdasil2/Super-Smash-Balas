@@ -18,9 +18,9 @@ public class Nota extends Projectile {
 		
 		damage = 10;
 		knockbackXspeed = 10;
-		knockbackYspeed = -10;
+		knockbackYspeed = -12;
 		freezeFrames = 7;
-		hitstunFrames = 20;	
+		hitstunFrames = 25;	
 		
 		yAcceleration = 2;
 		
