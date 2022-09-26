@@ -473,7 +473,7 @@ public class Player {
 						//opponent.setFreezeFrames(5);
 					}
 					wasTipper = hitbox.isTipper();
-					System.out.println(wasTipper);
+					//System.out.println(wasTipper);
 					return true;
 					
 				}

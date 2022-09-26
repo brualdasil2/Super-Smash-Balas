@@ -48,7 +48,7 @@ public class GameState extends State {
 	private int botEscape = 0, botPlayer = 2;
 	private class TrainingSaveState {
 		double p1x, p1y, p2x, p2y;
-		int p1ld, p2ld, p1pc, p2pc;
+		int p1ld, p2ld, p1pc, p2pc, p1h, p2h;
 		public void saveTrainingState() {
 			p1x = player1.getX();
 			p2x = player2.getX();
@@ -58,6 +58,8 @@ public class GameState extends State {
 			p2ld = player2.getLookDirection();
 			p1pc = ((SmashPlayer)(player1)).getPercent();
 			p2pc = ((SmashPlayer)(player2)).getPercent();
+			p1h = player1.getHealth();
+			p2h = player2.getHealth();
 		}
 		public void loadTrainingState() {
 			player1.setPosition(p1x, p1y);
@@ -76,6 +78,8 @@ public class GameState extends State {
 			player2.ySpeed = 0;
 			player1.maxShield();
 			player2.maxShield();
+			player1.health = p1h;
+			player2.health = p2h;
 		}
 		
 	}
@@ -216,7 +220,7 @@ public class GameState extends State {
 			loadStateButton = new Button(game, 1110+100, 110, 55, 40, Color.darkGray, "LOAD", Assets.font10, null, true);
 			percentEditor = new PercentEditor(game);
 			trainingSaveState.saveTrainingState();
-			
+			comboCounter.reset();
 		}
 		
 	}
@@ -405,10 +409,12 @@ public class GameState extends State {
 						}
 						if (loadStateButton.buttonPressed()) {
 							trainingSaveState.loadTrainingState();
+							comboCounter.reset();
 						}
 						
 						if (player1.pressingAttack && player1.pressingSpecial && player1.pressingShield) {
 							trainingSaveState.loadTrainingState();
+							comboCounter.reset();
 						}
 						
 						if (trainingBotButton.buttonPressed()) {

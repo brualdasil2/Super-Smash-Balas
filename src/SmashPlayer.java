@@ -536,11 +536,11 @@ public class SmashPlayer extends Player {
 							if (parryCounter > 0) {
 
 								if (character instanceof Lacerda) {
-									System.out.println(magic);
+									//System.out.println(magic);
 									increaseMagic(1);
 									if (magic > 10)
 										magic = 10;
-									System.out.println(magic);
+									//System.out.println(magic);
 								}
 
 								insideHitbox = true;
@@ -580,7 +580,7 @@ public class SmashPlayer extends Player {
 
 							if (invincibleCounter == 0) {
 								int damage, ySp, xSp;
-								System.out.println("NO SP " + wasTipper);
+								//System.out.println("NO SP " + wasTipper);
 								if (wasTipper) {
 									damage = opponent.getCurrentAttack().getTipperDamage();
 									ySp = opponent.getCurrentAttack().getTipperKnockbackYspeed();
@@ -899,7 +899,6 @@ public class SmashPlayer extends Player {
 					&& MyCollisionLeftX > GameState.smashStageRight - 100) {
 
 				x = GameState.smashStageRight - currentAttack.getCollisionbox().getX() + 1;
-				System.out.println("Colidiu");
 				if (airdashingLeft) {
 					jumps = character.getJumps();
 					airdashes = 1;
@@ -911,7 +910,6 @@ public class SmashPlayer extends Player {
 
 				x = GameState.smashStageLeft - currentAttack.getCollisionbox().getWidth()
 						- currentAttack.getCollisionbox().getX() - 1;
-				System.out.println("Colidiu");
 				if (airdashingRight) {
 					jumps = character.getJumps();
 					airdashes = 1;
@@ -930,6 +928,8 @@ public class SmashPlayer extends Player {
 		setStanding();
 
 		countHitstun();
+		
+		//System.out.println(hitstunFrames);
 
 		countFreezeFrames();
 		
@@ -988,7 +988,7 @@ public class SmashPlayer extends Player {
 					xSpeed = 0;
 					if (prevY > GameState.floorY - currentFrame.getHeight() + 50) {
 						if (character instanceof Lacerda && upSpecialing) {
-							System.out.println("LacerdaTP");
+							//System.out.println("LacerdaTP");
 							y = prevY;
 							if (prevX < GameState.smashStageLeft) {
 								x = GameState.smashStageLeft - currentFrame.getWidth() + currentAttack.getCollisionbox().getX() - 1;
