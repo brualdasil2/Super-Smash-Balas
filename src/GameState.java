@@ -25,7 +25,7 @@ public class GameState extends State {
 	private static int parryFreezeCounter = 0;
 	public static ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 	public static MagicBall magicBall;
-	private Button hitboxButton, resetButton, speedButton, frameButton, trainingBotButton, botBehaviorButton, botEscapeButton, botPlayerButton, menuButton, characterButton, resumeButton;
+	private Button hitboxButton, resetButton, speedButton, frameButton, saveStateButton, loadStateButton, trainingBotButton, botBehaviorButton, botEscapeButton, botPlayerButton, menuButton, characterButton, resumeButton;
 	private boolean showBoxes = false;
 	private boolean paused;
 	private int mode;
@@ -46,6 +46,40 @@ public class GameState extends State {
 	private boolean trainingBotOn = false;
 	private int botBehavior = 0;
 	private int botEscape = 0, botPlayer = 2;
+	private class TrainingSaveState {
+		double p1x, p1y, p2x, p2y;
+		int p1ld, p2ld, p1pc, p2pc;
+		public void saveTrainingState() {
+			p1x = player1.getX();
+			p2x = player2.getX();
+			p1y = player1.getY();
+			p2y = player2.getY();
+			p1ld = player1.getLookDirection();
+			p2ld = player2.getLookDirection();
+			p1pc = ((SmashPlayer)(player1)).getPercent();
+			p2pc = ((SmashPlayer)(player2)).getPercent();
+		}
+		public void loadTrainingState() {
+			player1.setPosition(p1x, p1y);
+			player2.setPosition(p2x, p2y);
+			player1.lookDirection = p1ld;
+			player2.lookDirection = p2ld;
+			((SmashPlayer)player1).setPercent(p1pc);
+			((SmashPlayer)player2).setPercent(p2pc);
+			player1.hitstunFrames = 0;
+			player1.freezeFrames = 0;
+			player1.xSpeed = 0;
+			player1.ySpeed = 0;
+			player2.hitstunFrames = 0;
+			player2.freezeFrames = 0;
+			player2.xSpeed = 0;
+			player2.ySpeed = 0;
+			player1.maxShield();
+			player2.maxShield();
+		}
+		
+	}
+	private TrainingSaveState trainingSaveState = new TrainingSaveState();
 	
 	private ComboCounter comboCounter = new ComboCounter();
 	
@@ -178,9 +212,11 @@ public class GameState extends State {
 			trainingBotButton = new Button(game, 10, 210, 120, 40, Color.darkGray, "LIGAR/DESLIGAR", Assets.font10, null, true);
 			botBehaviorButton = new Button(game, 10, 260, 120, 40, Color.darkGray, "COMPORTAMENTO", Assets.font10, null, true);
 			botEscapeButton = new Button(game, 10, 310, 120, 40, Color.darkGray, "ESCAPAR COMBO", Assets.font10, null, true);
+			saveStateButton = new Button(game, 1110+40, 110, 55, 40, Color.darkGray, "SAVE", Assets.font10, null, true);
+			loadStateButton = new Button(game, 1110+100, 110, 55, 40, Color.darkGray, "LOAD", Assets.font10, null, true);
 			percentEditor = new PercentEditor(game);
-					
-			//botPlayerButton = new Button(game, 10, 360, 120, 40, Color.darkGray, "JOGADOR DO BOT", Assets.font10, null, true);
+			trainingSaveState.saveTrainingState();
+			
 		}
 		
 	}
@@ -363,6 +399,16 @@ public class GameState extends State {
 								
 							}
 							
+						}
+						if (saveStateButton.buttonPressed()) {
+							trainingSaveState.saveTrainingState();
+						}
+						if (loadStateButton.buttonPressed()) {
+							trainingSaveState.loadTrainingState();
+						}
+						
+						if (player1.pressingAttack && player1.pressingSpecial && player1.pressingShield) {
+							trainingSaveState.loadTrainingState();
 						}
 						
 						if (trainingBotButton.buttonPressed()) {
@@ -971,6 +1017,8 @@ public class GameState extends State {
 			resetButton.drawButton(g);
 			hitboxButton.drawButton(g);
 			speedButton.drawButton(g);
+			saveStateButton.drawButton(g);
+			loadStateButton.drawButton(g);
 			
 			if (map == 2 || map == 3)
 				Text.drawString(g, "Bot de treino:", 70, 190, true, Color.white, Assets.font20);

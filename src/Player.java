@@ -1263,6 +1263,11 @@ public class Player {
 		return y;
 	}
 	
+	public void setPosition(double x, double y) {
+		this.x = x;
+		this.y = y;
+	}
+	
 	public int getHealth() {
 		
 		return health;
