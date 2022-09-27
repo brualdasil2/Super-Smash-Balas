@@ -25,7 +25,7 @@ public class GameState extends State {
 	private static int parryFreezeCounter = 0;
 	public static ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 	public static MagicBall magicBall;
-	private Button hitboxButton, resetButton, speedButton, frameButton, saveStateButton, loadStateButton, trainingBotButton, botBehaviorButton, botEscapeButton, botPlayerButton, menuButton, characterButton, resumeButton;
+	private Button hitboxButton, resetButton, speedButton, frameButton, lockShieldButton, saveStateButton, loadStateButton, trainingBotButton, botBehaviorButton, botEscapeButton, botPlayerButton, menuButton, characterButton, resumeButton;
 	private boolean showBoxes = false;
 	private boolean paused;
 	private int mode;
@@ -88,6 +88,7 @@ public class GameState extends State {
 	private ComboCounter comboCounter = new ComboCounter();
 	
 	private PercentEditor percentEditor;
+	private boolean lockShield = false;
 	
 	private boolean isSmash = true;
 	public static int smashStageLeft = 150;
@@ -216,8 +217,9 @@ public class GameState extends State {
 			trainingBotButton = new Button(game, 10, 210, 120, 40, Color.darkGray, "LIGAR/DESLIGAR", Assets.font10, null, true);
 			botBehaviorButton = new Button(game, 10, 260, 120, 40, Color.darkGray, "COMPORTAMENTO", Assets.font10, null, true);
 			botEscapeButton = new Button(game, 10, 310, 120, 40, Color.darkGray, "ESCAPAR COMBO", Assets.font10, null, true);
-			saveStateButton = new Button(game, 1110+40, 110, 55, 40, Color.darkGray, "SAVE", Assets.font10, null, true);
-			loadStateButton = new Button(game, 1110+100, 110, 55, 40, Color.darkGray, "LOAD", Assets.font10, null, true);
+			saveStateButton = new Button(game, 1150, 120, 55, 40, Color.darkGray, "SAVE", Assets.font10, null, true);
+			loadStateButton = new Button(game, 1215, 120, 55, 40, Color.darkGray, "LOAD", Assets.font10, null, true);
+			lockShieldButton = new Button(game, 1150, 170, 120, 40, Color.DARK_GRAY, "TRAVAR ESCUDO", Assets.font10, null, true);
 			percentEditor = new PercentEditor(game);
 			trainingSaveState.saveTrainingState();
 			comboCounter.reset();
@@ -237,19 +239,23 @@ public class GameState extends State {
 
 			if (game.getKeyManager(1).pause) {
 				
-				if (!pausePressed) {
-					
-					pausePressed = true;
-					
-					if (!paused) {
+				if (gameSpeed != 3) {
+					if (!pausePressed) {
 						
-						paused = true;
-						screenRefreshManager.reset();
-					}
-					else {
+						pausePressed = true;
 						
-						paused = false;
-						screenRefreshManager.reset();
+							
+						if (!paused) {
+							
+							paused = true;
+							screenRefreshManager.reset();
+						}
+						else {
+							
+							paused = false;
+							screenRefreshManager.reset();
+						}
+						
 					}
 				}
 			}
@@ -316,8 +322,16 @@ public class GameState extends State {
 					if (training) {
 						
 						if (frameButton.buttonPressed()) {
-							
 							playFrame = true;
+						}
+						if (game.getKeyManager(1).pause) {
+							if (!pausePressed) {
+								pausePressed = true;
+								playFrame = true;
+							}
+						}
+						else {
+							pausePressed = false;
 						}
 					}
 					
@@ -351,6 +365,10 @@ public class GameState extends State {
 						
 						player1.maxMagic();
 						player2.maxMagic();
+						if (lockShield) {
+							player1.maxShield();
+							player2.maxShield();
+						}
 						
 						percentEditor.tick();
 						
@@ -373,6 +391,9 @@ public class GameState extends State {
 								showBoxes = true;
 							else
 								showBoxes = false;
+						}
+						if (lockShieldButton.buttonPressed()) {
+							lockShield = !lockShield;
 						}
 						
 						if (speedButton.buttonPressed()) {
@@ -450,7 +471,7 @@ public class GameState extends State {
 								screenRefreshManager.setChange(0, 0, 300, 500);
 								screenRefreshManager.setChange(0, 0, 1280, 30);
 								botBehavior++;
-								if (botBehavior > 7) {
+								if (botBehavior > 9) {
 									botBehavior = 0;
 									if (isSmash)
 										player2 = new SmashTrainingBot(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
@@ -464,13 +485,13 @@ public class GameState extends State {
 									else
 										((TrainingBot)(player2)).setEscapeOption(botEscape);
 								}
-								if (botBehavior <= 4) {
+								if (botBehavior <= 6) {
 									if (isSmash)
 										((SmashTrainingBot)(player2)).setBehaviorOption(botBehavior);
 									else
 										((TrainingBot)(player2)).setBehaviorOption(botBehavior);
 								}
-								else if (botBehavior == 5) {
+								else if (botBehavior == 7) {
 									if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Bruno) {
 										player2 = new SmashBrunoBotEasy(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
 									}
@@ -487,7 +508,7 @@ public class GameState extends State {
 									player1.setOpponent(player2);
 									((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char().resetAttackCounters();
 								}
-								else if (botBehavior == 6) {
+								else if (botBehavior == 8) {
 									if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Bruno) {
 										player2 = new SmashBrunoBotMedium(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
 									}
@@ -504,7 +525,7 @@ public class GameState extends State {
 									player1.setOpponent(player2);
 									((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char().resetAttackCounters();
 								}
-								else if (botBehavior == 7) {
+								else if (botBehavior == 9) {
 									if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Bruno) {
 										player2 = new SmashBrunoBotHard(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
 									}
@@ -522,11 +543,11 @@ public class GameState extends State {
 									((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char().resetAttackCounters();
 								}
 							}
-							if (botBehavior <= 4) {
+							if (botBehavior <= 5) {
 								if (botEscapeButton.buttonPressed()) {
 									screenRefreshManager.setChange(0, 0, 300, 500);
 									botEscape++;
-									if (botEscape > 7) {
+									if (botEscape > 9) {
 										botEscape = 0;
 									}
 									if (isSmash)
@@ -693,6 +714,8 @@ public class GameState extends State {
 						KOscreenTimer = 179;
 				}
 				KOscreenTimer++;
+				if (KOscreenTimer == 181)
+					KOscreenTimer = 180;
 				if (KOscreenTimer == 1) {
 					
 					if (mode <= 2) {
@@ -743,47 +766,27 @@ public class GameState extends State {
 						}
 					}
 					else if (winner > 0){
-						
-						hitEffectActive = false;
-						hitEffect.resetFrameCounter();
-						KOscreenTimer = 0;
-						countdownTimer = 0;
-						parryFreezeCounter = 0;
-					//	System.out.println("Winner: " + winner);
-						if (winner == 1)
-							p1wins++;
-						else if (winner == 2)
-							p2wins++;
-						
-						if (mode <= 2) {
+						if (menuButton.buttonPressed()) {
+							hitEffectActive = false;
+							hitEffect.resetFrameCounter();
+							KOscreenTimer = 0;
+							countdownTimer = 0;
+							parryFreezeCounter = 0;
 							
-							State.setState(game.getCharacterSelectState());
-							((CharacterSelectState)(game.getCharacterSelectState())).init();
-							
-							/*if ((p1wins + p2wins) < numGames) {
+							if (mode <= 2) {
 								
-								if ((p1wins + p2wins)%(numGames/10) == 0) {
-									
-									System.out.println(((p1wins + p2wins)/(double)(numGames))*100 + "%");
-								}
+								State.setState(game.getCharacterSelectState());
+								((CharacterSelectState)(game.getCharacterSelectState())).init();
 								
-								init(1, 0, false);
+
+								
 							}
-							else {
+							else if (mode >= 3) {
 								
-								System.out.println("Player 1 wins: " + p1wins);
-								System.out.println("Player 2 wins: " + p2wins);
 								State.setState(game.getMenuState());
 								((MenuState)(game.getMenuState())).init();
-							}*/
-							
+							}
 						}
-						else if (mode >= 3) {
-							
-							State.setState(game.getMenuState());
-							((MenuState)(game.getMenuState())).init();
-						}
-						
 					}
 					else {
 						
@@ -959,6 +962,9 @@ public class GameState extends State {
 					
 					g.drawImage(Assets.KOscreen, 490, 210, 300, 300, null);
 				}
+				else if (KOscreenTimer == 180 && countdownTimer == 210) {
+					menuButton.drawButton(g);
+				}
 			}
 			
 			if (((isSmash && player1.getScore() + player2.getScore() == 0) || suddenDeath) && !training) {
@@ -1025,6 +1031,7 @@ public class GameState extends State {
 			speedButton.drawButton(g);
 			saveStateButton.drawButton(g);
 			loadStateButton.drawButton(g);
+			lockShieldButton.drawButton(g);
 			
 			if (map == 2 || map == 3)
 				Text.drawString(g, "Bot de treino:", 70, 190, true, Color.white, Assets.font20);
@@ -1069,17 +1076,29 @@ public class GameState extends State {
 						break;
 					case 5:
 						if (map == 2 || map == 3)
+							Text.drawString(g, "IJAD AF", 140, 290, false, Color.white, Assets.font20);
+						else
+							Text.drawString(g, "IJAD AF", 140, 290, false, Color.black, Assets.font20);
+						break;
+					case 6:
+						if (map == 2 || map == 3)
+							Text.drawString(g, "IJAD AC", 140, 290, false, Color.white, Assets.font20);
+						else
+							Text.drawString(g, "IJAD AC", 140, 290, false, Color.black, Assets.font20);
+						break;
+					case 7:
+						if (map == 2 || map == 3)
 							Text.drawString(g, "Bot Fácil", 140, 290, false, Color.white, Assets.font20);
 						else
 							Text.drawString(g, "Bot Fácil", 140, 290, false, Color.black, Assets.font20);
 						break;
-					case 6:
+					case 8:
 						if (map == 2 || map == 3)
 							Text.drawString(g, "Bot Médio", 140, 290, false, Color.white, Assets.font20);
 						else
 							Text.drawString(g, "Bot Médio", 140, 290, false, Color.black, Assets.font20);
 						break;
-					case 7:
+					case 9:
 						if (map == 2 || map == 3)
 							Text.drawString(g, "Bot Difícil", 140, 290, false, Color.white, Assets.font20);
 						else
@@ -1087,7 +1106,7 @@ public class GameState extends State {
 						break;
 				}
 				
-				if (botBehavior <= 4) {
+				if (botBehavior <= 6) {
 					botEscapeButton.drawButton(g);
 					switch (botEscape) {
 						case 0:
@@ -1137,6 +1156,18 @@ public class GameState extends State {
 								Text.drawString(g, "Airdash Esquerda", 140, 340, false, Color.white, Assets.font20);
 							else
 								Text.drawString(g, "Airdash Esquerda", 140, 340, false, Color.black, Assets.font20);
+							break;
+						case 8:
+							if (map == 2 || map == 3)
+								Text.drawString(g, "Airdash Cima", 140, 340, false, Color.white, Assets.font20);
+							else
+								Text.drawString(g, "Airdash Cima", 140, 340, false, Color.black, Assets.font20);
+							break;
+						case 9:
+							if (map == 2 || map == 3)
+								Text.drawString(g, "Airdash Baixo", 140, 340, false, Color.white, Assets.font20);
+							else
+								Text.drawString(g, "Airdash Baixo", 140, 340, false, Color.black, Assets.font20);
 							break;
 					}
 				}

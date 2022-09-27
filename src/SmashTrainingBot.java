@@ -76,12 +76,49 @@ public class SmashTrainingBot extends SmashPlayer {
 		pressingUp = true;
 		pressingAttack = true;
 	}
+	
+	private void ijadFair() {
+		setFrames(90);
+	
+		if (frameCounter == 29) {
+			pressingJump = true;
+			turnToOpponent();
+		}
+		else if (frameCounter == 28) {
+			pressingAirdash = true;
+			turnToOpponent();
+			pressingAttack = true;
+		}
+	}
+	private void ijadUpair() {
+		setFrames(90);
+	
+		if (frameCounter == 29) {
+			pressingJump = true;
+			turnToOpponent();
+		}
+		else if (frameCounter == 28) {
+			pressingAirdash = true;
+			turnToOpponent();
+			pressingAttack = true;
+			pressingUp = true;
+		}
+	}
+	
 	private void mashAdRight() {
 		pressingRight = true;
 		pressingAirdash = true;
 	}
 	private void mashAdLeft() {
 		pressingLeft = true;
+		pressingAirdash = true;
+	}
+	private void mashAdUp() {
+		pressingUp = true;
+		pressingAirdash = true;
+	}
+	private void mashAdDown() {
+		pressingShield = true;
 		pressingAirdash = true;
 	}
 	
@@ -119,6 +156,12 @@ public class SmashTrainingBot extends SmashPlayer {
 			else if (escapeOption == 7) {
 				mashAdLeft();
 			}
+			else if (escapeOption == 8) {
+				mashAdUp();
+			}
+			else if (escapeOption == 9) {
+				mashAdDown();
+			}
 			
 			if (hitstunFrames == 0) {
 				gotHit = false;
@@ -145,6 +188,12 @@ public class SmashTrainingBot extends SmashPlayer {
 			}
 			else if (behaviorOption == 4) {
 				mashUpTilt();
+			}
+			else if (behaviorOption == 5) {
+				ijadFair();
+			}
+			else if (behaviorOption == 6) {
+				ijadUpair();
 			}
 		}
 	}
