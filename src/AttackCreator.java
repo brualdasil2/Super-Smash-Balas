@@ -643,8 +643,8 @@ public abstract class AttackCreator {
 												   new AttackFrame(8, Assets.bruno1JabLeft[2], brunoJabLeftHurtboxes2, null, 200, 200),
 												   new AttackFrame(5, Assets.bruno1JabLeft[3], brunoJabLeftHurtboxes3, null, 200, 200)}};
 		
-		brunoJabLeft = new Attack[] {new Attack(brunoJabLeftFrames[0], 5, brunoJabDamage, -5, -15, 7, 20, brunoCollisionbox),
-									 new Attack(brunoJabLeftFrames[1], 5, brunoJabDamage, -5, -15, 7, 20, brunoCollisionbox)};
+		brunoJabLeft = new Attack[] {new Attack(brunoJabLeftFrames[0], 5, brunoJabDamage, -5, -10, 7, 20, brunoCollisionbox),
+									 new Attack(brunoJabLeftFrames[1], 5, brunoJabDamage, -5, -10, 7, 20, brunoCollisionbox)};
 		
 		
 		brunoDashRightHurtboxes0 = new Hurtbox[] {new Hurtbox(67, 191, 12),

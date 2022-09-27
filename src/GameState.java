@@ -603,6 +603,28 @@ public class GameState extends State {
 						
 						comboCounter.tick(player1, player2);
 					}
+					if (gameSpeed != 3 || playFrame) {
+						
+						if (hitEffect.getFrameCounter() > 0) {
+							
+							hitEffect.decreaseFrameCounter();
+							hitEffectActive = true;
+							
+							if (hitEffect.getFrameCounter() == 0) {
+								
+								screenRefreshManager.setChange(hitEffect.getX(), hitEffect.getY(), hitEffect.getWidth(), hitEffect.getHeight());
+								hitEffectActive = false;
+								hitEffect.resetFrameCounter();
+							}
+							
+						}
+						
+						else {
+							hitEffectActive = false;
+						}
+						
+						playFrame = false;
+					}
 				}
 				else {
 					
@@ -650,28 +672,7 @@ public class GameState extends State {
 					}
 				}
 				
-				if (gameSpeed != 3 || playFrame) {
-			
-					if (hitEffect.getFrameCounter() > 0) {
-						
-						hitEffect.decreaseFrameCounter();
-						hitEffectActive = true;
-						
-						if (hitEffect.getFrameCounter() == 0) {
-							
-							screenRefreshManager.setChange(hitEffect.getX(), hitEffect.getY(), hitEffect.getWidth(), hitEffect.getHeight());
-							hitEffectActive = false;
-							hitEffect.resetFrameCounter();
-						}
-						
-					}
-					
-					else {
-						hitEffectActive = false;
-					}
-					
-					playFrame = false;
-				}
+				
 			}
 		}
 		else {
