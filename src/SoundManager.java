@@ -24,9 +24,12 @@ public class SoundManager {
 		                    if (loop)
 		                    	clip.loop(Clip.LOOP_CONTINUOUSLY);
 		                    
+		                    
 		                } catch (Exception e) {
 		                    System.out.println("play sound error: " + e.getMessage() + " for " + path);
 		                }
+		                Thread.currentThread().interrupt();
+		                return;
 		            }
 		        }).start();
 		        
