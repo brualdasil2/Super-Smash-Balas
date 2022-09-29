@@ -217,8 +217,8 @@ public class GameState extends State {
 			trainingBotButton = new Button(game, 10, 210, 120, 40, Color.darkGray, "LIGAR/DESLIGAR", Assets.font10, null, true);
 			botBehaviorButton = new Button(game, 10, 260, 120, 40, Color.darkGray, "COMPORTAMENTO", Assets.font10, null, true);
 			botEscapeButton = new Button(game, 10, 310, 120, 40, Color.darkGray, "ESCAPAR COMBO", Assets.font10, null, true);
-			saveStateButton = new Button(game, 1150, 120, 55, 40, Color.darkGray, "SAVE", Assets.font10, null, true);
-			loadStateButton = new Button(game, 1215, 120, 55, 40, Color.darkGray, "LOAD", Assets.font10, null, true);
+			saveStateButton = new Button(game, 1150, 120, 55, 40, Color.darkGray, "SALVAR", Assets.font10, null, true);
+			loadStateButton = new Button(game, 1215, 120, 55, 40, Color.darkGray, "CARREGAR", Assets.font10, null, true);
 			lockShieldButton = new Button(game, 1150, 170, 120, 40, Color.DARK_GRAY, "TRAVAR ESCUDO", Assets.font10, null, true);
 			percentEditor = new PercentEditor(game);
 			trainingSaveState.saveTrainingState();
