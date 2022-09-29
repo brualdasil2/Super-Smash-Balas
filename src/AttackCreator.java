@@ -4577,8 +4577,8 @@ public abstract class AttackCreator {
 												     new AttackFrame(8, Assets.obino1DashRight[4], brunoWalkingRightHurtboxes0, null, 400, 200),
 												     new AttackFrame(7, Assets.obino1DashRight[5], brunoWalkingRightHurtboxes0, null, 400, 200)}};
 		
-		obinoDashRight = new Attack[] {new Attack(obinoDashRightFrames[0], 8, obinoDashDamage, 16, -8, 7, 25, brunoCollisionbox, obinoTipperDashDamage, 20, -10),
-									   new Attack(obinoDashRightFrames[1], 8, obinoDashDamage, 16, -8, 7, 25, brunoCollisionbox, obinoTipperDashDamage, 20, -10)};
+		obinoDashRight = new Attack[] {new Attack(obinoDashRightFrames[0], 8, obinoDashDamage, 17, -10, 7, 25, brunoCollisionbox, obinoTipperDashDamage, 25, -8),
+									   new Attack(obinoDashRightFrames[1], 8, obinoDashDamage, 17, -10, 7, 25, brunoCollisionbox, obinoTipperDashDamage, 25, -8)};
 		
 		
 		
@@ -4682,8 +4682,8 @@ public abstract class AttackCreator {
 												    new AttackFrame(8, Assets.obino1DashLeft[4], brunoWalkingLeftHurtboxes0, null, 400, 200, -200, 0),
 												    new AttackFrame(7, Assets.obino1DashLeft[5], brunoWalkingLeftHurtboxes0, null, 400, 200, -200, 0)}};
 		
-		obinoDashLeft = new Attack[] {new Attack(obinoDashLeftFrames[0], 8, obinoDashDamage, -16, -8, 7, 25, brunoCollisionbox, obinoTipperDashDamage, -20, -10),
-									  new Attack(obinoDashLeftFrames[1], 8, obinoDashDamage, -16, -8, 7, 25, brunoCollisionbox, obinoTipperDashDamage, -20, -10)};
+		obinoDashLeft = new Attack[] {new Attack(obinoDashLeftFrames[0], 8, obinoDashDamage, -17, -10, 7, 25, brunoCollisionbox, obinoTipperDashDamage, -25, -8),
+									  new Attack(obinoDashLeftFrames[1], 8, obinoDashDamage, -17, -10, 7, 25, brunoCollisionbox, obinoTipperDashDamage, -25, -8)};
 		
 		
 		
