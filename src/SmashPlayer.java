@@ -350,7 +350,7 @@ public class SmashPlayer extends Player {
 				if (!shielding) {
 					if (hitstunFrames == 0) {
 						if (!attacking) {
-							if (!pressingAttack) {
+							if (!pressingAttack && !jumping) {
 
 								if (pressingUp) {
 
