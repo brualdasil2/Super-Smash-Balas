@@ -20,6 +20,7 @@ public class SmashPlayer extends Player {
 	private boolean jumping = false;
 	private double prevX, prevY ;
 	private boolean keyPressingLeft = false, keyPressingRight = false;
+	private int airdashSpeed;
 
 	public SmashPlayer(Game game, int playerNumb, Character character, double x, double y, String name) {
 		super(game, playerNumb, character, x, y, name);
@@ -1110,15 +1111,25 @@ public class SmashPlayer extends Player {
 		//System.out.println(hitstunFrames);
 		//System.out.println(attacking);
 		if (airdashCounter > 0) {
-			int airdashSpeed = frozen ? 10 : 20;
+			if (airdashCounter == airdashDuration) {
+				airdashSpeed = 25;
+			}
+			else if (airdashCounter > 10) {
+				airdashSpeed -= 1;
+			}
+			else if (airdashCounter <= 5) {
+				airdashSpeed -= 1;
+			}
+			//int airdashSpeed = frozen ? 10 : 20;
+			int localAirdashSpeed = frozen ? airdashSpeed/2 : airdashSpeed;
 			if (airdashingRight) {
-				x += airdashSpeed;
+				x += localAirdashSpeed;
 			} else if (airdashingLeft) {
-				x -= airdashSpeed;
+				x -= localAirdashSpeed;
 			} else if (airdashingDown) {
-				y += airdashSpeed;
+				y += localAirdashSpeed;
 			} else if (airdashingUp) {
-				y -= airdashSpeed;
+				y -= localAirdashSpeed;
 			}
 			airdashCounter--;
 		} else {

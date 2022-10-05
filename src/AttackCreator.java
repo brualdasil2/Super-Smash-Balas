@@ -2421,10 +2421,10 @@ public abstract class AttackCreator {
 													 new AttackFrame(3, Assets.supercarol1StandingRight[0], carolStandingRightHurtboxes, null, 200, 200)}};
 								 
 		
-		carolBairRight = new Attack[] {new Attack(carolBairRightFrames[0], 5, carolBairDamage, -25, -13, 7, 30, carolCollisionbox),
-				   					   new Attack(carolBairRightFrames[1], 5, carolBairDamage, -25, -13, 7, 30, carolCollisionbox),
-				   					   new Attack(carolBairRightFrames[2], 5, supercarolBairDamage, -30, -15, 7, 30, carolCollisionbox),
-				   					   new Attack(carolBairRightFrames[3], 5, supercarolBairDamage, -30, -15, 7, 30, carolCollisionbox)};
+		carolBairRight = new Attack[] {new Attack(carolBairRightFrames[0], 5, carolBairDamage, -25, -13, 7, 25, carolCollisionbox),
+				   					   new Attack(carolBairRightFrames[1], 5, carolBairDamage, -25, -13, 7, 25, carolCollisionbox),
+				   					   new Attack(carolBairRightFrames[2], 5, supercarolBairDamage, -30, -15, 7, 25, carolCollisionbox),
+				   					   new Attack(carolBairRightFrames[3], 5, supercarolBairDamage, -30, -15, 7, 25, carolCollisionbox)};
 		
 		
 		carolBairLeftHurtboxes = new Hurtbox[] {new Hurtbox(123, 191, 12),
@@ -2474,10 +2474,10 @@ public abstract class AttackCreator {
 													new AttackFrame(3, Assets.supercarol1StandingLeft[0], carolStandingLeftHurtboxes, null, 200, 200)}};
 		
 		
-		carolBairLeft = new Attack[] {new Attack(carolBairLeftFrames[0], 5, carolBairDamage, 25, -13, 7, 30, carolCollisionbox),
-				   					  new Attack(carolBairLeftFrames[1], 5, carolBairDamage, 25, -13, 7, 30, carolCollisionbox),
-				   			  		  new Attack(carolBairLeftFrames[2], 5, supercarolBairDamage, 30, -15, 7, 30, carolCollisionbox),
-				   					  new Attack(carolBairLeftFrames[3], 5, supercarolBairDamage, 30, -15, 7, 30, carolCollisionbox)};
+		carolBairLeft = new Attack[] {new Attack(carolBairLeftFrames[0], 5, carolBairDamage, 25, -13, 7, 25, carolCollisionbox),
+				   					  new Attack(carolBairLeftFrames[1], 5, carolBairDamage, 25, -13, 7, 25, carolCollisionbox),
+				   			  		  new Attack(carolBairLeftFrames[2], 5, supercarolBairDamage, 30, -15, 7, 25, carolCollisionbox),
+				   					  new Attack(carolBairLeftFrames[3], 5, supercarolBairDamage, 30, -15, 7, 25, carolCollisionbox)};
 		
 		
 		
@@ -2602,8 +2602,8 @@ public abstract class AttackCreator {
 		
 		
 		carolUpAirHitboxes = new Hitbox[] {new Hitbox(100, -30, 45),
-										   new Hitbox(160, -10, 45),
-										   new Hitbox(40, -10, 45)};
+										   new Hitbox(160, -5, 50),
+										   new Hitbox(40, -5, 50)};
 
 		carolUpAirRightFrames = new AttackFrame[][] {{new AttackFrame(6, Assets.carol0UpAirRight[0], carolStandingRightHurtboxes, null, 200, 400, 0, -200),
 													  new AttackFrame(2, Assets.carol0UpAirRight[1], carolStandingRightHurtboxes, carolUpAirHitboxes, 200, 400, 0, -200),

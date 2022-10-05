@@ -1,7 +1,7 @@
 
 public class SmashTrainingBot extends SmashPlayer {
 	
-	private int state, rand, frameCounter = 0, escapeOption = 0, behaviorOption = 0;
+	private int state, rand, frameCounter = 0, escapeOption = 0, behaviorOption = 0, mashShieldAfterCounter = 0;
 	private boolean opponentNear, opponentOnAir, opponentOnTop, opponentOnLeft, opponentOnRight, opponentAttacking, opponentShielding, opponentCandyComing,
 					onCenter, gotHit = false;
 	
@@ -136,6 +136,9 @@ public class SmashTrainingBot extends SmashPlayer {
 		if (hitstunFrames > 0) {
 			gotHit = true;
 		}
+		if (mashShieldAfterCounter > 0) {
+			mashShieldAfterCounter--;
+		}
 		
 		if (gotHit) {
 			if (escapeOption == 1) {
@@ -165,10 +168,16 @@ public class SmashTrainingBot extends SmashPlayer {
 			
 			if (hitstunFrames == 0) {
 				gotHit = false;
+				mashShieldAfterCounter = 20;
 			}
 		}
 		else if (escapeOption == 5) {
 			if (opponentAttacking) {
+				pressingShield = true;
+			}
+		}
+		else if (escapeOption == 9) {
+			if (mashShieldAfterCounter > 0) {
 				pressingShield = true;
 			}
 		}
