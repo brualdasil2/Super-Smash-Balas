@@ -12,7 +12,7 @@ public class KeyManager implements KeyListener {
 	
 	public KeyManager(int playerNumb) {
 		
-		keys = new boolean[256];
+		keys = new boolean[1000];
 		this.playerNumb = playerNumb;
 	}
 	

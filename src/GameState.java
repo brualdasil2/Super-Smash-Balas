@@ -818,8 +818,18 @@ public class GameState extends State {
 		
 		if (map == 0) {
 			
+			g.setColor(Color.LIGHT_GRAY);
+			for (int i = 0; i < 720; i+=80) {
+				g.drawLine(0, i, 1280, i);
+				g.drawLine(0, i+1, 1280, i+1);
+			}
+			for (int j = 0; j < 1280; j+=80) {
+				g.drawLine(j, 0, j, 720);
+				g.drawLine(j+1, 0, j+1, 720);
+			}
 			g.setColor(Color.black);
 			g.fillRect(smashStageLeft, floorY, smashStageRight - smashStageLeft, floorY);
+			
 		}
 		
 		player1.render(g, showBoxes);
