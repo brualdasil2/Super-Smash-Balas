@@ -4454,17 +4454,17 @@ public abstract class AttackCreator {
 												    new AttackFrame(1, Assets.obino0JabRight[2], brunoStandingRightHurtboxes, null, 200, 200),
 												    new AttackFrame(6, Assets.obino0JabRight[3], brunoJabRightHurtboxes2, obinoJabRightHitboxes, 200, 200),
 												    new AttackFrame(6, Assets.obino0JabRight[3], brunoJabRightHurtboxes2, null, 200, 200),
-												    new AttackFrame(12, Assets.obino0JabRight[4], brunoStandingRightHurtboxes, null, 200, 200)},
+												    new AttackFrame(8, Assets.obino0JabRight[4], brunoStandingRightHurtboxes, null, 200, 200)},
 													
 												   {new AttackFrame(2, Assets.obino1JabRight[0], brunoStandingRightHurtboxes, null, 200, 200),
 													new AttackFrame(2, Assets.obino1JabRight[1], brunoStandingRightHurtboxes, null, 200, 200),
 											        new AttackFrame(1, Assets.obino1JabRight[2], brunoStandingRightHurtboxes, null, 200, 200),
 												    new AttackFrame(6, Assets.obino1JabRight[3], brunoJabRightHurtboxes2, obinoJabRightHitboxes, 200, 200),
 												    new AttackFrame(6, Assets.obino1JabRight[3], brunoStandingRightHurtboxes, null, 200, 200),
-												    new AttackFrame(12, Assets.obino1JabRight[4], brunoStandingRightHurtboxes, null, 200, 200)}};
+												    new AttackFrame(8, Assets.obino1JabRight[4], brunoStandingRightHurtboxes, null, 200, 200)}};
 		
-		obinoJabRight = new Attack[] {new Attack(obinoJabRightFrames[0], 6, obinoJabDamage, 15, -10, 7, 25, brunoCollisionbox),
-				  					  new Attack(obinoJabRightFrames[1], 6, obinoJabDamage, 15, -10, 7, 25, brunoCollisionbox)};
+		obinoJabRight = new Attack[] {new Attack(obinoJabRightFrames[0], 6, obinoJabDamage, 15, -10, 7, 30, brunoCollisionbox),
+				  					  new Attack(obinoJabRightFrames[1], 6, obinoJabDamage, 15, -10, 7, 30, brunoCollisionbox)};
 		
 		
 		obinoJabLeftHitboxes = new Hitbox[] {new Hitbox(45, 90, 25),
@@ -4475,17 +4475,17 @@ public abstract class AttackCreator {
 												   new AttackFrame(1, Assets.obino0JabLeft[2], brunoStandingLeftHurtboxes, null, 200, 200),
 												   new AttackFrame(6, Assets.obino0JabLeft[3], brunoJabLeftHurtboxes2, obinoJabLeftHitboxes, 200, 200),
 												   new AttackFrame(6, Assets.obino0JabLeft[3], brunoJabLeftHurtboxes2, null, 200, 200),
-												   new AttackFrame(12, Assets.obino0JabLeft[4], brunoStandingLeftHurtboxes, null, 200, 200)},
+												   new AttackFrame(8, Assets.obino0JabLeft[4], brunoStandingLeftHurtboxes, null, 200, 200)},
 													
 												  {new AttackFrame(2, Assets.obino1JabLeft[0], brunoStandingLeftHurtboxes, null, 200, 200),
 												   new AttackFrame(2, Assets.obino1JabLeft[1], brunoStandingLeftHurtboxes, null, 200, 200),
 												   new AttackFrame(1, Assets.obino1JabLeft[2], brunoStandingLeftHurtboxes, null, 200, 200),
 												   new AttackFrame(6, Assets.obino1JabLeft[3], brunoJabLeftHurtboxes2, obinoJabLeftHitboxes, 200, 200),
 												   new AttackFrame(6, Assets.obino1JabLeft[3], brunoJabLeftHurtboxes2, null, 200, 200),
-												   new AttackFrame(12, Assets.obino1JabLeft[4], brunoStandingLeftHurtboxes, null, 200, 200)}};
+												   new AttackFrame(8, Assets.obino1JabLeft[4], brunoStandingLeftHurtboxes, null, 200, 200)}};
 		
-		obinoJabLeft = new Attack[] {new Attack(obinoJabLeftFrames[0], 6, obinoJabDamage, -15, -10, 7, 25, brunoCollisionbox),
-									 new Attack(obinoJabLeftFrames[1], 6, obinoJabDamage, -15, -10, 7, 25, brunoCollisionbox)};
+		obinoJabLeft = new Attack[] {new Attack(obinoJabLeftFrames[0], 6, obinoJabDamage, -15, -10, 7, 30, brunoCollisionbox),
+									 new Attack(obinoJabLeftFrames[1], 6, obinoJabDamage, -15, -10, 7, 30, brunoCollisionbox)};
 		
 		
 		
