@@ -56,7 +56,7 @@ public class Rosa extends Projectile {
 			GameState.projectiles.remove(GameState.projectiles.indexOf(this));
 			
 		
-		
+	//	System.out.println(frameCounter);
 		
 		
 		

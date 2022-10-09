@@ -656,7 +656,7 @@ public class SmashPlayer extends Player {
 
 											if (!(GameState.projectiles.get(i) instanceof Rosa
 													&& ((Rosa) (GameState.projectiles.get(i)))
-															.getFrameCounter() < 899)) {
+															.getFrameCounter() < 479)) {
 
 												// parry
 												if (parryCounter > 0) {

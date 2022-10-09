@@ -597,7 +597,7 @@ public class Player {
 													
 										if (shielding) {
 														
-											if (!(GameState.projectiles.get(i) instanceof Rosa && ((Rosa)(GameState.projectiles.get(i))).getFrameCounter() < 899)) {
+											if (!(GameState.projectiles.get(i) instanceof Rosa && ((Rosa)(GameState.projectiles.get(i))).getFrameCounter() < 478)) {
 												
 												//parry
 												if (parryCounter > 0) {
