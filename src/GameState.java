@@ -1027,8 +1027,12 @@ public class GameState extends State {
 			
 			g.setColor(new Color(0, 0, 0, 100));
 			g.fillRect(0, 0, 1280, 720);
-			Text.drawString(g, "JOGO PAUSADO", 640, 200, true, Color.white, Assets.font30);
-			
+			Text.drawString(g, "JOGO PAUSADO", 640, 120, true, Color.white, Assets.font30);
+			if (training) {
+				Text.drawString(g, "ATALHOS DE TREINO:", 640, 180, true, Color.white, Assets.font20);
+				Text.drawString(g, "Passar Frame: Pause", 640, 220, true, Color.white, Assets.font20);
+				Text.drawString(g, "Carregar Savestate: Escudo + Ataque + Especial", 640, 240, true, Color.white, Assets.font20);
+			}
 			resumeButton.drawButton(g);
 			if (mode <= 2)
 				characterButton.drawButton(g);

@@ -4960,7 +4960,7 @@ public abstract class AttackCreator {
 										
 		
 		
-		obinoUpAirRightHitboxes = new Hitbox[] {new Hitbox(100, 30, 45)};
+		obinoUpAirRightHitboxes = new Hitbox[] {new Hitbox(100, 30, 49)};
 		
 		obinoUpAirRightFrames = new AttackFrame[][] {{new AttackFrame(10, Assets.obino0UpAirRight[0], obinoUpAirRightHurtboxes0, null, 200, 200),
 													  new AttackFrame(5, Assets.obino0UpAirRight[1], obinoUpAirRightHurtboxes1, obinoUpAirRightHitboxes, 200, 200),
@@ -4971,8 +4971,8 @@ public abstract class AttackCreator {
 													  new AttackFrame(10, Assets.obino1UpAirRight[1], brunoWalkingRightHurtboxes0, null, 200, 200)}};
 								
 		
-		obinoUpAirRight = new Attack[] {new Attack(obinoUpAirRightFrames[0], 3, obinoUpAirDamage, 0, -25, 7, 30, brunoCollisionbox),
-									    new Attack(obinoUpAirRightFrames[1], 3, obinoUpAirDamage, 0, -25, 7, 30, brunoCollisionbox)};
+		obinoUpAirRight = new Attack[] {new Attack(obinoUpAirRightFrames[0], 3, obinoUpAirDamage, 0, -30, 7, 35, brunoCollisionbox),
+									    new Attack(obinoUpAirRightFrames[1], 3, obinoUpAirDamage, 0, -30, 7, 35, brunoCollisionbox)};
 		
 		
 		obinoUpAirLeftHurtboxes0 = new Hurtbox[] {new Hurtbox(113, 185, 18),
@@ -5004,7 +5004,7 @@ public abstract class AttackCreator {
 				
 		
 		
-		obinoUpAirLeftHitboxes = new Hitbox[] {new Hitbox(100, 30, 45)};
+		obinoUpAirLeftHitboxes = new Hitbox[] {new Hitbox(100, 30, 49)};
 		
 		obinoUpAirLeftFrames = new AttackFrame[][] {{new AttackFrame(10, Assets.obino0UpAirLeft[0], obinoUpAirLeftHurtboxes0, null, 200, 200),
 													 new AttackFrame(5, Assets.obino0UpAirLeft[1], obinoUpAirLeftHurtboxes1, obinoUpAirLeftHitboxes, 200, 200),
@@ -5015,8 +5015,8 @@ public abstract class AttackCreator {
 													 new AttackFrame(10, Assets.obino1UpAirLeft[1], brunoWalkingLeftHurtboxes0, null, 200, 200)}};
 								
 		
-		obinoUpAirLeft = new Attack[] {new Attack(obinoUpAirLeftFrames[0], 3, obinoUpAirDamage, 0, -25, 7, 30, brunoCollisionbox),
-			    						new Attack(obinoUpAirLeftFrames[1], 3, obinoUpAirDamage, 0, -25, 7, 30, brunoCollisionbox)};
+		obinoUpAirLeft = new Attack[] {new Attack(obinoUpAirLeftFrames[0], 3, obinoUpAirDamage, 0, -30, 7, 35, brunoCollisionbox),
+			    						new Attack(obinoUpAirLeftFrames[1], 3, obinoUpAirDamage, 0, -30, 7, 35, brunoCollisionbox)};
 		
 		
 		
