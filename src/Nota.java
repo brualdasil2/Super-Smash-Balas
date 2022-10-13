@@ -8,7 +8,7 @@ public class Nota extends Projectile {
 		
 		super(owner, x, y, xSpeed, ySpeed);
 		
-		image = Assets.nota[(int)(Math.random()*5)];
+		image = Assets.nota[(int)(GameState.random.nextDouble(0.0, 1.0)*5)];
 		width = 64;
 		height = 64;
 		

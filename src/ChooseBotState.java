@@ -7,7 +7,7 @@ public class ChooseBotState extends State{
 	private boolean rendered;
 	private int playAs;
 	private int playerChar, botChar;
-	private Player player, bot;
+	private SmashPlayer player, bot;
 	private boolean suddenDeath;
 	
 	public ChooseBotState(Game game) {
@@ -207,7 +207,7 @@ public class ChooseBotState extends State{
 			State.setState(game.getGameState());
 			((GameState)(game.getGameState())).init(2 + playAs, botChar, suddenDeath);
 		}
-		
+		/*
 		if (false) {
 			if (expertButton.buttonPressed()) {
 				
@@ -216,51 +216,51 @@ public class ChooseBotState extends State{
 				if (playAs == 1) {
 					
 					if (playerChar == 1)
-						player = new Player(game, 1, new Bruno(0), 240, GameState.floorY - 200, "JOGADOR 1");
+						player = new SmashPlayer(game, 1, new Bruno(0), 240, GameState.floorY - 200, "JOGADOR 1");
 					else if (playerChar == 2)
-						player = new Player(game, 1, new Carol(0), 240, GameState.floorY - 200, "JOGADOR 1");
+						player = new SmashPlayer(game, 1, new Carol(0), 240, GameState.floorY - 200, "JOGADOR 1");
 					else if (playerChar == 3)
-						player = new Player(game, 1, new Lacerda(0), 240, GameState.floorY - 200, "JOGADOR 1");
+						player = new SmashPlayer(game, 1, new Lacerda(0), 240, GameState.floorY - 200, "JOGADOR 1");
 					else if (playerChar == 4)
-						player = new Player(game, 1, new Obino(0), 240, GameState.floorY - 200, "JOGADOR 1");
-					
+						player = new SmashPlayer(game, 1, new Obino(0), 240, GameState.floorY - 200, "JOGADOR 1");
+					/*
 					if (botChar == 1)
 						bot = new BrunoBotExpert(game, 2, new Bruno(1), 840, GameState.floorY - 200);
 					else if (botChar == 2)
 						bot = new CarolBotExpert(game, 2, new Carol(1), 840, GameState.floorY - 200);
-			/*		else if (botChar == 3)
+					else if (botChar == 3)
 						bot = new LacerdaBotExpert(game, 2, new Lacerda(1), 840, GameState.floorY - 200); 
 					else if (botChar == 4)
 						bot = new ObinoBotExpert(game, 2, new Obino(1), 840, GameState.floorY - 200); 
-			*/
+			
 				}
 				
 				else if (playAs == 2) {
 					
 					if (playerChar == 1)
-						player = new Player(game, 2, new Bruno(1), 840, GameState.floorY - 200, "JOGADOR 2");
+						player = new SmashPlayer(game, 2, new Bruno(1), 840, GameState.floorY - 200, "JOGADOR 2");
 					else if (playerChar == 2)
-						player = new Player(game, 2, new Carol(1), 840, GameState.floorY - 200, "JOGADOR 2");
+						player = new SmashPlayer(game, 2, new Carol(1), 840, GameState.floorY - 200, "JOGADOR 2");
 					else if (playerChar == 3)
-						player = new Player(game, 2, new Lacerda(1), 840, GameState.floorY - 200, "JOGADOR 2");
+						player = new SmashPlayer(game, 2, new Lacerda(1), 840, GameState.floorY - 200, "JOGADOR 2");
 					else if (playerChar == 4)
-						player = new Player(game, 2, new Obino(1), 840, GameState.floorY - 200, "JOGADOR 2");
+						player = new SmashPlayer(game, 2, new Obino(1), 840, GameState.floorY - 200, "JOGADOR 2");
 					
 					if (botChar == 1)
 						bot = new BrunoBotExpert(game, 1, new Bruno(0), 240, GameState.floorY - 200);
 					else if (botChar == 2)
 						bot = new CarolBotExpert(game, 1, new Carol(0), 240, GameState.floorY - 200);
-				/*	else if (botChar == 3)
+					else if (botChar == 3)
 						bot = new LacerdaBotExpert(game, 1, new Lacerda(0), 240, GameState.floorY - 200);
 					else if (botChar == 4)
 						bot = new ObinoBotExpert(game, 1, new Obino(0), 240, GameState.floorY - 200);
-				*/
+				
 				}
 				
 				State.setState(game.getGameState());
 				((GameState)(game.getGameState())).init(2 + playAs, botChar, suddenDeath);
 			}
-		}
+		}*/
 		
 		if (player1Button.buttonPressed()) {
 			
@@ -446,12 +446,12 @@ public class ChooseBotState extends State{
 		
 	}
 	
-	public Player getPlayer() {
+	public SmashPlayer getPlayer() {
 		
 		return player;
 	}
 	
-	public Player getBot() {
+	public SmashPlayer getBot() {
 		
 		return bot;
 	}

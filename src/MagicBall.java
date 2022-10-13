@@ -1,4 +1,5 @@
 import java.awt.Graphics;
+import java.util.Random;
 
 public class MagicBall {
 	
@@ -6,19 +7,17 @@ public class MagicBall {
 	private int r = 16;
 	private boolean visible = false, grabbable = false;
 	private int frameCounter, spawnCounter;
+
+
 	
 	public MagicBall() {
-		
-		frameCounter = (int) (600 + Math.random()*300);
+		frameCounter = (int) (600 + GameState.random.nextDouble(0.0, 1.0)*300);
 	}
-	
-	
-	
 	
 	private void respawnMagicBall() {
 		
 		x = 640;
-		y = (int) (GameState.floorY - 460 + Math.random() * 444);
+		y = (int) (GameState.floorY - 460 + GameState.random.nextDouble(0.0, 1.0) * 444);
 	
 		 
 	}
@@ -96,7 +95,7 @@ public class MagicBall {
 		
 		grabbable = false;
 		visible = false;
-		frameCounter = (int) (600 + Math.random()*300);
+		frameCounter = (int) (600 +  GameState.random.nextDouble(0.0, 1.0)*300);
 	}
 	
 

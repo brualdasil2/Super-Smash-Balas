@@ -97,6 +97,18 @@ public class SmashPlayer extends Player {
 		
 		
 	}
+	
+	protected void getReplayInput(byte frameInputs) {
+		pressingJump = ((frameInputs & (byte)0x80) != (byte)0x00);
+		pressingAttack = ((frameInputs & (byte)0x40) != (byte)0x00);
+		pressingSpecial = ((frameInputs & (byte)0x20) != (byte)0x00);
+		pressingUp = ((frameInputs & (byte)0x10) != (byte)0x00);
+		pressingShield = ((frameInputs & (byte)0x08) != (byte)0x00);
+		pressingAirdash = ((frameInputs & (byte)0x04) != (byte)0x00);
+		pressingLeft = ((frameInputs & (byte)0x02) != (byte)0x00);
+		pressingRight = ((frameInputs & (byte)0x01) != (byte)0x00);
+		
+	}
 
 	protected void checkInput() {
 

@@ -3,10 +3,11 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GameState extends State {
 
-	private Player player1, player2;
+	private SmashPlayer player1, player2;
 	public static int floorY = 570;
 	public static int leftWall = 0;
 	public static int rightWall = 1280;
@@ -90,11 +91,16 @@ public class GameState extends State {
 	private PercentEditor percentEditor;
 	private boolean lockShield = false;
 	
-	private boolean isSmash = true;
 	public static int smashStageLeft = 150;
 	public static int smashStageRight = 1130;
 	
 	public static final double GRAVITY = 1;
+	
+	private boolean playingReplay = false;
+	
+	private InputRecorder inputRecorder = new InputRecorder(game);
+	public static Random random;
+	public static long randomSeed;
 	
 	public GameState(Game game) {
 		
@@ -110,14 +116,13 @@ public class GameState extends State {
 		//mode 2 = training pvp
 		//mode 3 = bot
 		
-		if (!isSmash) {
-			smashStageLeft = 0;
-			smashStageRight = 1280;
-		}
-		else {
-			rightWall = 2000;
-			leftWall = -1000;
-		}
+		
+		
+		mode = 5;
+		
+		rightWall = 2000;
+		leftWall = -1000;
+		
 		
 		mapRendered = false;
 		
@@ -136,8 +141,6 @@ public class GameState extends State {
 		else
 			training = false;
 		
-		
-
 		
 		if (mode <= 2) {
 			
@@ -165,13 +168,37 @@ public class GameState extends State {
 				player2 = ((ChooseBotState)(game.getChooseBotState())).getPlayer();
 			}
 		}
-
+		else if (mode == 5) {
+			playingReplay = true;
+			player1 = new SmashPlayer(game, 1, new Bruno(0), 240, floorY - 200, "JOGADOR 1");
+			player2 = new SmashPlayer(game, 2, new Carol(1), 840, floorY - 200, "JOGADOR 2");
+		}
+		
+		if (!training) {
+			if (playingReplay) {
+				inputRecorder.startPlaying();
+			}
+			else {				
+				inputRecorder.startRecording();
+			}
+		}
+		
+		if (!playingReplay) {			
+			random = new Random();
+			randomSeed = System.currentTimeMillis();
+			random.setSeed(randomSeed);
+		}
+		else {
+			random = new Random();
+			random.setSeed(inputRecorder.getRandomSeed());
+			System.out.println(inputRecorder.getRandomSeed());
+		}
 		player1.setOpponent(player2);
 		player2.setOpponent(player1);
 		magicBall = new MagicBall();
 	
-		
-		
+		System.out.println("created magic ball");
+
 		
 		paused = false;
 		showBoxes = false;
@@ -184,13 +211,8 @@ public class GameState extends State {
 			maxScore = 1;
 			suddenDeath();
 		}
-		else if (isSmash) {
-			
-			maxScore = 4;
-		}
-		else {
-			maxScore = 2;
-		}
+		maxScore = 4;
+
 		
 		
 		if (mode <= 2) {
@@ -342,8 +364,18 @@ public class GameState extends State {
 						
 						player1.measureCollision();
 						player2.measureCollision();
-						player1.getInput();
-						player2.getInput();
+						if (!playingReplay) {
+							player1.getInput();
+							player2.getInput();
+						}
+						else {
+							byte[] frameInputs = inputRecorder.getFrameInputs();
+							player1.getReplayInput(frameInputs[0]);
+							player2.getReplayInput(frameInputs[1]);
+						}
+						if (!training && !playingReplay) {
+							inputRecorder.recordInputs(player1, player2);
+						}
 						player1.tick();
 						player2.tick();
 
@@ -446,10 +478,7 @@ public class GameState extends State {
 							double p2X = player2.getX();
 							double p2Y = player2.getY();
 							if (trainingBotOn) {
-								if (isSmash)
-									player2 = new SmashTrainingBot(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
-								else
-									player2 = new TrainingBot(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+								player2 = new SmashTrainingBot(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
 								player2.setOpponent(player1);
 								player1.setOpponent(player2);
 								((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char().resetAttackCounters();
@@ -473,23 +502,14 @@ public class GameState extends State {
 								botBehavior++;
 								if (botBehavior > 9) {
 									botBehavior = 0;
-									if (isSmash)
-										player2 = new SmashTrainingBot(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
-									else
-										player2 = new TrainingBot(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
+									player2 = new SmashTrainingBot(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), p2X, p2Y);
 									player2.setOpponent(player1);
 									player1.setOpponent(player2);
 									((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char().resetAttackCounters();
-									if (isSmash)
-										((SmashTrainingBot)(player2)).setEscapeOption(botEscape);
-									else
-										((TrainingBot)(player2)).setEscapeOption(botEscape);
+									((SmashTrainingBot)(player2)).setEscapeOption(botEscape);
 								}
 								if (botBehavior <= 6) {
-									if (isSmash)
-										((SmashTrainingBot)(player2)).setBehaviorOption(botBehavior);
-									else
-										((TrainingBot)(player2)).setBehaviorOption(botBehavior);
+									((SmashTrainingBot)(player2)).setBehaviorOption(botBehavior);
 								}
 								else if (botBehavior == 7) {
 									if (((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char() instanceof Bruno) {
@@ -550,10 +570,7 @@ public class GameState extends State {
 									if (botEscape > 9) {
 										botEscape = 0;
 									}
-									if (isSmash)
-										((SmashTrainingBot)(player2)).setEscapeOption(botEscape);
-									else
-										((TrainingBot)(player2)).setEscapeOption(botEscape);
+									((SmashTrainingBot)(player2)).setEscapeOption(botEscape);
 								}
 							}
 							/*
@@ -697,7 +714,7 @@ public class GameState extends State {
 			
 			if (countdownTimer < 210) {
 				
-				if (training || !suddenDeath && isSmash && player1.getScore() + player2.getScore() != 0) {
+				if (training || !suddenDeath && player1.getScore() + player2.getScore() != 0) {
 					countdownTimer = 209;
 				}
 				countdownTimer++;
@@ -710,10 +727,9 @@ public class GameState extends State {
 			
 			else if (countdownTimer >= 210) {
 				
-				if (isSmash) {
-					if (winner == 0)
-						KOscreenTimer = 179;
-				}
+				if (winner == 0)
+					KOscreenTimer = 179;
+				
 				KOscreenTimer++;
 				if (KOscreenTimer == 181)
 					KOscreenTimer = 180;
@@ -767,12 +783,20 @@ public class GameState extends State {
 						}
 					}
 					else if (winner > 0){
+						
+						
+						
+						
 						if (menuButton.buttonPressed()) {
 							hitEffectActive = false;
 							hitEffect.resetFrameCounter();
 							KOscreenTimer = 0;
 							countdownTimer = 0;
 							parryFreezeCounter = 0;
+							
+							if (!playingReplay) {
+								inputRecorder.stopRecording();
+							}
 							
 							if (mode <= 2) {
 								
@@ -864,26 +888,18 @@ public class GameState extends State {
 			g.drawImage(Assets.snowFlake, 930, 50, 50, 50, null);
 		}
 
-		if (!isSmash) {
-			
 
-			g.setColor(Color.red);
-			if (player1.getHealth() > 0)
-				g.fillRect(290 + (300 - 2*player1.getHealth()), 20, 2*player1.getHealth(), 20);
-			if (player2.getHealth() > 0)
-				g.fillRect(690, 20, 2*player2.getHealth(), 20);
+
+		Color textColor;
+		if (map == 2 || map == 3) {
+			textColor = Color.white;
 		}
 		else {
-			Color textColor;
-			if (map == 2 || map == 3) {
-				textColor = Color.white;
-			}
-			else {
-				textColor = Color.black;
-			}
-			Text.drawString(g, "" + ((SmashPlayer)player1).getPercent() + "%", 590 - g.getFontMetrics(Assets.font15).stringWidth("" + ((SmashPlayer)player1).getPercent() + "%"), 37, false, textColor, Assets.font25);
-			Text.drawString(g, "" + ((SmashPlayer)player2).getPercent() + "%", 690, 37, false, textColor, Assets.font25);
+			textColor = Color.black;
 		}
+		Text.drawString(g, "" + ((SmashPlayer)player1).getPercent() + "%", 590 - g.getFontMetrics(Assets.font15).stringWidth("" + ((SmashPlayer)player1).getPercent() + "%"), 37, false, textColor, Assets.font25);
+		Text.drawString(g, "" + ((SmashPlayer)player2).getPercent() + "%", 690, 37, false, textColor, Assets.font25);
+	
 		
 		g.setColor(Color.green);
 		if (player1.getShield() < 20)
@@ -899,10 +915,6 @@ public class GameState extends State {
 		g.fillRect(690, 70, 10*player2.getMagic(), 20);
 		
 		g.setColor(Color.black);
-		if (!isSmash) {
-			g.drawRect(290, 20, 300, 20);
-			g.drawRect(690, 20, 300, 20);
-		}
 		
 		g.drawRect(390, 45, 200, 20);
 		g.drawRect(690, 45, 200, 20);
@@ -936,14 +948,10 @@ public class GameState extends State {
 			g.setColor(Color.green);
 			
 			int nCircles1, nCircles2;
-			if (isSmash) {
-				nCircles1 =  maxScore - player2.getScore();
-				nCircles2 = maxScore - player1.getScore();
-			}
-			else {
-				nCircles1 = player1.getScore();
-				nCircles2 = player2.getScore();
-			}
+
+			nCircles1 =  maxScore - player2.getScore();
+			nCircles2 = maxScore - player1.getScore();
+
 			for (int i = 0; i < nCircles1; i++) {
 				
 				g.fillOval(475 - 12*i, 6, 8, 8);
@@ -968,7 +976,7 @@ public class GameState extends State {
 		
 		if (!fighting) {
 			
-			if (isSmash && winner != 0) {
+			if (winner != 0) {
 				if (KOscreenTimer < 180 && countdownTimer == 210) {
 					
 					g.drawImage(Assets.KOscreen, 490, 210, 300, 300, null);
@@ -978,7 +986,7 @@ public class GameState extends State {
 				}
 			}
 			
-			if (((isSmash && player1.getScore() + player2.getScore() == 0) || suddenDeath) && !training) {
+			if (((player1.getScore() + player2.getScore() == 0) || suddenDeath) && !training) {
 				if (countdownTimer < 60) {
 					
 					g.drawImage(Assets.countdown[0], 540, 260, 200, 200, null);
@@ -1241,29 +1249,16 @@ public class GameState extends State {
 	
 	private void newRound() {
 		countdownTimer = 0;
-		if (!isSmash) {
-			//BIG AQU
-			hitEffectActive = false;
-			hitEffect.resetFrameCounter();
-		}
 		KOscreenTimer = 0;
 		parryFreezeCounter = 0;
-		if (!isSmash) {
+
+		
+		if (player1.getHealth() == 0)
 			player1.restoreRound();
+		else if (player2.getHealth() == 0) {
 			player2.restoreRound();
 		}
-		else {
-			if (player1.getHealth() == 0)
-				player1.restoreRound();
-			else if (player2.getHealth() == 0) {
-				player2.restoreRound();
-			}
-		}
-
-		if (!isSmash) {
-			projectiles.clear();
-			magicBall.grab();
-		}
+	
 		if (player1.character instanceof Carol) {
 			
 			((Carol)(player1.character)).endSuper();
@@ -1274,30 +1269,6 @@ public class GameState extends State {
 			
 			((Carol)(player2.character)).endSuper();
 			player2.jumps = 2;
-		}
-		
-		if (!isSmash) {
-			if (player1.character instanceof Lacerda) {
-				
-				((Lacerda)(player1.character)).resetBomb();
-			}
-			
-			if (player2.character instanceof Lacerda) {
-				
-				((Lacerda)(player2.character)).resetBomb();
-			}
-		}
-		
-		if (!isSmash) {
-			if (player1.character instanceof Obino) {
-				
-				((Obino)(player1.character)).deactivateTrap();
-			}
-			
-			if (player2.character instanceof Obino) {
-				
-				((Obino)(player2.character)).deactivateTrap();
-			}
 		}
 	}
 	
