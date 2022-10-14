@@ -26,7 +26,7 @@ public class GameState extends State {
 	private static int parryFreezeCounter = 0;
 	public static ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 	public static MagicBall magicBall;
-	private Button hitboxButton, resetButton, speedButton, frameButton, lockShieldButton, saveStateButton, loadStateButton, trainingBotButton, botBehaviorButton, botEscapeButton, botPlayerButton, menuButton, characterButton, resumeButton;
+	private Button hitboxButton, resetButton, restartButton, speedButton, frameButton, lockShieldButton, saveStateButton, loadStateButton, trainingBotButton, botBehaviorButton, botEscapeButton, botPlayerButton, menuButton, characterButton, resumeButton;
 	private boolean showBoxes = false;
 	private boolean paused;
 	private int mode;
@@ -118,7 +118,7 @@ public class GameState extends State {
 		
 		
 		
-		mode = 5;
+		//mode = 5;
 		
 		rightWall = 2000;
 		leftWall = -1000;
@@ -220,11 +220,13 @@ public class GameState extends State {
 			resumeButton = new Button(game, 540, 265, 200, 50, Color.darkGray, "SEGUIR JOGANDO", Assets.font20, null, true);
 			characterButton = new Button(game, 500, 335, 280, 50, Color.darkGray, "ESCOLHER PERSONAGENS", Assets.font20, null, true);
 			menuButton = new Button(game, 540, 405, 200, 50, Color.darkGray, "VOLTAR AO MENU", Assets.font20, null, true);
+			restartButton = new Button(game, 540, 475, 200, 50, Color.darkGray, "RECOMEÇAR", Assets.font20, null, true);
 		}
 		else if (mode >= 3) {
 			
 			resumeButton = new Button(game, 540, 300, 200, 50, Color.darkGray, "SEGUIR JOGANDO", Assets.font20, null, true);
 			menuButton = new Button(game, 540, 370, 200, 50, Color.darkGray, "VOLTAR AO MENU", Assets.font20, null, true);
+			restartButton = new Button(game, 540, 440, 200, 50, Color.darkGray, "RECOMEÇAR", Assets.font20, null, true);
 		}
 		
 		if (!training)
@@ -298,6 +300,23 @@ public class GameState extends State {
 				
 				if (mode <= 2) {
 					
+					if (mode == 1) {
+						if (restartButton.buttonPressed()) {
+							hitEffectActive = false;
+							hitEffect.resetFrameCounter();
+							KOscreenTimer = 0;
+							countdownTimer = 0;
+							parryFreezeCounter = 0;
+							
+							resetCharacters();
+							
+							if (!playingReplay) {
+								inputRecorder.stopRecording();
+							}
+							
+							init(mode, map, false);
+						}
+					}
 					if (characterButton.buttonPressed()) {
 						
 						slow = false;
@@ -773,6 +792,7 @@ public class GameState extends State {
 					
 					if (winner == 0) {
 						
+						
 						if (!suddenDeath) {
 							
 							newRound();
@@ -786,6 +806,21 @@ public class GameState extends State {
 						
 						
 						
+						if (restartButton.buttonPressed()) {
+							hitEffectActive = false;
+							hitEffect.resetFrameCounter();
+							KOscreenTimer = 0;
+							countdownTimer = 0;
+							parryFreezeCounter = 0;
+							
+							resetCharacters();
+							
+							if (!playingReplay) {
+								inputRecorder.stopRecording();
+							}
+							
+							init(mode, map, false);
+						}
 						
 						if (menuButton.buttonPressed()) {
 							hitEffectActive = false;
@@ -983,6 +1018,7 @@ public class GameState extends State {
 				}
 				else if (KOscreenTimer == 180 && countdownTimer == 210) {
 					menuButton.drawButton(g);
+					restartButton.drawButton(g);
 				}
 			}
 			
@@ -1042,8 +1078,12 @@ public class GameState extends State {
 				Text.drawString(g, "Carregar Savestate: Escudo + Ataque + Especial", 640, 240, true, Color.white, Assets.font20);
 			}
 			resumeButton.drawButton(g);
-			if (mode <= 2)
+			if (mode <= 2) {
 				characterButton.drawButton(g);
+				if (mode == 1) {
+					restartButton.drawButton(g);
+				}
+			}
 			menuButton.drawButton(g);
 		}
 		
@@ -1269,6 +1309,38 @@ public class GameState extends State {
 			
 			((Carol)(player2.character)).endSuper();
 			player2.jumps = 2;
+		}
+	}
+	
+	private void resetCharacters() {
+		if (player1.character instanceof Carol) {
+			
+			((Carol)(player1.character)).endSuper();
+		}
+		
+		if (player2.character instanceof Carol) {
+			
+			((Carol)(player2.character)).endSuper();
+		}
+		
+		if (player1.character instanceof Lacerda) {
+			
+			((Lacerda)(player1.character)).resetBomb();
+		}
+		
+		if (player2.character instanceof Lacerda) {
+			
+			((Lacerda)(player2.character)).resetBomb();
+		}
+		
+		if (player1.character instanceof Obino) {
+			
+			((Obino)(player1.character)).deactivateTrap();
+		}
+		
+		if (player2.character instanceof Obino) {
+			
+			((Obino)(player2.character)).deactivateTrap();
 		}
 	}
 	

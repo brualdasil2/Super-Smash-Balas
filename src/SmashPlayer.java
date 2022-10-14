@@ -1309,6 +1309,8 @@ public class SmashPlayer extends Player {
 		xSpeed = 0;
 		ySpeed = 0;
 		character.resetAttackCounters();
+		jumps = character.getJumps();
+		airdashes = 1;
 
 		y = GameState.floorY - 500;
 
