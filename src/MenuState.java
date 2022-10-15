@@ -4,7 +4,7 @@ import java.awt.Graphics;
 public class MenuState extends State{
 
 	
-	private Button pVpButton, botButton, keysButton, minigamesButton, soundButton;
+	private Button pVpButton, botButton, keysButton, minigamesButton, soundButton, replayButton;
 	private boolean rendered;
 	
 	public MenuState(Game game) {
@@ -18,8 +18,9 @@ public class MenuState extends State{
 		
 		pVpButton = new Button(game, 550, 500, 80, 40, Color.black, "P vs P", Assets.font15, null, false);
 		botButton = new Button(game, 650, 500, 80, 40, Color.black, "P vs BOT", Assets.font15, null, false);
-		keysButton = new Button(game, 510, 560, 120, 40, Color.black, "CONTROLES", Assets.font15, null, false);
-		minigamesButton = new Button(game, 650, 560, 120, 40, Color.gray, "MINIGAMES", Assets.font15, null, false);
+		keysButton = new Button(game, 440, 560, 120, 40, Color.black, "CONTROLES", Assets.font15, null, false);
+		minigamesButton = new Button(game, 580, 560, 120, 40, Color.gray, "MINIGAMES", Assets.font15, null, false);
+		replayButton = new Button(game, 720, 560, 120, 40, Color.black, "REPLAY", Assets.font15, null, false);
 		
 		rendered = false;
 		SoundManager.play("sounds/Nothing.wav", false);
@@ -54,6 +55,11 @@ public class MenuState extends State{
 			State.setState(game.getMinigamesState());
 			((MinigamesState)(game.getMinigamesState())).init();
 		}*/
+		
+		if (replayButton.buttonPressed()) {
+			State.setState(game.getGameState());
+			((GameState)(game.getGameState())).init(5, 0, false);
+		}
 
 	}
 
@@ -71,6 +77,7 @@ public class MenuState extends State{
 			botButton.drawButton(g);
 			keysButton.drawButton(g);
 			minigamesButton.drawButton(g);
+			replayButton.drawButton(g);
 		}
 	}
 

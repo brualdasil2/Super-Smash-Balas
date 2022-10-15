@@ -15,6 +15,8 @@ public class InputRecorder {
 	private byte[] p1InputsArray;
 	private byte[] p2InputsArray;
 	private long randomSeed;
+	private Character p1Character, p2Character;
+	private int gameMap;
 	
 	private byte[] longToBytes(long x) {
 	    ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
@@ -40,7 +42,49 @@ public class InputRecorder {
 		p2InputsArray = new byte[8];
 	}
 	
-	public void stopRecording() {
+	private byte encodeCharacter(Character character) {
+		byte charData = (byte)0x00;
+		if (character instanceof Bruno) {
+			charData = (byte)0x00;
+		}
+		else if (character instanceof Carol) {
+			charData = (byte)0x01;
+		}
+		if (character instanceof Lacerda) {
+			charData = (byte)0x02;
+		}
+		if (character instanceof Obino) {
+			charData = (byte)0x03;
+		}
+		charData = (byte)(charData << 1);
+		byte skinData = (byte)character.getSkin();
+		charData |= skinData;
+		return charData;
+	}
+	private Character decodeCharacter(byte charData) {
+		Character pChar;
+		int skin = (int)(charData & (byte)0x01);
+		charData = (byte)(charData >> 1);
+		switch(charData) {
+			case 0x00:
+				pChar = new Bruno(skin);
+				break;
+			case 0x01:
+				pChar = new Carol(skin);
+				break;
+			case 0x02:
+				pChar = new Lacerda(skin);
+				break;
+			case 0x03:
+				pChar = new Obino(skin);
+				break;
+			default:
+				pChar = new Bruno(skin);
+		}
+		return pChar;
+	}
+	
+	public void stopRecording(Character p1Char, Character p2Char, int map) {
 		File file = new File(fileName);
 		file.getParentFile().mkdirs();
 		try {
@@ -53,6 +97,11 @@ public class InputRecorder {
 			try {
 				byte[] seedBytes = longToBytes(GameState.randomSeed);
 				fis.write(seedBytes);
+				fis.write((byte)map);
+				byte p1CharData = encodeCharacter(p1Char);
+				byte p2CharData = encodeCharacter(p2Char);
+				fis.write(p1CharData);
+				fis.write(p2CharData);
 				fis.write(gameInputs, 0, 100000);
 				fis.close();
 			} catch (IOException e) {
@@ -70,14 +119,18 @@ public class InputRecorder {
 		try {
 			FileInputStream fis = new FileInputStream(fileName);
 			try {
-				//LER SEED
 				byte[] seedBytes = new byte[8];
 				fis.read(seedBytes, 0, 8);
-				for (byte b : seedBytes) {
-					System.out.println(b);
-				}
 				randomSeed = bytesToLong(seedBytes);
+				byte[] mapByte = new byte[1];
+				fis.read(mapByte, 0, 1);
+				gameMap = (int)(mapByte[0]);
+				byte[] playerCharacterBytes = new byte[2];
+				fis.read(playerCharacterBytes, 0, 2);
+				p1Character = decodeCharacter(playerCharacterBytes[0]);
+				p2Character = decodeCharacter(playerCharacterBytes[1]);
 				fis.read(gameInputs, 0, 100000);
+				//System.out.println(gameInputs[1]);
 				fis.close();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -158,5 +211,14 @@ public class InputRecorder {
 	
 	public long getRandomSeed() {
 		return randomSeed;
+	}
+	public Character getP1Character() {
+		return p1Character;
+	}
+	public Character getP2Character() {
+		return p2Character;
+	}
+	public int getGameMap() {
+		return gameMap;
 	}
 }

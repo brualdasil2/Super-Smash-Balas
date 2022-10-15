@@ -170,17 +170,14 @@ public class GameState extends State {
 		}
 		else if (mode == 5) {
 			playingReplay = true;
-			player1 = new SmashPlayer(game, 1, new Bruno(0), 240, floorY - 200, "JOGADOR 1");
-			player2 = new SmashPlayer(game, 2, new Carol(1), 840, floorY - 200, "JOGADOR 2");
+			inputRecorder.startPlaying();
+			player1 = new SmashPlayer(game, 1, inputRecorder.getP1Character(), 240, floorY - 200, "JOGADOR 1");
+			player2 = new SmashPlayer(game, 2, inputRecorder.getP2Character(), 840, floorY - 200, "JOGADOR 2");
+			this.map = inputRecorder.getGameMap();
 		}
 		
-		if (!training) {
-			if (playingReplay) {
-				inputRecorder.startPlaying();
-			}
-			else {				
-				inputRecorder.startRecording();
-			}
+		if (!training && !playingReplay) {				
+			inputRecorder.startRecording();
 		}
 		
 		if (!playingReplay) {			
@@ -191,13 +188,10 @@ public class GameState extends State {
 		else {
 			random = new Random();
 			random.setSeed(inputRecorder.getRandomSeed());
-			System.out.println(inputRecorder.getRandomSeed());
 		}
 		player1.setOpponent(player2);
 		player2.setOpponent(player1);
 		magicBall = new MagicBall();
-	
-		System.out.println("created magic ball");
 
 		
 		paused = false;
@@ -311,7 +305,7 @@ public class GameState extends State {
 							resetCharacters();
 							
 							if (!playingReplay) {
-								inputRecorder.stopRecording();
+								inputRecorder.stopRecording(player1.character, player2.character, map);
 							}
 							
 							init(mode, map, false);
@@ -816,7 +810,7 @@ public class GameState extends State {
 							resetCharacters();
 							
 							if (!playingReplay) {
-								inputRecorder.stopRecording();
+								inputRecorder.stopRecording(player1.character, player2.character, map);
 							}
 							
 							init(mode, map, false);
@@ -830,7 +824,7 @@ public class GameState extends State {
 							parryFreezeCounter = 0;
 							
 							if (!playingReplay) {
-								inputRecorder.stopRecording();
+								inputRecorder.stopRecording(player1.character, player2.character, map);
 							}
 							
 							if (mode <= 2) {
