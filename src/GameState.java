@@ -175,6 +175,9 @@ public class GameState extends State {
 			player2 = new SmashPlayer(game, 2, inputRecorder.getP2Character(), 840, floorY - 200, "JOGADOR 2");
 			this.map = inputRecorder.getGameMap();
 		}
+		else {
+			playingReplay = false;
+		}
 		
 		if (!training && !playingReplay) {				
 			inputRecorder.startRecording();
