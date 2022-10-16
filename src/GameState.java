@@ -168,7 +168,7 @@ public class GameState extends State {
 				player2 = ((ChooseBotState)(game.getChooseBotState())).getPlayer();
 			}
 		}
-		else if (mode == 5) {
+		if (mode == 5) {
 			playingReplay = true;
 			inputRecorder.startPlaying();
 			player1 = new SmashPlayer(game, 1, inputRecorder.getP1Character(), 240, floorY - 200, "JOGADOR 1");
