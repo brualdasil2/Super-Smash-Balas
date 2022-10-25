@@ -381,7 +381,7 @@ public class GameState extends State {
 						player1.measureCollision();
 						player2.measureCollision();
 						if (!playingReplay) {
-							player1.getInput();
+							player1.getDelayedInput();
 							player2.getInput();
 						}
 						else {
