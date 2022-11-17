@@ -1,11 +1,16 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class MenuState extends State{
 
 	
 	private Button pVpButton, botButton, keysButton, minigamesButton, soundButton, replayButton;
 	private boolean rendered;
+	private boolean replayExists;
 	
 	public MenuState(Game game) {
 		
@@ -24,7 +29,14 @@ public class MenuState extends State{
 		
 		rendered = false;
 		SoundManager.play("sounds/Nothing.wav", false);
-		
+		File f = new File("replays/lastReplay.pbr");
+		if(f.exists() && !f.isDirectory()) { 
+		    replayExists = true;
+		}
+		else {
+			replayExists = false;
+			replayButton.setColor(Color.gray);
+		}
 	}
 	
 	@Override
@@ -57,8 +69,11 @@ public class MenuState extends State{
 		}*/
 		
 		if (replayButton.buttonPressed()) {
-			State.setState(game.getGameState());
-			((GameState)(game.getGameState())).init(5, 0, false);
+			
+			if (replayExists) {
+				State.setState(game.getGameState());
+				((GameState)(game.getGameState())).init(5, 0, false);
+			}
 		}
 
 	}
@@ -72,7 +87,7 @@ public class MenuState extends State{
 			g.clearRect(0, 0, 1280, 720);
 			//Text.drawString(g, "SUPER SMASH BALAS", 640, 300, true, Color.black, Assets.font30);
 			g.drawImage(Assets.logo, 440, 100, 400, 400, null);
-			Text.drawString(g, "Ver. 2.1", 10, 710, false, Color.black, Assets.font15);
+			Text.drawString(g, "Ver. 2.2 BETA", 10, 710, false, Color.black, Assets.font15);
 			pVpButton.drawButton(g);
 			botButton.drawButton(g);
 			keysButton.drawButton(g);
