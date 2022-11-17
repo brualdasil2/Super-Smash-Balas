@@ -802,21 +802,22 @@ public class GameState extends State {
 					else if (winner > 0){
 						
 						
-						
-						if (restartButton.buttonPressed()) {
-							hitEffectActive = false;
-							hitEffect.resetFrameCounter();
-							KOscreenTimer = 0;
-							countdownTimer = 0;
-							parryFreezeCounter = 0;
-							
-							resetCharacters();
-							
-							if (!playingReplay) {
-								inputRecorder.stopRecording(player1.character, player2.character, map);
+						if (mode != 3 && mode != 4) {
+							if (restartButton.buttonPressed()) {
+								hitEffectActive = false;
+								hitEffect.resetFrameCounter();
+								KOscreenTimer = 0;
+								countdownTimer = 0;
+								parryFreezeCounter = 0;
+								
+								resetCharacters();
+								
+								if (!playingReplay) {
+									inputRecorder.stopRecording(player1.character, player2.character, map);
+								}
+								
+								init(mode, map, false);
 							}
-							
-							init(mode, map, false);
 						}
 						
 						if (menuButton.buttonPressed()) {
@@ -1015,7 +1016,9 @@ public class GameState extends State {
 				}
 				else if (KOscreenTimer == 180 && countdownTimer == 210) {
 					menuButton.drawButton(g);
-					restartButton.drawButton(g);
+					if (mode != 3 && mode != 4) {
+						restartButton.drawButton(g);
+					}
 				}
 			}
 			

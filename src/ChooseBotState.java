@@ -1,7 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class ChooseBotState extends State{
+public class ChooseBotState extends State {
 
 	private Button playerBrunoButton, playerCarolButton, playerLacerdaButton, playerObinoButton, botBrunoButton, botCarolButton, botLacerdaButton, botObinoButton, easyButton, mediumButton, hardButton, expertButton, backButton, player1Button, player2Button, suddenDeathYesButton, suddenDeathNoButton;
 	private boolean rendered;
@@ -14,6 +14,7 @@ public class ChooseBotState extends State{
 		super(game);
 	
 	}
+	
 	
 	public void init() {
 		
