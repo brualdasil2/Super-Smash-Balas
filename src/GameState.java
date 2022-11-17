@@ -408,7 +408,7 @@ public class GameState extends State {
 					
 					
 					if (!training)
-						magicBall.tick();
+						magicBall.tick(player1, player2);
 					else {
 						
 						player1.maxMagic();

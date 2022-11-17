@@ -695,7 +695,7 @@ public class Player {
 		}
 	}
 			
-			
+		/*	
 	protected void magicGrabDetection() {
 		
 		if (currentFrame.getHurtboxes() != null) {
@@ -720,7 +720,7 @@ public class Player {
 				}
 			}
 		}
-	}
+	}*/
 	
 	protected void measureCollision() {
 		
@@ -1054,7 +1054,7 @@ public class Player {
 			
 			//hitDetection();
 			//projectileHitDetection();
-			magicGrabDetection();
+			//magicGrabDetection();
 		}
 		
 	//	currentFrame = character.getUpSpecialRight().getFrames()[7];
@@ -1316,6 +1316,9 @@ public class Player {
 	public void increaseMagic(int increment) {
 		
 		magic += increment;
+		if (magic > 10) {
+			magic = 10;
+		}
 	}
 	
 	public void decreaseMagic(int decrement) {

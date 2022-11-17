@@ -22,9 +22,24 @@ public class MagicBall {
 		 
 	}
 	
+	private boolean isCollidingWithPlayer(SmashPlayer p) {
+		boolean isColliding = false;
+		for(Hurtbox hurtbox: p.currentFrame.getHurtboxes()) {
+			
+			if ((Math.pow((double) ((GameState.magicBall.getX()) - (hurtbox.getX() + p.x)), 2) + Math.pow((double) ((GameState.magicBall.getY()) - (hurtbox.getY() + p.y)), 2)) < Math.pow((double) (GameState.magicBall.getR() + hurtbox.getR()), 2)) {
+				isColliding = true;
+			}
+		}
+		return isColliding;
+	}
 
+	private void grabBall(SmashPlayer p) {
+		p.increaseMagic(3);
+		grab();
+		SoundManager.play("sounds/Magic.wav", false);
+	}
 	
-	public void tick(){
+	public void tick(SmashPlayer p1, SmashPlayer p2){
 		
 		if (frameCounter > 0) {
 			
@@ -48,6 +63,25 @@ public class MagicBall {
 				grabbable = true;
 			}
 			
+		}
+		
+		if (grabbable) {
+			boolean p1collide = isCollidingWithPlayer(p1);
+			boolean p2collide = isCollidingWithPlayer(p2);
+			if (p1collide && !p2collide) {
+				grabBall(p1);
+			}
+			else if (p2collide && !p1collide) {
+				grabBall(p2);
+			}
+			else if (p1collide && p2collide) {
+				if (p1.shield >= p2.shield) {
+					grabBall(p1);
+				}
+				else {
+					grabBall(p2);
+				}
+			}
 		}
 		
 	}

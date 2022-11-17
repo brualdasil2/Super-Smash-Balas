@@ -1160,7 +1160,7 @@ public class SmashPlayer extends Player {
 
 		if (opponent != null) {
 
-			magicGrabDetection();
+			//magicGrabDetection();
 		}
 
 	}
