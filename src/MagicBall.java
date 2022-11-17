@@ -24,6 +24,9 @@ public class MagicBall {
 	
 	private boolean isCollidingWithPlayer(SmashPlayer p) {
 		boolean isColliding = false;
+		if (p.currentFrame.getHurtboxes() == null) {
+			return false;
+		}
 		for(Hurtbox hurtbox: p.currentFrame.getHurtboxes()) {
 			
 			if ((Math.pow((double) ((GameState.magicBall.getX()) - (hurtbox.getX() + p.x)), 2) + Math.pow((double) ((GameState.magicBall.getY()) - (hurtbox.getY() + p.y)), 2)) < Math.pow((double) (GameState.magicBall.getR() + hurtbox.getR()), 2)) {
