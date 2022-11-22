@@ -1,3 +1,4 @@
+import java.awt.image.BufferedImage;
 
 public abstract class Character {
 	
@@ -11,6 +12,7 @@ public abstract class Character {
 	protected int sideSpecialMagic, neutralSpecialMagic, upSpecialMagic;
 	protected int skin;
 	protected double weight;
+	protected BufferedImage stockIcon;
 	
 	//"IF" = IndividualFrames (animation counter)
 	//"UF" = Unique Frames (animation counter)

@@ -46,6 +46,7 @@ public class Obino extends Character{
 		jumps = 2;
 		weight = 1.3;
 		
+		stockIcon = Assets.obinoStockIcon;
 	}
 	
 	protected void closeTrap(Player player) {

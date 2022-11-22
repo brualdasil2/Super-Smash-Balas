@@ -987,21 +987,14 @@ public class GameState extends State {
 
 			for (int i = 0; i < nCircles1; i++) {
 				
-				g.fillOval(475 - 12*i, 6, 8, 8);
+				//g.fillOval(475 - 12*i, 6, 8, 8);
+				g.drawImage(player1.character.stockIcon, 475 - 20*i, 6, 20, 20, null);
 				
 			}
 			for (int i = 0; i < nCircles2; i++) {
 				
-				g.fillOval(800 + 12*i, 6, 8, 8);
-				
-			}
-			
-			g.setColor(Color.black);
-			
-			for (int i = 0; i < maxScore; i++) {
-					
-				g.drawOval(475 - 12*i, 6, 8, 8);
-				g.drawOval(800 + 12*i, 6, 8, 8);
+				//g.fillOval(800 + 12*i, 6, 8, 8);
+				g.drawImage(player2.character.stockIcon, 800 + 20*i, 6, 20, 20, null);
 			}
 			
 		}

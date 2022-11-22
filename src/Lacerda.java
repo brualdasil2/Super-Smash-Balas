@@ -50,6 +50,8 @@ public class Lacerda extends Character {
 		airSpeed = 6;
 		jumps = 2;
 		weight = 0.85;
+		
+		stockIcon = Assets.lacerdaStockIcon;
 	}
 	
 	public void resetBomb() {

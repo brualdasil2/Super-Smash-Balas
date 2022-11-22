@@ -8,7 +8,7 @@ import javax.sound.sampled.AudioInputStream;
 
 public class Assets {
 	
-	public static BufferedImage bruno0SelectImageRight, bruno0SelectImageLeft;
+	public static BufferedImage bruno0SelectImageRight, bruno0SelectImageLeft, brunoStockIcon;
 	public static BufferedImage bruno0ParryRight, bruno0ParryLeft;
 	public static BufferedImage[] bruno0StandingRight = new BufferedImage[1];
 	public static BufferedImage[] bruno0StandingLeft = new BufferedImage[1];
@@ -68,7 +68,7 @@ public class Assets {
 	public static BufferedImage[] bruno1UpSpecialLeft = new BufferedImage[1];
 	
 	
-	public static BufferedImage carol0SelectImageRight, carol0SelectImageLeft;
+	public static BufferedImage carol0SelectImageRight, carol0SelectImageLeft, carolStockIcon;
 	public static BufferedImage carol0ParryRight, carol0ParryLeft;
 	public static BufferedImage[] carol0StandingRight = new BufferedImage[1];
 	public static BufferedImage[] carol0StandingLeft = new BufferedImage[1];
@@ -176,7 +176,7 @@ public class Assets {
 	public static BufferedImage[] supercarol1UpSpecialLeft = new BufferedImage[8];
 	
 
-	public static BufferedImage lacerda0SelectImageRight, lacerda0SelectImageLeft;
+	public static BufferedImage lacerda0SelectImageRight, lacerda0SelectImageLeft, lacerdaStockIcon;
 	public static BufferedImage lacerda0ParryRight, lacerda0ParryLeft;
 	public static BufferedImage[] lacerda0StandingRight = new BufferedImage[1];
 	public static BufferedImage[] lacerda0StandingLeft = new BufferedImage[1];
@@ -242,7 +242,7 @@ public class Assets {
 	public static BufferedImage[] lacerda1UpSpecialRight = new BufferedImage[12];
 	public static BufferedImage[] lacerda1UpSpecialLeft = new BufferedImage[12];
 	
-	public static BufferedImage obino0SelectImageRight, obino0SelectImageLeft;
+	public static BufferedImage obino0SelectImageRight, obino0SelectImageLeft, obinoStockIcon;
 	public static BufferedImage obino0ParryRight, obino0ParryLeft;
 	public static BufferedImage[] obino0StandingRight = new BufferedImage[1];
 	public static BufferedImage[] obino0StandingLeft = new BufferedImage[1];
@@ -339,6 +339,7 @@ public class Assets {
 	private static int height = 64;
 	
 	public static void init() {
+		
 		
 		SpriteSheet bruno0Sheet64x64 = new SpriteSheet(ImageLauncher.loadImage("/textures/Bruno0(64x64).png"));
 		SpriteSheet bruno1Sheet64x64 = new SpriteSheet(ImageLauncher.loadImage("/textures/Bruno1(64x64).png"));
@@ -439,7 +440,10 @@ public class Assets {
 		logo = ImageLauncher.loadImage("/textures/Logo_Nome.png");
 		
 		
-		
+		brunoStockIcon = ImageLauncher.loadImage("/textures/BrunoStockIcon.png");
+		carolStockIcon = ImageLauncher.loadImage("/textures/CarolStockIcon.png");
+		lacerdaStockIcon = ImageLauncher.loadImage("/textures/LacerdaStockIcon.png");
+		obinoStockIcon = ImageLauncher.loadImage("/textures/ObinoStockIcon.png");
 		
 		
 		

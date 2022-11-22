@@ -43,6 +43,8 @@ public class Bruno extends Character{
 		jumps = 2;
 		weight = 1;
 		
+		stockIcon = Assets.brunoStockIcon;
+		
 	}
 
 	@Override

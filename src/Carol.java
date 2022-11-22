@@ -44,6 +44,7 @@ public class Carol extends Character {
 		jumps = 2;
 		weight = 0.75;
 		
+		stockIcon = Assets.carolStockIcon;
 	}
 	
 	public void setSuper() {
