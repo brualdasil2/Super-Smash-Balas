@@ -307,9 +307,27 @@ public class CharacterSelectState extends State {
 				switch (map) {
 				
 				case 0: 
+					g.setColor(Color.LIGHT_GRAY);
+					//462, 100, 356, 200
+					int aux = 0;
+					for (int i = 100; i < 300; i+=22) {
+						g.drawLine(462, i, 462+356, i);
+						aux++;
+						if (aux%4 == 0) {
+							i++;
+						}
+					}
+					aux = 0;
+					for (int j = 462; j < 462+356; j+=22) {
+						g.drawLine(j, 100, j, 300);
+						aux++;
+						
+						if (aux%4 == 0) {
+							j++;
+						}
+					}
 					g.setColor(Color.black);
-					//g.drawRect(462, 100, 356, 200);
-					g.fillRect(462+42, 286-28, 356-84, 14+28);
+					g.fillRect(504, 258, 272, 42);
 					Text.drawString(g, "Sala de Treino", 640, 320, true, Color.white, Assets.font20);
 					break;
 				

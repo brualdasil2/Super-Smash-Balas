@@ -36,7 +36,7 @@ public class InputRecorder {
 	}
 	
 	public void startRecording() {
-		gameInputs = new byte[100000];
+		gameInputs = new byte[1000000];
 		currentIndex = 0;
 		p1InputsArray = new byte[8];
 		p2InputsArray = new byte[8];
@@ -114,7 +114,7 @@ public class InputRecorder {
 	}
 	
 	public void startPlaying() {
-		gameInputs = new byte[100000];
+		gameInputs = new byte[1000000];
 		currentIndex = 0;
 		try {
 			FileInputStream fis = new FileInputStream(fileName);

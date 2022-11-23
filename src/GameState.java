@@ -216,14 +216,14 @@ public class GameState extends State {
 			
 			resumeButton = new Button(game, 540, 265, 200, 50, Color.darkGray, "SEGUIR JOGANDO", Assets.font20, null, true);
 			characterButton = new Button(game, 500, 335, 280, 50, Color.darkGray, "ESCOLHER PERSONAGENS", Assets.font20, null, true);
-			menuButton = new Button(game, 540, 405, 200, 50, Color.darkGray, "VOLTAR AO MENU", Assets.font20, null, true);
-			restartButton = new Button(game, 540, 475, 200, 50, Color.darkGray, "RECOMEÇAR", Assets.font20, null, true);
+			menuButton = new Button(game, 540, 475, 200, 50, Color.darkGray, "VOLTAR AO MENU", Assets.font20, null, true);
+			restartButton = new Button(game, 540, 405, 200, 50, Color.darkGray, "RECOMEÇAR", Assets.font20, null, true);
 		}
 		else if (mode >= 3) {
 			
 			resumeButton = new Button(game, 540, 300, 200, 50, Color.darkGray, "SEGUIR JOGANDO", Assets.font20, null, true);
-			menuButton = new Button(game, 540, 370, 200, 50, Color.darkGray, "VOLTAR AO MENU", Assets.font20, null, true);
-			restartButton = new Button(game, 540, 440, 200, 50, Color.darkGray, "RECOMEÇAR", Assets.font20, null, true);
+			menuButton = new Button(game, 540, 440, 200, 50, Color.darkGray, "VOLTAR AO MENU", Assets.font20, null, true);
+			restartButton = new Button(game, 540, 370, 200, 50, Color.darkGray, "RECOMEÇAR", Assets.font20, null, true);
 		}
 		
 		if (!training)
@@ -988,13 +988,13 @@ public class GameState extends State {
 			for (int i = 0; i < nCircles1; i++) {
 				
 				//g.fillOval(475 - 12*i, 6, 8, 8);
-				g.drawImage(player1.character.stockIcon, 475 - 20*i, 6, 20, 20, null);
+				g.drawImage(player1.character.stockIcon, 470 - 25*i, 10, 27, 27, null);
 				
 			}
 			for (int i = 0; i < nCircles2; i++) {
 				
 				//g.fillOval(800 + 12*i, 6, 8, 8);
-				g.drawImage(player2.character.stockIcon, 800 + 20*i, 6, 20, 20, null);
+				g.drawImage(player2.character.stockIcon, 795 + 25*i, 10, 27, 27, null);
 			}
 			
 		}
