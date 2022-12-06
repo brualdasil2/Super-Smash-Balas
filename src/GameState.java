@@ -579,7 +579,7 @@ public class GameState extends State {
 									((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char().resetAttackCounters();
 								}
 							}
-							if (botBehavior <= 5) {
+							if (botBehavior <= 6) {
 								if (botEscapeButton.buttonPressed()) {
 									screenRefreshManager.setChange(0, 0, 300, 500);
 									botEscape++;
