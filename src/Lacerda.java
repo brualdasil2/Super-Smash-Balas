@@ -2,7 +2,7 @@
 public class Lacerda extends Character {
 
 	private boolean chargingBomb = false;
-	private int bombDamage = 20;
+	private int bombKnockback = 15;
 	private boolean countering = false;
 	private int counterProjectileDamage = 0;
 	private int counterProjectileKnockbackXSpeed = 0;
@@ -56,11 +56,13 @@ public class Lacerda extends Character {
 	
 	public void resetBomb() {
 		
-		bombDamage = 20;
+		bombKnockback = 15;
 		sideSpecialRight = AttackCreator.getLacerdaSideSpecial1Right(skin);
 		sideSpecialLeft = AttackCreator.getLacerdaSideSpecial1Left(skin);
-		sideSpecialRight.setDamage(20);
-		sideSpecialLeft.setDamage(20);
+		sideSpecialRight.setKnockbackXSpeed(bombKnockback);
+		sideSpecialRight.setKnockbackYSpeed(-bombKnockback);
+		sideSpecialLeft.setKnockbackXSpeed(-bombKnockback);
+		sideSpecialLeft.setKnockbackYSpeed(-bombKnockback);
 	}
 	
 	private int calculateCounterKnockbackComponent(int knockbackX, int knockbackY) {
@@ -569,11 +571,11 @@ public class Lacerda extends Character {
 				
 				if (attackIF == 1) {
 					
-					if (bombDamage >= 40 ) {
+					if (bombKnockback >= 25) {
 						
 						SoundManager.play("sounds/Explosion3.wav", false);
 					}
-					else if (bombDamage >= 30) {
+					else if (bombKnockback >= 20) {
 						
 						SoundManager.play("sounds/Explosion2.wav", false);
 					}
@@ -588,35 +590,39 @@ public class Lacerda extends Character {
 		
 		if (chargingBomb) {
 			
-			if (attackIF % 2 == 0) {
+			if (attackIF % 3 == 0) {
 				
-				bombDamage++;
+				bombKnockback++;
 				
-				if (bombDamage == 30) {
+				if (bombKnockback == 20) {
 					
 					sideSpecialRight = AttackCreator.getLacerdaSideSpecial2Right(skin);
 					sideSpecialLeft = AttackCreator.getLacerdaSideSpecial2Left(skin);
 				}
 				
-				if (bombDamage == 40) {
+				if (bombKnockback == 25) {
 					
 					sideSpecialRight = AttackCreator.getLacerdaSideSpecial3Right(skin);
 					sideSpecialLeft = AttackCreator.getLacerdaSideSpecial3Left(skin);
 				}
 				
-				if (bombDamage == 50) {
+				if (bombKnockback == 30) {
 					
 					chargingBomb = false;
-					sideSpecialRight.setDamage(bombDamage);
-					sideSpecialLeft.setDamage(bombDamage);
+					sideSpecialRight.setKnockbackXSpeed(bombKnockback);
+					sideSpecialRight.setKnockbackYSpeed(-bombKnockback);
+					sideSpecialLeft.setKnockbackXSpeed(-bombKnockback);
+					sideSpecialLeft.setKnockbackYSpeed(-bombKnockback);
 				}
 			}
 			
 			if (!player.pressingSpecial) {
 				
 				chargingBomb = false;
-				sideSpecialRight.setDamage(bombDamage);
-				sideSpecialLeft.setDamage(bombDamage);
+				sideSpecialRight.setKnockbackXSpeed(bombKnockback);
+				sideSpecialRight.setKnockbackYSpeed(-bombKnockback);
+				sideSpecialLeft.setKnockbackXSpeed(-bombKnockback);
+				sideSpecialLeft.setKnockbackYSpeed(-bombKnockback);
 			}
 		}
 		

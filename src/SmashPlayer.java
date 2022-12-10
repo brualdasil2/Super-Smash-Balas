@@ -26,6 +26,7 @@ public class SmashPlayer extends Player {
 		super(game, playerNumb, character, x, y, name);
 		this.percent = 0;
 		this.health = 1000;
+		this.character.resetAttackCounters();
 	}
 
 	private double knockbackMultiplier() {

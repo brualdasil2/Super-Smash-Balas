@@ -277,6 +277,9 @@ public abstract class AttackCreator {
 	private static int lacerdaFairDamage = 8;
 	private static int lacerdaUpAirDamage = 12;
 	private static int lacerdaUpSpecialDamage = 5;
+	private static int lacerdaSideSpecial1Damage = 20;
+	private static int lacerdaSideSpecial2Damage = 35;
+	private static int lacerdaSideSpecial3Damage = 50;
 	
 	private static int obinoJabDamage = 15;
 	private static int obinoDashDamage = 12;
@@ -2201,61 +2204,61 @@ public abstract class AttackCreator {
 		
 		carolUpTiltRightFrames = new AttackFrame[][] {{new AttackFrame(1, Assets.carol0StandingRight[0], carolStandingRightHurtboxes, null, 200, 200),
 													   new AttackFrame(6, Assets.carol0UpTiltRight[0], carolStandingRightHurtboxes, null, 200, 400, 0, -200),
-													   new AttackFrame(7, Assets.carol0UpTiltRight[1], carolStandingRightHurtboxes, null, 200, 400, 0, -200),
-													   new AttackFrame(1, Assets.carol0UpTiltRight[2], carolStandingRightHurtboxes, carolUpTiltRightHitboxes0, 200, 400, 0, -200),
+													   new AttackFrame(2, Assets.carol0UpTiltRight[1], carolStandingRightHurtboxes, null, 200, 400, 0, -200),
+													   new AttackFrame(2, Assets.carol0UpTiltRight[2], carolStandingRightHurtboxes, carolUpTiltRightHitboxes0, 200, 400, 0, -200),
 													   new AttackFrame(1, Assets.carol0UpTiltRight[3], carolStandingRightHurtboxes, carolUpTiltRightHitboxes1, 200, 400, 0, -200),
-													   new AttackFrame(1, Assets.carol0UpTiltRight[4], carolStandingRightHurtboxes, carolUpTiltRightHitboxes2, 200, 400, 0, -200),
-													   new AttackFrame(1, Assets.carol0UpTiltRight[5], carolStandingRightHurtboxes, carolUpTiltRightHitboxes3, 200, 400, 0, -200),
-													   new AttackFrame(1, Assets.carol0UpTiltRight[6], carolStandingRightHurtboxes, carolUpTiltRightHitboxes4, 200, 400, 0, -200),
-													   new AttackFrame(1, Assets.carol0UpTiltRight[7], carolStandingRightHurtboxes, carolUpTiltRightHitboxes5, 200, 400, 0, -200),
+													   new AttackFrame(0, Assets.carol0UpTiltRight[4], carolStandingRightHurtboxes, carolUpTiltRightHitboxes2, 200, 400, 0, -200),
+													   new AttackFrame(0, Assets.carol0UpTiltRight[5], carolStandingRightHurtboxes, carolUpTiltRightHitboxes3, 200, 400, 0, -200),
+													   new AttackFrame(0, Assets.carol0UpTiltRight[6], carolStandingRightHurtboxes, carolUpTiltRightHitboxes4, 200, 400, 0, -200),
+													   new AttackFrame(0, Assets.carol0UpTiltRight[7], carolStandingRightHurtboxes, carolUpTiltRightHitboxes5, 200, 400, 0, -200),
 													   new AttackFrame(5, Assets.carol0UpTiltRight[8], carolStandingRightHurtboxes, carolUpTiltRightHitboxes6, 200, 400, 0, -200),
-													   new AttackFrame(5, Assets.carol0UpTiltRight[8], carolStandingRightHurtboxes, null, 200, 400, 0, -200),
-													   new AttackFrame(12, Assets.carol0UpTiltRight[9], carolStandingRightHurtboxes, null, 200, 400, 0, -200)},
+													   new AttackFrame(7, Assets.carol0UpTiltRight[8], carolStandingRightHurtboxes, null, 200, 400, 0, -200),
+													   new AttackFrame(15, Assets.carol0UpTiltRight[9], carolStandingRightHurtboxes, null, 200, 400, 0, -200)},
 		
 													  {new AttackFrame(1, Assets.carol1StandingRight[0], carolStandingRightHurtboxes, null, 200, 200),
 													   new AttackFrame(6, Assets.carol1UpTiltRight[0], carolStandingRightHurtboxes, null, 200, 400, 0, -200),
-													   new AttackFrame(5, Assets.carol1UpTiltRight[1], carolStandingRightHurtboxes, null, 200, 400, 0, -200),
-													   new AttackFrame(1, Assets.carol1UpTiltRight[2], carolStandingRightHurtboxes, carolUpTiltRightHitboxes0, 200, 400, 0, -200),
+													   new AttackFrame(2, Assets.carol1UpTiltRight[1], carolStandingRightHurtboxes, null, 200, 400, 0, -200),
+													   new AttackFrame(2, Assets.carol1UpTiltRight[2], carolStandingRightHurtboxes, carolUpTiltRightHitboxes0, 200, 400, 0, -200),
 													   new AttackFrame(1, Assets.carol1UpTiltRight[3], carolStandingRightHurtboxes, carolUpTiltRightHitboxes1, 200, 400, 0, -200),
-													   new AttackFrame(1, Assets.carol1UpTiltRight[4], carolStandingRightHurtboxes, carolUpTiltRightHitboxes2, 200, 400, 0, -200),
-													   new AttackFrame(1, Assets.carol1UpTiltRight[5], carolStandingRightHurtboxes, carolUpTiltRightHitboxes3, 200, 400, 0, -200),
-													   new AttackFrame(1, Assets.carol1UpTiltRight[6], carolStandingRightHurtboxes, carolUpTiltRightHitboxes4, 200, 400, 0, -200),
-													   new AttackFrame(1, Assets.carol1UpTiltRight[7], carolStandingRightHurtboxes, carolUpTiltRightHitboxes5, 200, 400, 0, -200),
+													   new AttackFrame(0, Assets.carol1UpTiltRight[4], carolStandingRightHurtboxes, carolUpTiltRightHitboxes2, 200, 400, 0, -200),
+													   new AttackFrame(0, Assets.carol1UpTiltRight[5], carolStandingRightHurtboxes, carolUpTiltRightHitboxes3, 200, 400, 0, -200),
+													   new AttackFrame(0, Assets.carol1UpTiltRight[6], carolStandingRightHurtboxes, carolUpTiltRightHitboxes4, 200, 400, 0, -200),
+													   new AttackFrame(0, Assets.carol1UpTiltRight[7], carolStandingRightHurtboxes, carolUpTiltRightHitboxes5, 200, 400, 0, -200),
 													   new AttackFrame(5, Assets.carol1UpTiltRight[8], carolStandingRightHurtboxes, carolUpTiltRightHitboxes6, 200, 400, 0, -200),
-													   new AttackFrame(5, Assets.carol1UpTiltRight[8], carolStandingRightHurtboxes, null, 200, 400, 0, -200),
-													   new AttackFrame(12, Assets.carol1UpTiltRight[9], carolStandingRightHurtboxes, null, 200, 400, 0, -200)},
+													   new AttackFrame(7, Assets.carol1UpTiltRight[8], carolStandingRightHurtboxes, null, 200, 400, 0, -200),
+													   new AttackFrame(15, Assets.carol1UpTiltRight[9], carolStandingRightHurtboxes, null, 200, 400, 0, -200)},
 													  
 													  {new AttackFrame(1, Assets.supercarol0StandingRight[0], carolStandingRightHurtboxes, null, 200, 200),
 													   new AttackFrame(6, Assets.supercarol0UpTiltRight[0], carolStandingRightHurtboxes, null, 200, 400, 0, -200),
-												       new AttackFrame(5, Assets.supercarol0UpTiltRight[1], carolStandingRightHurtboxes, null, 200, 400, 0, -200),
-													   new AttackFrame(1, Assets.supercarol0UpTiltRight[2], carolStandingRightHurtboxes, carolUpTiltRightHitboxes0, 200, 400, 0, -200),
+												       new AttackFrame(2, Assets.supercarol0UpTiltRight[1], carolStandingRightHurtboxes, null, 200, 400, 0, -200),
+													   new AttackFrame(2, Assets.supercarol0UpTiltRight[2], carolStandingRightHurtboxes, carolUpTiltRightHitboxes0, 200, 400, 0, -200),
 													   new AttackFrame(1, Assets.supercarol0UpTiltRight[3], carolStandingRightHurtboxes, carolUpTiltRightHitboxes1, 200, 400, 0, -200),
-													   new AttackFrame(1, Assets.supercarol0UpTiltRight[4], carolStandingRightHurtboxes, carolUpTiltRightHitboxes2, 200, 400, 0, -200),
-													   new AttackFrame(1, Assets.supercarol0UpTiltRight[5], carolStandingRightHurtboxes, carolUpTiltRightHitboxes3, 200, 400, 0, -200),
-													   new AttackFrame(1, Assets.supercarol0UpTiltRight[6], carolStandingRightHurtboxes, carolUpTiltRightHitboxes4, 200, 400, 0, -200),
-													   new AttackFrame(1, Assets.supercarol0UpTiltRight[7], carolStandingRightHurtboxes, carolUpTiltRightHitboxes5, 200, 400, 0, -200),
+													   new AttackFrame(0, Assets.supercarol0UpTiltRight[4], carolStandingRightHurtboxes, carolUpTiltRightHitboxes2, 200, 400, 0, -200),
+													   new AttackFrame(0, Assets.supercarol0UpTiltRight[5], carolStandingRightHurtboxes, carolUpTiltRightHitboxes3, 200, 400, 0, -200),
+													   new AttackFrame(0, Assets.supercarol0UpTiltRight[6], carolStandingRightHurtboxes, carolUpTiltRightHitboxes4, 200, 400, 0, -200),
+													   new AttackFrame(0, Assets.supercarol0UpTiltRight[7], carolStandingRightHurtboxes, carolUpTiltRightHitboxes5, 200, 400, 0, -200),
 													   new AttackFrame(5, Assets.supercarol0UpTiltRight[8], carolStandingRightHurtboxes, carolUpTiltRightHitboxes6, 200, 400, 0, -200),
-													   new AttackFrame(5, Assets.supercarol0UpTiltRight[8], carolStandingRightHurtboxes, null, 200, 400, 0, -200),
-													   new AttackFrame(12, Assets.supercarol0UpTiltRight[9], carolStandingRightHurtboxes, null, 200, 400, 0, -200)},
+													   new AttackFrame(7, Assets.supercarol0UpTiltRight[8], carolStandingRightHurtboxes, null, 200, 400, 0, -200),
+													   new AttackFrame(15, Assets.supercarol0UpTiltRight[9], carolStandingRightHurtboxes, null, 200, 400, 0, -200)},
 													  
 													  {new AttackFrame(1, Assets.supercarol1StandingRight[0], carolStandingRightHurtboxes, null, 200, 200),
 													   new AttackFrame(6, Assets.supercarol1UpTiltRight[0], carolStandingRightHurtboxes, null, 200, 400, 0, -200),
-													   new AttackFrame(5, Assets.supercarol1UpTiltRight[1], carolStandingRightHurtboxes, null, 200, 400, 0, -200),
-													   new AttackFrame(1, Assets.supercarol1UpTiltRight[2], carolStandingRightHurtboxes, carolUpTiltRightHitboxes0, 200, 400, 0, -200),
+													   new AttackFrame(2, Assets.supercarol1UpTiltRight[1], carolStandingRightHurtboxes, null, 200, 400, 0, -200),
+													   new AttackFrame(2, Assets.supercarol1UpTiltRight[2], carolStandingRightHurtboxes, carolUpTiltRightHitboxes0, 200, 400, 0, -200),
 													   new AttackFrame(1, Assets.supercarol1UpTiltRight[3], carolStandingRightHurtboxes, carolUpTiltRightHitboxes1, 200, 400, 0, -200),
-													   new AttackFrame(1, Assets.supercarol1UpTiltRight[4], carolStandingRightHurtboxes, carolUpTiltRightHitboxes2, 200, 400, 0, -200),
-													   new AttackFrame(1, Assets.supercarol1UpTiltRight[5], carolStandingRightHurtboxes, carolUpTiltRightHitboxes3, 200, 400, 0, -200),
-													   new AttackFrame(1, Assets.supercarol1UpTiltRight[6], carolStandingRightHurtboxes, carolUpTiltRightHitboxes4, 200, 400, 0, -200),
-													   new AttackFrame(1, Assets.supercarol1UpTiltRight[7], carolStandingRightHurtboxes, carolUpTiltRightHitboxes5, 200, 400, 0, -200),
+													   new AttackFrame(0, Assets.supercarol1UpTiltRight[4], carolStandingRightHurtboxes, carolUpTiltRightHitboxes2, 200, 400, 0, -200),
+													   new AttackFrame(0, Assets.supercarol1UpTiltRight[5], carolStandingRightHurtboxes, carolUpTiltRightHitboxes3, 200, 400, 0, -200),
+													   new AttackFrame(0, Assets.supercarol1UpTiltRight[6], carolStandingRightHurtboxes, carolUpTiltRightHitboxes4, 200, 400, 0, -200),
+													   new AttackFrame(0, Assets.supercarol1UpTiltRight[7], carolStandingRightHurtboxes, carolUpTiltRightHitboxes5, 200, 400, 0, -200),
 													   new AttackFrame(5, Assets.supercarol1UpTiltRight[8], carolStandingRightHurtboxes, carolUpTiltRightHitboxes6, 200, 400, 0, -200),
-													   new AttackFrame(5, Assets.supercarol1UpTiltRight[8], carolStandingRightHurtboxes, null, 200, 400, 0, -200),
-													   new AttackFrame(12, Assets.supercarol1UpTiltRight[9], carolStandingRightHurtboxes, null, 200, 400, 0, -200)}};
+													   new AttackFrame(7, Assets.supercarol1UpTiltRight[8], carolStandingRightHurtboxes, null, 200, 400, 0, -200),
+													   new AttackFrame(15, Assets.supercarol1UpTiltRight[9], carolStandingRightHurtboxes, null, 200, 400, 0, -200)}};
 		
 							   
-		carolUpTiltRight = new Attack[] {new Attack(carolUpTiltRightFrames[0], 12, carolUpTiltDamage, 2, -25, 7, 50, carolCollisionbox, 0, -3),
-				 						 new Attack(carolUpTiltRightFrames[1], 12, carolUpTiltDamage, 2, -25, 7, 50, carolCollisionbox, 0, -3),
-				 						 new Attack(carolUpTiltRightFrames[2], 12, carolUpTiltDamage, 2, -25, 7, 50, carolCollisionbox, 0, -3),
-				 						 new Attack(carolUpTiltRightFrames[3], 12, carolUpTiltDamage, 2, -25, 7, 50, carolCollisionbox, 0, -3)};
+		carolUpTiltRight = new Attack[] {new Attack(carolUpTiltRightFrames[0], 12, carolUpTiltDamage, 2, -28, 7, 50, carolCollisionbox, 0, -3),
+				 						 new Attack(carolUpTiltRightFrames[1], 12, carolUpTiltDamage, 2, -28, 7, 50, carolCollisionbox, 0, -3),
+				 						 new Attack(carolUpTiltRightFrames[2], 12, carolUpTiltDamage, 2, -28, 7, 50, carolCollisionbox, 0, -3),
+				 						 new Attack(carolUpTiltRightFrames[3], 12, carolUpTiltDamage, 2, -28, 7, 50, carolCollisionbox, 0, -3)};
 
 		
 		
@@ -2317,61 +2320,61 @@ public abstract class AttackCreator {
 
 		carolUpTiltLeftFrames = new AttackFrame[][] {{new AttackFrame(1, Assets.carol0StandingLeft[0], carolStandingLeftHurtboxes, null, 200, 200),
 													  new AttackFrame(6, Assets.carol0UpTiltLeft[0], carolStandingLeftHurtboxes, null, 200, 400, 0, -200),
-													  new AttackFrame(5, Assets.carol0UpTiltLeft[1], carolStandingLeftHurtboxes, null, 200, 400, 0, -200),
-													  new AttackFrame(1, Assets.carol0UpTiltLeft[2], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes0, 200, 400, 0, -200),
+													  new AttackFrame(2, Assets.carol0UpTiltLeft[1], carolStandingLeftHurtboxes, null, 200, 400, 0, -200),
+													  new AttackFrame(2, Assets.carol0UpTiltLeft[2], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes0, 200, 400, 0, -200),
 													  new AttackFrame(1, Assets.carol0UpTiltLeft[3], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes1, 200, 400, 0, -200),
-													  new AttackFrame(1, Assets.carol0UpTiltLeft[4], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes2, 200, 400, 0, -200),
-													  new AttackFrame(1, Assets.carol0UpTiltLeft[5], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes3, 200, 400, 0, -200),
-													  new AttackFrame(1, Assets.carol0UpTiltLeft[6], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes4, 200, 400, 0, -200),
-													  new AttackFrame(1, Assets.carol0UpTiltLeft[7], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes5, 200, 400, 0, -200),
+													  new AttackFrame(0, Assets.carol0UpTiltLeft[4], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes2, 200, 400, 0, -200),
+													  new AttackFrame(0, Assets.carol0UpTiltLeft[5], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes3, 200, 400, 0, -200),
+													  new AttackFrame(0, Assets.carol0UpTiltLeft[6], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes4, 200, 400, 0, -200),
+													  new AttackFrame(0, Assets.carol0UpTiltLeft[7], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes5, 200, 400, 0, -200),
 													  new AttackFrame(5, Assets.carol0UpTiltLeft[8], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes6, 200, 400, 0, -200),
-													  new AttackFrame(5, Assets.carol0UpTiltLeft[8], carolStandingLeftHurtboxes, null, 200, 400, 0, -200),
-													  new AttackFrame(12, Assets.carol0UpTiltLeft[9], carolStandingLeftHurtboxes, null, 200, 400, 0, -200)},
+													  new AttackFrame(7, Assets.carol0UpTiltLeft[8], carolStandingLeftHurtboxes, null, 200, 400, 0, -200),
+													  new AttackFrame(15, Assets.carol0UpTiltLeft[9], carolStandingLeftHurtboxes, null, 200, 400, 0, -200)},
 								
 													 {new AttackFrame(1, Assets.carol1StandingLeft[0], carolStandingLeftHurtboxes, null, 200, 200),
 													  new AttackFrame(6, Assets.carol1UpTiltLeft[0], carolStandingLeftHurtboxes, null, 200, 400, 0, -200),
-													  new AttackFrame(5, Assets.carol1UpTiltLeft[1], carolStandingLeftHurtboxes, null, 200, 400, 0, -200),
-													  new AttackFrame(1, Assets.carol1UpTiltLeft[2], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes0, 200, 400, 0, -200),
+													  new AttackFrame(2, Assets.carol1UpTiltLeft[1], carolStandingLeftHurtboxes, null, 200, 400, 0, -200),
+													  new AttackFrame(2, Assets.carol1UpTiltLeft[2], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes0, 200, 400, 0, -200),
 													  new AttackFrame(1, Assets.carol1UpTiltLeft[3], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes1, 200, 400, 0, -200),
-													  new AttackFrame(1, Assets.carol1UpTiltLeft[4], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes2, 200, 400, 0, -200),
-													  new AttackFrame(1, Assets.carol1UpTiltLeft[5], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes3, 200, 400, 0, -200),
-													  new AttackFrame(1, Assets.carol1UpTiltLeft[6], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes4, 200, 400, 0, -200),
-													  new AttackFrame(1, Assets.carol1UpTiltLeft[7], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes5, 200, 400, 0, -200),
+													  new AttackFrame(0, Assets.carol1UpTiltLeft[4], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes2, 200, 400, 0, -200),
+													  new AttackFrame(0, Assets.carol1UpTiltLeft[5], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes3, 200, 400, 0, -200),
+													  new AttackFrame(0, Assets.carol1UpTiltLeft[6], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes4, 200, 400, 0, -200),
+													  new AttackFrame(0, Assets.carol1UpTiltLeft[7], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes5, 200, 400, 0, -200),
 													  new AttackFrame(5, Assets.carol1UpTiltLeft[8], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes6, 200, 400, 0, -200),
-													  new AttackFrame(5, Assets.carol1UpTiltLeft[8], carolStandingLeftHurtboxes, null, 200, 400, 0, -200),
-													  new AttackFrame(12, Assets.carol1UpTiltLeft[9], carolStandingLeftHurtboxes, null, 200, 400, 0, -200)},
+													  new AttackFrame(7, Assets.carol1UpTiltLeft[8], carolStandingLeftHurtboxes, null, 200, 400, 0, -200),
+													  new AttackFrame(15, Assets.carol1UpTiltLeft[9], carolStandingLeftHurtboxes, null, 200, 400, 0, -200)},
 													 
 													 {new AttackFrame(1, Assets.supercarol0StandingLeft[0], carolStandingLeftHurtboxes, null, 200, 200),
 													  new AttackFrame(6, Assets.supercarol0UpTiltLeft[0], carolStandingLeftHurtboxes, null, 200, 400, 0, -200),
-													  new AttackFrame(5, Assets.supercarol0UpTiltLeft[1], carolStandingLeftHurtboxes, null, 200, 400, 0, -200),
-													  new AttackFrame(1, Assets.supercarol0UpTiltLeft[2], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes0, 200, 400, 0, -200),
+													  new AttackFrame(2, Assets.supercarol0UpTiltLeft[1], carolStandingLeftHurtboxes, null, 200, 400, 0, -200),
+													  new AttackFrame(2, Assets.supercarol0UpTiltLeft[2], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes0, 200, 400, 0, -200),
 													  new AttackFrame(1, Assets.supercarol0UpTiltLeft[3], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes1, 200, 400, 0, -200),
-													  new AttackFrame(1, Assets.supercarol0UpTiltLeft[4], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes2, 200, 400, 0, -200),
-													  new AttackFrame(1, Assets.supercarol0UpTiltLeft[5], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes3, 200, 400, 0, -200),
-													  new AttackFrame(1, Assets.supercarol0UpTiltLeft[6], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes4, 200, 400, 0, -200),
-													  new AttackFrame(1, Assets.supercarol0UpTiltLeft[7], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes5, 200, 400, 0, -200),
+													  new AttackFrame(0, Assets.supercarol0UpTiltLeft[4], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes2, 200, 400, 0, -200),
+													  new AttackFrame(0, Assets.supercarol0UpTiltLeft[5], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes3, 200, 400, 0, -200),
+													  new AttackFrame(0, Assets.supercarol0UpTiltLeft[6], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes4, 200, 400, 0, -200),
+													  new AttackFrame(0, Assets.supercarol0UpTiltLeft[7], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes5, 200, 400, 0, -200),
 													  new AttackFrame(5, Assets.supercarol0UpTiltLeft[8], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes6, 200, 400, 0, -200),
-													  new AttackFrame(5, Assets.supercarol0UpTiltLeft[8], carolStandingLeftHurtboxes, null, 200, 400, 0, -200),
-													  new AttackFrame(12, Assets.supercarol0UpTiltLeft[9], carolStandingLeftHurtboxes, null, 200, 400, 0, -200)},
+													  new AttackFrame(7, Assets.supercarol0UpTiltLeft[8], carolStandingLeftHurtboxes, null, 200, 400, 0, -200),
+													  new AttackFrame(15, Assets.supercarol0UpTiltLeft[9], carolStandingLeftHurtboxes, null, 200, 400, 0, -200)},
 													 
 													 {new AttackFrame(1, Assets.supercarol1StandingLeft[0], carolStandingLeftHurtboxes, null, 200, 200),
 													  new AttackFrame(6, Assets.supercarol1UpTiltLeft[0], carolStandingLeftHurtboxes, null, 200, 400, 0, -200),
-													  new AttackFrame(5, Assets.supercarol1UpTiltLeft[1], carolStandingLeftHurtboxes, null, 200, 400, 0, -200),
-													  new AttackFrame(1, Assets.supercarol1UpTiltLeft[2], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes0, 200, 400, 0, -200),
+													  new AttackFrame(2, Assets.supercarol1UpTiltLeft[1], carolStandingLeftHurtboxes, null, 200, 400, 0, -200),
+													  new AttackFrame(2, Assets.supercarol1UpTiltLeft[2], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes0, 200, 400, 0, -200),
 													  new AttackFrame(1, Assets.supercarol1UpTiltLeft[3], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes1, 200, 400, 0, -200),
-													  new AttackFrame(1, Assets.supercarol1UpTiltLeft[4], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes2, 200, 400, 0, -200),
-													  new AttackFrame(1, Assets.supercarol1UpTiltLeft[5], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes3, 200, 400, 0, -200),
-													  new AttackFrame(1, Assets.supercarol1UpTiltLeft[6], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes4, 200, 400, 0, -200),
-													  new AttackFrame(1, Assets.supercarol1UpTiltLeft[7], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes5, 200, 400, 0, -200),
+													  new AttackFrame(0, Assets.supercarol1UpTiltLeft[4], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes2, 200, 400, 0, -200),
+													  new AttackFrame(0, Assets.supercarol1UpTiltLeft[5], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes3, 200, 400, 0, -200),
+													  new AttackFrame(0, Assets.supercarol1UpTiltLeft[6], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes4, 200, 400, 0, -200),
+													  new AttackFrame(0, Assets.supercarol1UpTiltLeft[7], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes5, 200, 400, 0, -200),
 													  new AttackFrame(5, Assets.supercarol1UpTiltLeft[8], carolStandingLeftHurtboxes, carolUpTiltLeftHitboxes6, 200, 400, 0, -200),
-													  new AttackFrame(5, Assets.supercarol1UpTiltLeft[8], carolStandingLeftHurtboxes, null, 200, 400, 0, -200),
-													  new AttackFrame(12, Assets.supercarol1UpTiltLeft[9], carolStandingLeftHurtboxes, null, 200, 400, 0, -200)}};
+													  new AttackFrame(7, Assets.supercarol1UpTiltLeft[8], carolStandingLeftHurtboxes, null, 200, 400, 0, -200),
+													  new AttackFrame(15, Assets.supercarol1UpTiltLeft[9], carolStandingLeftHurtboxes, null, 200, 400, 0, -200)}};
 		
 		
-		carolUpTiltLeft = new Attack[] {new Attack(carolUpTiltLeftFrames[0], 12, carolUpTiltDamage, -2, -25, 7, 50, carolCollisionbox),
-										new Attack(carolUpTiltLeftFrames[1], 12, carolUpTiltDamage, -2, -25, 7, 50, carolCollisionbox),
-										new Attack(carolUpTiltLeftFrames[2], 12, carolUpTiltDamage, -2, -25, 7, 50, carolCollisionbox),
-										new Attack(carolUpTiltLeftFrames[3], 12, carolUpTiltDamage, -2, -25, 7, 50, carolCollisionbox)};
+		carolUpTiltLeft = new Attack[] {new Attack(carolUpTiltLeftFrames[0], 12, carolUpTiltDamage, -2, -28, 7, 50, carolCollisionbox, 0, -3),
+										new Attack(carolUpTiltLeftFrames[1], 12, carolUpTiltDamage, -2, -28, 7, 50, carolCollisionbox, 0, -3),
+										new Attack(carolUpTiltLeftFrames[2], 12, carolUpTiltDamage, -2, -28, 7, 50, carolCollisionbox, 0, -3),
+										new Attack(carolUpTiltLeftFrames[3], 12, carolUpTiltDamage, -2, -28, 7, 50, carolCollisionbox, 0, -3)};
 
 		
 		carolBairRightHurtboxes = new Hurtbox[] {new Hurtbox(77, 191, 12),
@@ -2597,7 +2600,7 @@ public abstract class AttackCreator {
 		carolFairLeft = new Attack[] {new Attack(carolFairLeftFrames[0], 9, carolFairDamage, -8, -8, 7, 20, carolCollisionbox, carolTipperFairDamage, -10, -10),
 									  new Attack(carolFairLeftFrames[1], 9, carolFairDamage, -8, -8, 7, 20, carolCollisionbox, carolTipperFairDamage, -10, -10),
 									  new Attack(carolFairLeftFrames[2], 9, supercarolFairDamage, -10, -10, 7, 20, carolCollisionbox, supercarolTipperFairDamage, -12, -12),
-									  new Attack(carolFairLeftFrames[3], 9, supercarolFairDamage, -10, -10, 7, 20, carolCollisionbox)};
+									  new Attack(carolFairLeftFrames[3], 9, supercarolFairDamage, -10, -10, 7, 20, carolCollisionbox, -12, -12)};
 		
 		
 		
@@ -4001,8 +4004,8 @@ public abstract class AttackCreator {
 															   new AttackFrame(1, Assets.lacerda1SideSpecial1Right[5], brunoFairRightHurtboxes, null, 400, 200),
 															   new AttackFrame(13, Assets.lacerda1SideSpecial1Right[6], brunoFairRightHurtboxes, null, 400, 200)}};
 					
-		lacerdaSideSpecial1Right = new Attack[] {new Attack(lacerdaSideSpecial1RightFrames[0], 7, 20, 10, -15, 7, 20, brunoCollisionbox),
-											     new Attack(lacerdaSideSpecial1RightFrames[1], 7, 20, 10, -15, 7, 20, brunoCollisionbox)};
+		lacerdaSideSpecial1Right = new Attack[] {new Attack(lacerdaSideSpecial1RightFrames[0], 7, lacerdaSideSpecial1Damage, 10, -15, 7, 25, brunoCollisionbox),
+											     new Attack(lacerdaSideSpecial1RightFrames[1], 7, lacerdaSideSpecial1Damage, 10, -15, 7, 25, brunoCollisionbox)};
 		
 		
 		
@@ -4025,8 +4028,8 @@ public abstract class AttackCreator {
 															  new AttackFrame(1, Assets.lacerda1SideSpecial1Left[5], brunoFairLeftHurtboxes, null, 400, 200, -200, 0),
 															  new AttackFrame(13, Assets.lacerda1SideSpecial1Left[6], brunoFairLeftHurtboxes, null, 400, 200, -200, 0)}};
 					
-		lacerdaSideSpecial1Left = new Attack[] {new Attack(lacerdaSideSpecial1LeftFrames[0], 7, 20, -10, -15, 7, 20, brunoCollisionbox),
-											    new Attack(lacerdaSideSpecial1LeftFrames[1], 7, 20, -10, -15, 7, 20, brunoCollisionbox)};
+		lacerdaSideSpecial1Left = new Attack[] {new Attack(lacerdaSideSpecial1LeftFrames[0], 7, lacerdaSideSpecial1Damage, -10, -15, 7, 25, brunoCollisionbox),
+											    new Attack(lacerdaSideSpecial1LeftFrames[1], 7, lacerdaSideSpecial1Damage, -10, -15, 7, 25, brunoCollisionbox)};
 		
 		
 		
@@ -4051,8 +4054,8 @@ public abstract class AttackCreator {
 															   new AttackFrame(1, Assets.lacerda1SideSpecial2Right[6], brunoFairRightHurtboxes, null, 400, 200),
 															   new AttackFrame(13, Assets.lacerda1SideSpecial2Right[7], brunoFairRightHurtboxes, null, 400, 200)}};
 					
-		lacerdaSideSpecial2Right = new Attack[] {new Attack(lacerdaSideSpecial2RightFrames[0], 8, 20, 20, -20, 7, 25, brunoCollisionbox),
-											     new Attack(lacerdaSideSpecial2RightFrames[1], 8, 20, 20, -20, 7, 25, brunoCollisionbox)};
+		lacerdaSideSpecial2Right = new Attack[] {new Attack(lacerdaSideSpecial2RightFrames[0], 8, lacerdaSideSpecial2Damage, 20, -20, 7, 30, brunoCollisionbox),
+											     new Attack(lacerdaSideSpecial2RightFrames[1], 8, lacerdaSideSpecial2Damage, 20, -20, 7, 30, brunoCollisionbox)};
 		
 		
 		
@@ -4077,8 +4080,8 @@ public abstract class AttackCreator {
 															  new AttackFrame(1, Assets.lacerda1SideSpecial2Left[6], brunoFairLeftHurtboxes, null, 400, 200, -200, 0),
 															  new AttackFrame(13, Assets.lacerda1SideSpecial2Left[7], brunoFairLeftHurtboxes, null, 400, 200, -200, 0)}};
 					
-		lacerdaSideSpecial2Left = new Attack[] {new Attack(lacerdaSideSpecial2LeftFrames[0], 8, 20, -20, -20, 7, 25, brunoCollisionbox),
-											    new Attack(lacerdaSideSpecial2LeftFrames[1], 8, 20, -20, -20, 7, 25, brunoCollisionbox)};
+		lacerdaSideSpecial2Left = new Attack[] {new Attack(lacerdaSideSpecial2LeftFrames[0], 8, lacerdaSideSpecial2Damage, -20, -20, 7, 30, brunoCollisionbox),
+											    new Attack(lacerdaSideSpecial2LeftFrames[1], 8, lacerdaSideSpecial2Damage, -20, -20, 7, 30, brunoCollisionbox)};
 		
 		
 		
@@ -4107,8 +4110,8 @@ public abstract class AttackCreator {
 															   new AttackFrame(1, Assets.lacerda1SideSpecial3Right[8], brunoFairRightHurtboxes, null, 400, 200),
 															   new AttackFrame(13, Assets.lacerda1SideSpecial3Right[9], brunoFairRightHurtboxes, null, 400, 200)}};
 					
-		lacerdaSideSpecial3Right = new Attack[] {new Attack(lacerdaSideSpecial3RightFrames[0], 10, 20, 25, -25, 7, 35, brunoCollisionbox),
-											     new Attack(lacerdaSideSpecial3RightFrames[1], 10, 20, 25, -25, 7, 35, brunoCollisionbox)};
+		lacerdaSideSpecial3Right = new Attack[] {new Attack(lacerdaSideSpecial3RightFrames[0], 10, lacerdaSideSpecial3Damage, 25, -25, 7, 35, brunoCollisionbox),
+											     new Attack(lacerdaSideSpecial3RightFrames[1], 10, lacerdaSideSpecial3Damage, 25, -25, 7, 35, brunoCollisionbox)};
 		
 		
 		
@@ -4137,8 +4140,8 @@ public abstract class AttackCreator {
 															  new AttackFrame(1, Assets.lacerda1SideSpecial3Left[8], brunoFairLeftHurtboxes, null, 400, 200, -200, 0),
 															  new AttackFrame(13, Assets.lacerda1SideSpecial3Left[9], brunoFairLeftHurtboxes, null, 400, 200, -200, 0)}};
 					
-		lacerdaSideSpecial3Left = new Attack[] {new Attack(lacerdaSideSpecial3LeftFrames[0], 10, 20, -25, -25, 7, 35, brunoCollisionbox),
-											    new Attack(lacerdaSideSpecial3LeftFrames[1], 10, 20, -25, -25, 7, 35, brunoCollisionbox)};
+		lacerdaSideSpecial3Left = new Attack[] {new Attack(lacerdaSideSpecial3LeftFrames[0], 10, lacerdaSideSpecial3Damage, -25, -25, 7, 35, brunoCollisionbox),
+											    new Attack(lacerdaSideSpecial3LeftFrames[1], 10, lacerdaSideSpecial3Damage, -25, -25, 7, 35, brunoCollisionbox)};
 		
 		
 		

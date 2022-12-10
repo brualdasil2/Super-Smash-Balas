@@ -431,7 +431,7 @@ offStageOnRight = (x + currentFrame.getWidth()/2 > GameState.smashStageRight);
 		
 		pressingSpecial = true;
 	}
-private void doNothing() {
+	private void doNothing() {
 		
 	}
 	private void jumpToCenter() {
@@ -477,9 +477,9 @@ private void doNothing() {
 				doNothing();
 			if (rand > 1 && rand <= 4)
 				goToCenter();
-			if (rand > 4 && rand <= 7)
+			if (rand > 4 && rand <= 8)
 				jumpToCenter();
-			if (rand > 7 && rand <= 10)
+			if (rand > 8 && rand <= 10)
 				airdashToCenter();
 			
 		}
@@ -624,9 +624,9 @@ private void doNothing() {
 				setState(6);
 				randomize(10);
 				
-				if (rand <= 3)
+				if (rand <= 2)
 					shield();
-				if (rand > 3 && rand <= 10)
+				if (rand > 2 && rand <= 10)
 					slowShield();
 			}
 			else if (!opponentCandyComing) {

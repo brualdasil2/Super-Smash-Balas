@@ -5,6 +5,8 @@ public class SmashTrainingBot extends SmashPlayer {
 	private boolean opponentNear, opponentOnAir, opponentOnTop, opponentOnLeft, opponentOnRight, opponentAttacking, opponentShielding, opponentCandyComing,
 					onCenter, gotHit = false;
 	
+	private int hitsToEscape = 1, hitsToEscapeCounter = 0, resetHitsEscapeCounter = 0;
+	
 	//private LacerdaCombos combos = new LacerdaCombos(this);
 	
 	public SmashTrainingBot(Game game, int playerNumb, Character character, double x, double y) {
@@ -134,41 +136,55 @@ public class SmashTrainingBot extends SmashPlayer {
 	
 	private void escapeOptions() {
 		if (hitstunFrames > 0) {
+			if (!gotHit) {
+				hitsToEscapeCounter++;
+			}
 			gotHit = true;
 		}
 		if (mashShieldAfterCounter > 0) {
 			mashShieldAfterCounter--;
 		}
-		
+		if (hitstunFrames == 0) {
+			resetHitsEscapeCounter++;
+			if (resetHitsEscapeCounter == 30) {
+				hitsToEscapeCounter = 0;
+				resetHitsEscapeCounter = 0;
+			}
+		}
 		if (gotHit) {
-			if (escapeOption == 1) {
-				mashJump();
-			}
-			else if (escapeOption == 2) {
-				mashFair();
-			}
-			else if (escapeOption == 3) {
-				mashUpAir();
-			}
-			else if (escapeOption == 4) {
-				mashNeutralSpecial();
-			}
-			else if (escapeOption == 6) {
-				mashAdRight();
-			}
-			else if (escapeOption == 7) {
-				mashAdLeft();
-			}
-			else if (escapeOption == 8) {
-				mashAdUp();
-			}
-			else if (escapeOption == 9) {
-				mashAdDown();
+			if (hitsToEscapeCounter >= hitsToEscape) {
+				if (escapeOption == 1) {
+					mashJump();
+				}
+				else if (escapeOption == 2) {
+					mashFair();
+				}
+				else if (escapeOption == 3) {
+					mashUpAir();
+				}
+				else if (escapeOption == 4) {
+					mashNeutralSpecial();
+				}
+				else if (escapeOption == 6) {
+					mashAdRight();
+				}
+				else if (escapeOption == 7) {
+					mashAdLeft();
+				}
+				else if (escapeOption == 8) {
+					mashAdUp();
+				}
+				else if (escapeOption == 9) {
+					mashAdDown();
+				}
 			}
 			
 			if (hitstunFrames == 0) {
 				gotHit = false;
 				mashShieldAfterCounter = 20;
+				if (hitsToEscapeCounter == hitsToEscape) {
+					hitsToEscapeCounter = 0;
+				}
 			}
 		}
 		else if (escapeOption == 5) {

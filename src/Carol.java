@@ -1,6 +1,8 @@
 
 public class Carol extends Character {
 	
+	
+	
 	public Carol (int skin) {
 		
 		super(skin);
@@ -49,7 +51,7 @@ public class Carol extends Character {
 	
 	public void setSuper() {
 		
-		jumps = 6;
+		jumps = 4;
 		airSpeed = 12;
 		
 		standingRight = AttackCreator.getCarolStandingRight(skin + 2);
@@ -625,11 +627,21 @@ public class Carol extends Character {
 		}
 	}
 
+	private boolean superIsActive() {
+		for (Projectile p : GameState.projectiles) {
+			if (p instanceof SuperWings) {
+				if (p.owner.character == this) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 	@Override
 	protected void useUpSpecial(Player player) {
 		
-		if (airSpeed == 12) {
-			
+		if (superIsActive() && attackUF == 0) {
 			player.setAttacking(false);
 			player.setUpSpecialing(false);
 			return;
@@ -655,7 +667,12 @@ public class Carol extends Character {
 			}
 		}
 		
-		
+		if (attackUF == upSpecialRight.getUniqueFrames()-1) {
+			if (attackIF == 2) {
+				GameState.projectiles.add(new SuperWings(player, 0, 0, 0, 0));
+				setSuper();
+			}
+		}
 		
 		if (attackUF < upSpecialRight.getUniqueFrames()) {
 			
@@ -674,13 +691,10 @@ public class Carol extends Character {
 		}
 		
 		else {
-			
-			GameState.projectiles.add(new SuperWings(player, 0, 0, 0, 0));
-			setSuper();
 			player.setAttacking(false);
 			player.setUpSpecialing(false);
 			attackUF = 0;
-			
+			attackIF = 0;
 		}
 		
 		if (player.getHitstunFrames() > 0) {

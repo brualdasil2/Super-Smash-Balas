@@ -23,6 +23,11 @@ public abstract class Character {
 	public Character(int skin) {
 		
 		this.skin = skin;
+		walkIF = 0; 
+		attackIF = 0;
+		walkUF = 0;
+		attackUF = 0;
+		dropIF = 0;
 	}
 	
 	protected abstract void useJab(Player player);

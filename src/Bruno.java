@@ -522,7 +522,7 @@ public class Bruno extends Character{
 			}
 		}
 		
-		if (attackUF == 3) {
+		if (attackUF == 6) {
 			
 			if (attackIF == 1) {
 				

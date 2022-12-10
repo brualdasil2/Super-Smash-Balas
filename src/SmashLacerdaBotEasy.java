@@ -446,13 +446,13 @@ pressingAirdash = false;
 			setState(-1);
 			randomize(10);
 			
-			if (rand <= 1)
+			if (rand <= 3)
 				doNothing();
-			if (rand > 1 && rand <= 4)
+			if (rand > 3 && rand <= 6)
 				goToCenter();
-			if (rand > 4 && rand <= 7)
+			if (rand > 6 && rand <= 9)
 				jumpToCenter();
-			if (rand > 7 && rand <= 10)
+			if (rand > 9 && rand <= 10)
 				airdashToCenter();
 			
 		}

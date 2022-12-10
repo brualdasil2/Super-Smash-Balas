@@ -101,6 +101,18 @@ public class SmashCarolBotHard extends SmashPlayer{
 		
 		pressingShield = true;
 	}
+	
+	private void slowShield() {
+		
+		setFrames(40);
+		
+		if (frameCounter < 26) {
+			
+			pressingShield = true;
+		}
+		
+		
+	}
 
 	
 	private void dashAway() {
@@ -389,7 +401,7 @@ public class SmashCarolBotHard extends SmashPlayer{
 		
 		pressingSpecial = true;
 	}
-private void doNothing() {
+	private void doNothing() {
 		
 	}
 	private void jumpToCenter() {
@@ -419,6 +431,98 @@ private void doNothing() {
 		}
 		
 	}
+	private void airdashRight() {
+		
+		setFrames(15);
+		
+		if (frameCounter == 14) {
+			pressingAirdash = true;
+			pressingRight = true;
+		}
+	}
+	private void airdashLeft() {
+		
+		setFrames(15);
+		
+		if (frameCounter == 14) {
+			pressingAirdash = true;
+			pressingLeft = true;
+		}
+	}
+	private void airdashUp() {
+		setFrames(15);
+		
+		if (frameCounter == 14) {
+			pressingAirdash = true;
+			pressingUp = true;
+		}
+	}
+	
+	private void ijadFair() {
+		setFrames(20);
+		
+		if (frameCounter == 19) {
+			turnToOpponent();
+			pressingJump = true;
+		}
+		else if (frameCounter == 18) {
+			turnToOpponent();
+			pressingAirdash = true;
+			pressingAttack = true;
+		}
+		else {
+			pressingShield = true;
+		}
+	}
+	
+	private void ijadUpAir() {
+		setFrames(20);
+		
+		if (frameCounter == 19) {
+			turnToOpponent();
+			pressingJump = true;
+		}
+		else if (frameCounter == 18) {
+			turnToOpponent();
+			pressingAirdash = true;
+			pressingAttack = true;
+			pressingUp = true;
+		}
+		else {
+			pressingShield = true;
+		}
+	}
+	
+	private void ijadBair() {
+		setFrames(20);
+		
+		if (frameCounter == 19) {
+			turnAway();
+			pressingJump = true;
+		}
+		else if (frameCounter == 18) {
+			turnToOpponent();
+			pressingAirdash = true;
+			pressingAttack = true;
+		}
+		else {
+			pressingShield = true;
+		}
+	}
+	
+	private void adcUpAir() {
+		setFrames(3);
+		
+		if (frameCounter == 2) {
+			pressingJump = true;
+		}
+		else if (frameCounter == 1) {
+			pressingUp = true;
+			pressingAttack = true;
+			pressingAirdash = true;
+		}
+	}
+
 	
 
 	protected void getInput() {
@@ -434,10 +538,12 @@ private void doNothing() {
 				doNothing();
 			if (rand > 1 && rand <= 4)
 				goToCenter();
-			if (rand > 4 && rand <= 7)
+			if (rand > 4 && rand <= 6)
 				jumpToCenter();
-			if (rand > 7 && rand <= 10)
+			if (rand > 6 && rand <= 9)
 				airdashToCenter();
+			if (rand > 9 && rand <= 10)
+				airdashUp();
 			
 		}
 		else if (opponentNear) {
@@ -450,12 +556,26 @@ private void doNothing() {
 					setState(0);
 					randomize(10);
 					
-					if (rand <= 4)
-						jab();
-					if (rand > 4 && rand <= 8)
-						dashAttack();
-					if (rand > 8 && rand <= 10)
-						upTilt();
+					if (shield > 30) {
+						if (rand <= 2)
+							jab();
+						if (rand > 2 && rand <= 7)
+							ijadUpAir();
+						if (rand > 7 && rand <= 9)
+							dashAttack();
+						if (rand > 9 && rand <= 10)
+							upTilt();
+					}
+					else {
+						if (rand <= 2)
+							jab();
+						if (rand > 2 && rand <= 7)
+							jumpBair();
+						if (rand > 7 && rand <= 9)
+							dashAttack();
+						if (rand > 9 && rand <= 10)
+							upTilt();
+					}
 					
 				}
 				
@@ -518,8 +638,10 @@ private void doNothing() {
 						setState(3);
 						randomize(10);
 	
-						if (rand <= 9) 
+						if (rand <= 5) 
 							shield();
+						else if (rand > 5 && rand <= 9)
+							slowShield();
 						else {
 							
 							dashAway();
@@ -548,18 +670,22 @@ private void doNothing() {
 							setState(5);
 							randomize(25);
 							
-							if (rand <= 4)
+							if (rand <= 2)
 								jab();
-							if (rand > 4 && rand <= 8)
+							if (rand > 2 && rand <= 5)
 								dashAttack();
-							if (rand > 8 && rand <= 11)
+							if (rand > 5 && rand <= 10)
+								ijadUpAir();
+							if (rand > 10 && rand <= 11)
 								upTilt();
-							if (rand > 11 && rand <= 15)
+							if (rand > 11 && rand <= 14)
 								jumpFair();
-							if (rand > 15 && rand <= 18)
+							if (rand > 14 && rand <= 17)
 								delayedJumpFair();
-							if (rand > 18 && rand <= 20)
+							if (rand > 17 && rand <= 18)
 								jumpBair();
+							if (rand > 18 && rand <= 20)
+								ijadFair();
 							if (rand > 20 && rand <= 22)
 								dashAway();
 							if (rand > 22 && rand <= 23)
@@ -574,18 +700,22 @@ private void doNothing() {
 							setState(6);
 							randomize(23);
 							
-							if (rand <= 4)
+							if (rand <= 2)
 								jab();
-							if (rand > 4 && rand <= 8)
+							if (rand > 2 && rand <= 5)
 								dashAttack();
-							if (rand > 8 && rand <= 11)
+							if (rand > 5 && rand <= 10)
+								ijadUpAir();
+							if (rand > 10 && rand <= 11)
 								upTilt();
-							if (rand > 11 && rand <= 15)
+							if (rand > 11 && rand <= 14)
 								jumpFair();
-							if (rand > 15 && rand <= 18)
+							if (rand > 14 && rand <= 17)
 								delayedJumpFair();
-							if (rand > 18 && rand <= 20)
+							if (rand > 17 && rand <= 18)
 								jumpBair();
+							if (rand > 18 && rand <= 20)
+								ijadFair();
 							if (rand > 20 && rand <= 22)
 								dashAway();
 							if (rand > 22 && rand <= 23)
@@ -615,18 +745,20 @@ private void doNothing() {
 					if (opponent.getY() <= y) {
 					
 						setState(8);
-						randomize(4);
+						randomize(5);
 						
 						if (rand == 1)
 							upTilt();
 						if (rand > 1 && rand <= 4)
 							jumpUpAir();
+						if (rand > 4 && rand <= 5)
+							adcUpAir();
 						
 					}
 					else {
 						
 						setState(9);
-						randomize(4);
+						randomize(6);
 						
 						if (rand <= 2)
 							jump();
@@ -634,6 +766,10 @@ private void doNothing() {
 							dashRight();
 						if (rand > 3 && rand <= 4)
 							dashLeft();
+						if (rand > 4 && rand <= 5)
+							airdashRight();
+						if (rand > 5 && rand <= 6)
+							airdashLeft();
 					}
 				}
 			}
@@ -644,7 +780,12 @@ private void doNothing() {
 			
 				setState(10);
 				
-				shield();
+				randomize(10);
+				
+				if (rand <= 5) 
+					shield();
+				else if (rand > 5 && rand <= 10)
+					slowShield();
 			}
 			else if (!opponentCandyComing) {
 				
@@ -660,7 +801,7 @@ private void doNothing() {
 						else {
 						
 							setState(12);
-							randomize(18);
+							randomize(21);
 							
 							if (rand <= 2)
 								goToCenter();
@@ -682,6 +823,10 @@ private void doNothing() {
 								neutralSpecial();
 							if (rand > 14 && rand <= 18)
 								upSpecial();
+							if (rand > 18 && rand <= 20)
+								ijadFair();
+							if (rand > 20 && rand <= 21)
+								ijadBair();
 						}
 					}
 					
@@ -695,7 +840,7 @@ private void doNothing() {
 						else {
 						
 							setState(14);
-							randomize(14);
+							randomize(17);
 							
 							if (rand <= 2)
 								goToCenter();
@@ -715,6 +860,10 @@ private void doNothing() {
 								jumpSideSpecial();
 							if (rand > 13 && rand <= 14)
 								neutralSpecial();
+							if (rand > 14 && rand <= 16)
+								ijadFair();
+							if (rand > 16 && rand <= 17)
+								ijadBair();
 							
 						}
 					}
@@ -729,7 +878,7 @@ private void doNothing() {
 						else {
 						
 							setState(16);
-							randomize(13);
+							randomize(16);
 							
 							if (rand <= 2)
 								goToCenter();
@@ -747,6 +896,10 @@ private void doNothing() {
 								sideSpecial();
 							if (rand > 12 && rand <= 13)
 								jumpSideSpecial();
+							if (rand > 13 && rand <= 15)
+								ijadFair();
+							if (rand > 15 && rand <= 16)
+								ijadBair();
 	
 							
 						}
@@ -755,7 +908,7 @@ private void doNothing() {
 					if (magic < 1) {
 						
 						setState(17);
-						randomize(10);
+						randomize(13);
 						
 						if (rand <= 2)
 							goToCenter();
@@ -769,6 +922,10 @@ private void doNothing() {
 							goToOpponent();
 						if (rand > 8 && rand <= 10)
 							dashAttack();
+						if (rand > 10 && rand <= 12)
+							ijadFair();
+						if (rand > 12 && rand <= 13)
+							ijadBair();
 						
 						
 					}
@@ -802,7 +959,7 @@ private void doNothing() {
 							else {
 							
 								setState(20);
-								randomize(17);
+								randomize(20);
 								
 								if (rand >= 1)
 									dashLeft();
@@ -824,6 +981,10 @@ private void doNothing() {
 									neutralSpecial();
 								if (rand > 15 && rand <= 17)
 									upSpecial();
+								if (rand > 17 && rand <= 19)
+									ijadFair();
+								if (rand > 19 && rand <= 20)
+									ijadBair();
 							}
 						}
 						
@@ -837,7 +998,7 @@ private void doNothing() {
 							else {
 							
 								setState(22);
-								randomize(16);
+								randomize(19);
 								
 								if (rand >= 1)
 									dashLeft();
@@ -857,6 +1018,10 @@ private void doNothing() {
 									jumpSideSpecial();
 								if (rand > 11 && rand <= 16)
 									neutralSpecial();
+								if (rand > 16 && rand <= 18)
+									ijadFair();
+								if (rand > 18 && rand <= 19)
+									ijadBair();
 								
 							}
 						}
@@ -871,7 +1036,7 @@ private void doNothing() {
 							else {
 							
 								setState(24);
-								randomize(11);
+								randomize(14);
 								
 								if (rand >= 1)
 									dashLeft();
@@ -889,6 +1054,10 @@ private void doNothing() {
 									sideSpecial();
 								if (rand > 10 && rand <= 11)
 									jumpSideSpecial();
+								if (rand > 11 && rand <= 13)
+									ijadFair();
+								if (rand > 13 && rand <= 14)
+									ijadBair();
 								
 							}
 						}
@@ -896,7 +1065,7 @@ private void doNothing() {
 						if (magic < 1) {
 							
 							setState(25);
-							randomize(8);
+							randomize(11);
 							
 							if (rand >= 1)
 								dashLeft();
@@ -910,6 +1079,10 @@ private void doNothing() {
 								dashAway();
 							if (rand > 6 && rand <= 8)
 								dashAttack();
+							if (rand > 8 && rand <= 10)
+								ijadFair();
+							if (rand > 10 && rand <= 11)
+								ijadBair();
 							
 							
 						}

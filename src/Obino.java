@@ -38,7 +38,7 @@ public class Obino extends Character{
 		
 		sideSpecialMagic = 2;
 		neutralSpecialMagic = 3;
-		upSpecialMagic = 3;
+		upSpecialMagic = 2;
 		
 		jumpSpeed = 16;
 		groundSpeed = 6;
@@ -646,11 +646,11 @@ public class Obino extends Character{
 				
 				if (player.getLookDirection() == 1) {
 					
-					GameState.projectiles.add(new SnowBall(player, player.getX() + 84, player.getY() - 30, 5, -15));
+					GameState.projectiles.add(new SnowBall(player, player.getX() + 84, player.getY() - 30, 3, -15));
 				}
 				else if (player.getLookDirection() == 0) {
 					
-					GameState.projectiles.add(new SnowBall(player, player.getX() + 84, player.getY() - 30, -5, -15));
+					GameState.projectiles.add(new SnowBall(player, player.getX() + 84, player.getY() - 30, -3, -15));
 				}
 			}
 			
