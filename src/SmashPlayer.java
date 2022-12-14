@@ -19,7 +19,7 @@ public class SmashPlayer extends Player {
 	private int shieldDropFrames = 0;
 	private boolean jumping = false;
 	private double prevX, prevY ;
-	private boolean keyPressingLeft = false, keyPressingRight = false;
+	private boolean keyPressingLeft = false, keyPressingRight = false, wasPressingShield = false;
 	private int airdashSpeed;
 
 	public SmashPlayer(Game game, int playerNumb, Character character, double x, double y, String name) {
@@ -69,6 +69,8 @@ public class SmashPlayer extends Player {
 
 	protected void getInput() {
 
+		wasPressingShield = pressingShield;
+		
 		pressingJump = game.getKeyManager(playerNumb).jump;
 		pressingAttack = game.getKeyManager(playerNumb).attack;
 		pressingSpecial = game.getKeyManager(playerNumb).special;
@@ -1027,20 +1029,22 @@ public class SmashPlayer extends Player {
 
 					setStanding();
 				} else {
-
+					// GROUNDED SPIKE
 					y = GameState.floorY - currentFrame.getHeight();
 					ySpeed = -ySpeed;
-					//System.out.println("bounce!");
 				}
 				airdashCounter = 0;
 				if (airdashingDown) {
-					//System.out.println("Ad bounce!");
 					airdashingDown = false;
-					if (!pressingShield) {
-						ySpeed = -20;
+					if (pressingShield || wasPressingShield) {
+						if (pressingAirdash) {
+							System.out.println("WAVEDASH");
+						}
+						ySpeed = 0;
 					}
 					else {
-						ySpeed = 0;
+						// BOUNCE
+						ySpeed = -20;
 					}
 				}
 			}
