@@ -1179,7 +1179,8 @@ public class SmashPlayer extends Player {
 				wavedashSpeed -= 2;
 			}
 			else if (airdashCounter <= 5*3/2) {
-				wavedashSpeed -= 1;
+				if (wavedashSpeed > 5)
+					wavedashSpeed -= 1;
 			}
 			int localWavedashSpeed = frozen ? wavedashSpeed/2 : wavedashSpeed;
 			if (wavedashingRight) {
@@ -1266,6 +1267,17 @@ public class SmashPlayer extends Player {
 	}
 	public void setPercent(int percent) {
 		this.percent = percent;
+	}
+	
+	@Override
+	public void increaseX(double x) {
+		int intX = (int) x;
+		if (wavedashingRight || wavedashingLeft) {
+			this.x += intX/2;
+		}
+		else {			
+			this.x += x;
+		}
 	}
 
 	@Override
