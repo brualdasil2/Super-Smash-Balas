@@ -21,6 +21,8 @@ public class SmashPlayer extends Player {
 	private double prevX, prevY ;
 	private boolean keyPressingLeft = false, keyPressingRight = false, wasPressingShield = false;
 	private int airdashSpeed;
+	private int wavedashCounter = 0, wavedashSpeed = 0;
+	private boolean wavedashingRight = false, wavedashingLeft = false;
 
 	public SmashPlayer(Game game, int playerNumb, Character character, double x, double y, String name) {
 		super(game, playerNumb, character, x, y, name);
@@ -145,7 +147,7 @@ public class SmashPlayer extends Player {
 		if (pressingRight && !pressingLeft) {
 			if (freezeFrames == 0) {
 				if (!shielding) {
-					if (hitstunFrames == 0 && airdashCounter == 0) {
+					if (hitstunFrames == 0 && airdashCounter == 0 && wavedashCounter == 0) {
 						if (!onAir) {
 
 							if (!attacking) {
@@ -188,7 +190,7 @@ public class SmashPlayer extends Player {
 
 			if (freezeFrames == 0) {
 				if (!shielding) {
-					if (hitstunFrames == 0 && airdashCounter == 0) {
+					if (hitstunFrames == 0 && airdashCounter == 0 && wavedashCounter == 0) {
 						if (!onAir) {
 
 							if (!attacking) {
@@ -1033,13 +1035,24 @@ public class SmashPlayer extends Player {
 					y = GameState.floorY - currentFrame.getHeight();
 					ySpeed = -ySpeed;
 				}
-				airdashCounter = 0;
 				if (airdashingDown) {
 					airdashingDown = false;
 					if (pressingShield || wasPressingShield) {
 						if (pressingAirdash) {
-							System.out.println("WAVEDASH");
+							if (pressingRight || pressingLeft) {
+								// WAVEDASH
+								System.out.println("WAVEDASH");
+								wavedashCounter = airdashCounter;
+								wavedashSpeed = airdashSpeed;
+								if (pressingRight) {
+									wavedashingRight = true;
+								}
+								else {
+									wavedashingLeft = true;
+								}
+							}
 						}
+						// NIL / SHIELD
 						ySpeed = 0;
 					}
 					else {
@@ -1047,6 +1060,7 @@ public class SmashPlayer extends Player {
 						ySpeed = -20;
 					}
 				}
+				airdashCounter = 0;
 			}
 		}
 
@@ -1121,8 +1135,9 @@ public class SmashPlayer extends Player {
 				((Obino) (character)).closeTrap(this);
 		}
 
-		if (freezeFrames > 0) {
+		if (freezeFrames > 0 && shieldDropFrames == 0) {
 			airdashCounter = 0;
+			wavedashCounter = 0;
 		}
 
 		//System.out.println(hitstunFrames);
@@ -1154,6 +1169,30 @@ public class SmashPlayer extends Player {
 			airdashingLeft = false;
 			airdashingUp = false;
 			airdashingDown = false;
+		}
+		
+		if (wavedashCounter > 0) {
+			if (wavedashCounter == airdashDuration) {
+				wavedashSpeed = 25;
+			}
+			else if (wavedashCounter > 10) {
+				wavedashSpeed -= 1;
+			}
+			else if (airdashCounter <= 5) {
+				wavedashSpeed -= 1;
+			}
+			int localWavedashSpeed = frozen ? wavedashSpeed/2 : wavedashSpeed;
+			if (wavedashingRight) {
+				x += localWavedashSpeed;
+				System.out.println("increased x");
+			} else if (wavedashingLeft) {
+				x -= localWavedashSpeed;
+			}
+			wavedashCounter--;
+		}
+		else {
+			wavedashingRight = false;
+			wavedashingLeft = false;
 		}
 
 		// COLLISION DETECTION
