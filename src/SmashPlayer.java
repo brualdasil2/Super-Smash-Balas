@@ -1042,7 +1042,7 @@ public class SmashPlayer extends Player {
 							if (pressingRight || pressingLeft) {
 								// WAVEDASH
 								System.out.println("WAVEDASH");
-								wavedashCounter = airdashCounter;
+								wavedashCounter = airdashCounter*3/2;
 								wavedashSpeed = airdashSpeed;
 								if (pressingRight) {
 									wavedashingRight = true;
@@ -1172,13 +1172,13 @@ public class SmashPlayer extends Player {
 		}
 		
 		if (wavedashCounter > 0) {
-			if (wavedashCounter == airdashDuration) {
+			if (wavedashCounter == airdashDuration*3/2) {
 				wavedashSpeed = 25;
 			}
-			else if (wavedashCounter > 10) {
-				wavedashSpeed -= 1;
+			else if (wavedashCounter > 10*3/2) {
+				wavedashSpeed -= 2;
 			}
-			else if (airdashCounter <= 5) {
+			else if (airdashCounter <= 5*3/2) {
 				wavedashSpeed -= 1;
 			}
 			int localWavedashSpeed = frozen ? wavedashSpeed/2 : wavedashSpeed;
