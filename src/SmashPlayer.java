@@ -304,16 +304,16 @@ public class SmashPlayer extends Player {
 							if (!pressingSpecial) {
 
 								if (!onAir && !jumping) {
-									if (pressingRight || pressingLeft) {
+									if (pressingUp) {
 
-										dashing = true;
+										upTilting = true;
 									}
 
 									else {
 
-										if (pressingUp) {
+										if (pressingRight || pressingLeft) {
 
-											upTilting = true;
+											dashing = true;
 										} else {
 
 											jabbing = true;
