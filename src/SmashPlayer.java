@@ -1045,6 +1045,8 @@ public class SmashPlayer extends Player {
 								System.out.println("WAVEDASH");
 								wavedashCounter = airdashCounter*3/2;
 								wavedashSpeed = airdashSpeed;
+								shieldDropFrames = 3;
+								freezeFrames = 3;
 								if (pressingRight) {
 									wavedashingRight = true;
 									wavedashingLeft = false;
