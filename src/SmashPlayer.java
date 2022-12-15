@@ -425,7 +425,13 @@ public class SmashPlayer extends Player {
 									//hitstunFrames = airdashDuration;
 									SoundManager.play("sounds/Airdash.wav", false);
 
-									if (pressingRight) {
+									if (pressingShield) {
+										airdashingRight = false;
+										airdashingLeft = false;
+										airdashingDown = true;
+										airdashingUp = false;
+									}
+									else if (pressingRight) {
 										airdashingRight = true;
 										airdashingLeft = false;
 										airdashingDown = false;
@@ -434,11 +440,6 @@ public class SmashPlayer extends Player {
 										airdashingRight = false;
 										airdashingLeft = true;
 										airdashingDown = false;
-										airdashingUp = false;
-									} else if (pressingShield) {
-										airdashingRight = false;
-										airdashingLeft = false;
-										airdashingDown = true;
 										airdashingUp = false;
 									} else {
 										airdashingRight = false;
@@ -1046,9 +1047,11 @@ public class SmashPlayer extends Player {
 								wavedashSpeed = airdashSpeed;
 								if (pressingRight) {
 									wavedashingRight = true;
+									wavedashingLeft = false;
 								}
 								else {
 									wavedashingLeft = true;
+									wavedashingRight = false;
 								}
 							}
 						}
