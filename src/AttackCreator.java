@@ -1448,18 +1448,18 @@ public abstract class AttackCreator {
 		brunoNeutralSpecialRightFrames = new AttackFrame[][] {{new AttackFrame(4, Assets.bruno0NeutralSpecialRight[0], brunoFairRightHurtboxes, null, 200, 200),
 															   new AttackFrame(4, Assets.bruno0NeutralSpecialRight[1], brunoFairRightHurtboxes, null, 200, 200),
 															   new AttackFrame(4, Assets.bruno0NeutralSpecialRight[2], brunoFairRightHurtboxes, null, 200, 200),
-															   new AttackFrame(4, Assets.bruno0NeutralSpecialRight[3], brunoFairRightHurtboxes, null, 200, 200),
-															   new AttackFrame(4, Assets.bruno0NeutralSpecialRight[4], brunoFairRightHurtboxes, null, 200, 200),
-															   new AttackFrame(4, Assets.bruno0NeutralSpecialRight[5], brunoFairRightHurtboxes, null, 200, 200),
-															   new AttackFrame(8, Assets.bruno0NeutralSpecialRight[6], brunoFairRightHurtboxes, null, 200, 200)},
+															   new AttackFrame(6, Assets.bruno0NeutralSpecialRight[3], brunoFairRightHurtboxes, null, 200, 200),
+															   new AttackFrame(6, Assets.bruno0NeutralSpecialRight[4], brunoFairRightHurtboxes, null, 200, 200),
+															   new AttackFrame(6, Assets.bruno0NeutralSpecialRight[5], brunoFairRightHurtboxes, null, 200, 200),
+															   new AttackFrame(14, Assets.bruno0NeutralSpecialRight[6], brunoFairRightHurtboxes, null, 200, 200)},
 			
 															  {new AttackFrame(4, Assets.bruno1NeutralSpecialRight[0], brunoFairRightHurtboxes, null, 200, 200),
 															   new AttackFrame(4, Assets.bruno1NeutralSpecialRight[1], brunoFairRightHurtboxes, null, 200, 200),
 															   new AttackFrame(4, Assets.bruno1NeutralSpecialRight[2], brunoFairRightHurtboxes, null, 200, 200),
-															   new AttackFrame(4, Assets.bruno1NeutralSpecialRight[3], brunoFairRightHurtboxes, null, 200, 200),
-														   	   new AttackFrame(4, Assets.bruno1NeutralSpecialRight[4], brunoFairRightHurtboxes, null, 200, 200),
-															   new AttackFrame(4, Assets.bruno1NeutralSpecialRight[5], brunoFairRightHurtboxes, null, 200, 200),
-															   new AttackFrame(8, Assets.bruno1NeutralSpecialRight[6], brunoFairRightHurtboxes, null, 200, 200)}};
+															   new AttackFrame(6, Assets.bruno1NeutralSpecialRight[3], brunoFairRightHurtboxes, null, 200, 200),
+														   	   new AttackFrame(6, Assets.bruno1NeutralSpecialRight[4], brunoFairRightHurtboxes, null, 200, 200),
+															   new AttackFrame(6, Assets.bruno1NeutralSpecialRight[5], brunoFairRightHurtboxes, null, 200, 200),
+															   new AttackFrame(14, Assets.bruno1NeutralSpecialRight[6], brunoFairRightHurtboxes, null, 200, 200)}};
 															   
 		
 		brunoNeutralSpecialRight = new Attack[] {new Attack(brunoNeutralSpecialRightFrames[0], 7, 0, 0, 0, 0, 0, brunoCollisionbox),
@@ -1469,18 +1469,18 @@ public abstract class AttackCreator {
 		brunoNeutralSpecialLeftFrames = new AttackFrame[][] {{new AttackFrame(4, Assets.bruno0NeutralSpecialLeft[0], brunoFairLeftHurtboxes, null, 200, 200),
 															  new AttackFrame(4, Assets.bruno0NeutralSpecialLeft[1], brunoFairLeftHurtboxes, null, 200, 200),
 															  new AttackFrame(4, Assets.bruno0NeutralSpecialLeft[2], brunoFairLeftHurtboxes, null, 200, 200),
-															  new AttackFrame(4, Assets.bruno0NeutralSpecialLeft[3], brunoFairLeftHurtboxes, null, 200, 200),
-															  new AttackFrame(4, Assets.bruno0NeutralSpecialLeft[4], brunoFairLeftHurtboxes, null, 200, 200),
-															  new AttackFrame(4, Assets.bruno0NeutralSpecialLeft[5], brunoFairLeftHurtboxes, null, 200, 200),
-															  new AttackFrame(8, Assets.bruno0NeutralSpecialLeft[6], brunoFairLeftHurtboxes, null, 200, 200)},
+															  new AttackFrame(6, Assets.bruno0NeutralSpecialLeft[3], brunoFairLeftHurtboxes, null, 200, 200),
+															  new AttackFrame(6, Assets.bruno0NeutralSpecialLeft[4], brunoFairLeftHurtboxes, null, 200, 200),
+															  new AttackFrame(6, Assets.bruno0NeutralSpecialLeft[5], brunoFairLeftHurtboxes, null, 200, 200),
+															  new AttackFrame(14, Assets.bruno0NeutralSpecialLeft[6], brunoFairLeftHurtboxes, null, 200, 200)},
 												
 															 {new AttackFrame(4, Assets.bruno1NeutralSpecialLeft[0], brunoFairLeftHurtboxes, null, 200, 200),
 															  new AttackFrame(4, Assets.bruno1NeutralSpecialLeft[1], brunoFairLeftHurtboxes, null, 200, 200),
 															  new AttackFrame(4, Assets.bruno1NeutralSpecialLeft[2], brunoFairLeftHurtboxes, null, 200, 200),
-															  new AttackFrame(4, Assets.bruno1NeutralSpecialLeft[3], brunoFairLeftHurtboxes, null, 200, 200),
-														   	  new AttackFrame(4, Assets.bruno1NeutralSpecialLeft[4], brunoFairLeftHurtboxes, null, 200, 200),
-															  new AttackFrame(4, Assets.bruno1NeutralSpecialLeft[5], brunoFairLeftHurtboxes, null, 200, 200),
-															  new AttackFrame(8, Assets.bruno1NeutralSpecialLeft[6], brunoFairLeftHurtboxes, null, 200, 200)}};
+															  new AttackFrame(6, Assets.bruno1NeutralSpecialLeft[3], brunoFairLeftHurtboxes, null, 200, 200),
+														   	  new AttackFrame(6, Assets.bruno1NeutralSpecialLeft[4], brunoFairLeftHurtboxes, null, 200, 200),
+															  new AttackFrame(6, Assets.bruno1NeutralSpecialLeft[5], brunoFairLeftHurtboxes, null, 200, 200),
+															  new AttackFrame(14, Assets.bruno1NeutralSpecialLeft[6], brunoFairLeftHurtboxes, null, 200, 200)}};
 			   
 
 	   brunoNeutralSpecialLeft = new Attack[] {new Attack(brunoNeutralSpecialLeftFrames[0], 7, 0, 0, 0, 0, 0, brunoCollisionbox),

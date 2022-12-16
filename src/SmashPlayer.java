@@ -1190,7 +1190,6 @@ public class SmashPlayer extends Player {
 			int localWavedashSpeed = frozen ? wavedashSpeed/2 : wavedashSpeed;
 			if (wavedashingRight) {
 				x += localWavedashSpeed;
-				System.out.println("increased x");
 			} else if (wavedashingLeft) {
 				x -= localWavedashSpeed;
 			}

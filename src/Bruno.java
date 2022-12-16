@@ -34,7 +34,7 @@ public class Bruno extends Character{
 		parryLeft = AttackCreator.getBrunoParryLeftFrames(skin);
 		
 		sideSpecialMagic = 2;
-		neutralSpecialMagic = 1;
+		neutralSpecialMagic = 2;
 		upSpecialMagic = 4;
 		
 		jumpSpeed = 17;
