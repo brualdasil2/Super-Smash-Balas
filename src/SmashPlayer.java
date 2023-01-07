@@ -919,8 +919,10 @@ public class SmashPlayer extends Player {
 
 				x = GameState.smashStageRight - currentAttack.getCollisionbox().getX() + 1;
 				if (airdashingLeft) {
+					airdashingLeft = false;
 					jumps = character.getJumps();
 					airdashes = 1;
+					shield += 10;
 				}
 			}
 
@@ -930,8 +932,10 @@ public class SmashPlayer extends Player {
 				x = GameState.smashStageLeft - currentAttack.getCollisionbox().getWidth()
 						- currentAttack.getCollisionbox().getX() - 1;
 				if (airdashingRight) {
+					airdashingRight = false;
 					jumps = character.getJumps();
 					airdashes = 1;
+					shield += 10;
 				}
 				// x = GameState.rightWall - currentAttack.getCollisionbox().getWidth() -
 				// currentAttack.getCollisionbox().getX() - 1;
@@ -1038,11 +1042,12 @@ public class SmashPlayer extends Player {
 				}
 				if (airdashingDown) {
 					airdashingDown = false;
+					shield += 10;
 					if (pressingShield || wasPressingShield) {
 						if (pressingAirdash) {
 							if (pressingRight || pressingLeft) {
 								// WAVEDASH
-								System.out.println("WAVEDASH");
+								//System.out.println("WAVEDASH");
 								wavedashCounter = airdashCounter*3/2;
 								wavedashSpeed = airdashSpeed;
 								shieldDropFrames = 3;
