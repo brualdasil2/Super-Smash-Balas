@@ -23,6 +23,7 @@ public class SmashPlayer extends Player {
 	private int airdashSpeed;
 	private int wavedashCounter = 0, wavedashSpeed = 0;
 	private boolean wavedashingRight = false, wavedashingLeft = false;
+	private boolean wasTouchingWall = false;
 
 	public SmashPlayer(Game game, int playerNumb, Character character, double x, double y, String name) {
 		super(game, playerNumb, character, x, y, name);
@@ -923,7 +924,10 @@ public class SmashPlayer extends Player {
 					jumps = character.getJumps();
 					airdashes = 1;
 					shield += 10;
+					invincibleCounter = 15;
+					//airdashCounter = 5;
 				}
+				//wasTouchingWall = true;
 			}
 
 			else if (MyCollisionRightX >= GameState.smashStageLeft && MyCollisionBottomY > GameState.floorY
@@ -936,9 +940,15 @@ public class SmashPlayer extends Player {
 					jumps = character.getJumps();
 					airdashes = 1;
 					shield += 10;
+					invincibleCounter = 20;
+					//airdashCounter = 5;
 				}
+				//wasTouchingWall = true;
 				// x = GameState.rightWall - currentAttack.getCollisionbox().getWidth() -
 				// currentAttack.getCollisionbox().getX() - 1;
+			}
+			else {
+				wasTouchingWall = false;
 			}
 
 		}
