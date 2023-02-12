@@ -11,6 +11,7 @@ public class CharacterSelectState extends State {
 	private boolean rendered;
 	
 	
+	
 	public CharacterSelectState(Game game) {
 		super(game);
 		

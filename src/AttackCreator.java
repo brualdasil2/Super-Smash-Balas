@@ -3789,8 +3789,8 @@ public abstract class AttackCreator {
 													   new AttackFrame(2, Assets.lacerda1FairRight[4], brunoFairRightHurtboxes, lacerdaFairRightHitboxes2, 400, 200),
 											   	       new AttackFrame(15, Assets.lacerda1StandingRight[0], brunoStandingRightHurtboxes, null, 200, 200)}};
 								  
-		lacerdaFairRight = new Attack[] {new Attack(lacerdaFairRightFrames[0], 6, lacerdaFairDamage, 3, 15, 7, 30, brunoCollisionbox),
-				   					   	 new Attack(lacerdaFairRightFrames[1], 6, lacerdaFairDamage, 3, 15, 7, 30, brunoCollisionbox)};
+		lacerdaFairRight = new Attack[] {new Attack(lacerdaFairRightFrames[0], 6, lacerdaFairDamage, 3, 15, 7, 35, brunoCollisionbox),
+				   					   	 new Attack(lacerdaFairRightFrames[1], 6, lacerdaFairDamage, 3, 15, 7, 35, brunoCollisionbox)};
 		
 		
 		
@@ -3826,8 +3826,8 @@ public abstract class AttackCreator {
 													   new AttackFrame(2, Assets.lacerda1FairLeft[4], brunoDashLeftHurtboxes4, lacerdaFairLeftHitboxes2, 400, 200, -200, 0),
 													   new AttackFrame(15, Assets.lacerda1StandingLeft[0], brunoStandingLeftHurtboxes, null, 200, 200)}};
 		
-		lacerdaFairLeft = new Attack[] {new Attack(lacerdaFairLeftFrames[0], 6, lacerdaFairDamage, -3, 15, 7, 30, brunoCollisionbox),
-				   	 					new Attack(lacerdaFairLeftFrames[1], 6, lacerdaFairDamage, -3, 15, 7, 30, brunoCollisionbox)};
+		lacerdaFairLeft = new Attack[] {new Attack(lacerdaFairLeftFrames[0], 6, lacerdaFairDamage, -3, 15, 7, 35, brunoCollisionbox),
+				   	 					new Attack(lacerdaFairLeftFrames[1], 6, lacerdaFairDamage, -3, 15, 7, 35, brunoCollisionbox)};
 		
 		
 		lacerdaUpAirRightHitboxes0 = new Hitbox[] {new Hitbox(150, 40, 17),
