@@ -6,6 +6,7 @@ public class SmashTrainingBot extends SmashPlayer {
 					onCenter, gotHit = false;
 	
 	private int hitsToEscape = 1, hitsToEscapeCounter = 0, resetHitsEscapeCounter = 0;
+	int prevComboCounter = 0;
 	
 	//private LacerdaCombos combos = new LacerdaCombos(this);
 	
@@ -135,8 +136,9 @@ public class SmashTrainingBot extends SmashPlayer {
 	
 	
 	private void escapeOptions() {
+		int comboCounter = ((GameState)(game.getGameState())).comboCounter.getCount();
 		if (hitstunFrames > 0) {
-			if (!gotHit) {
+			if (!gotHit || comboCounter > prevComboCounter) {
 				hitsToEscapeCounter++;
 			}
 			gotHit = true;
@@ -151,6 +153,9 @@ public class SmashTrainingBot extends SmashPlayer {
 				resetHitsEscapeCounter = 0;
 			}
 		}
+
+		
+		prevComboCounter = comboCounter;
 		if (gotHit) {
 			if (hitsToEscapeCounter >= hitsToEscape) {
 				if (escapeOption == 1) {
@@ -270,6 +275,10 @@ public class SmashTrainingBot extends SmashPlayer {
 	
 	public void setEscapeOption(int option) {
 		this.escapeOption = option;
+	}
+	
+	public void setHitsToEscape(int hits) {
+		this.hitsToEscape = hits;
 	}
 	
 	

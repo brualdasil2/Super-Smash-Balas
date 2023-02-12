@@ -86,9 +86,10 @@ public class GameState extends State {
 	}
 	private TrainingSaveState trainingSaveState = new TrainingSaveState();
 	
-	private ComboCounter comboCounter = new ComboCounter();
+	public ComboCounter comboCounter = new ComboCounter();
 	
 	private PercentEditor percentEditor;
+	private HitsToEscapeEditor hitsToEscapeEditor;
 	private boolean lockShield = false;
 	
 	public static int smashStageLeft = 150;
@@ -242,6 +243,7 @@ public class GameState extends State {
 			loadStateButton = new Button(game, 1215, 120, 55, 40, Color.darkGray, "CARREGAR", Assets.font10, null, true);
 			lockShieldButton = new Button(game, 1150, 170, 120, 40, Color.DARK_GRAY, "TRAVAR ESCUDO", Assets.font10, null, true);
 			percentEditor = new PercentEditor(game);
+			hitsToEscapeEditor = new HitsToEscapeEditor(game);
 			trainingSaveState.saveTrainingState();
 			comboCounter.reset();
 		}
@@ -510,6 +512,7 @@ public class GameState extends State {
 						}
 						
 						if (trainingBotOn) {
+							hitsToEscapeEditor.tick();
 							if (botBehaviorButton.buttonPressed()) {
 								double p2X = player2.getX();
 								double p2Y = player2.getY();
@@ -930,39 +933,40 @@ public class GameState extends State {
 		else {
 			textColor = Color.black;
 		}
-		Text.drawString(g, "" + ((SmashPlayer)player1).getPercent() + "%", 590 - g.getFontMetrics(Assets.font15).stringWidth("" + ((SmashPlayer)player1).getPercent() + "%"), 37, false, textColor, Assets.font25);
-		Text.drawString(g, "" + ((SmashPlayer)player2).getPercent() + "%", 690, 37, false, textColor, Assets.font25);
-	
+		//Text.drawString(g, "" + ((SmashPlayer)player1).getPercent() + "%", 590 - g.getFontMetrics(Assets.font15).stringWidth("" + ((SmashPlayer)player1).getPercent() + "%"), 37, false, textColor, Assets.font30);
+		//Text.drawString(g, "" + ((SmashPlayer)player2).getPercent() + "%", 690, 37, false, textColor, Assets.font30);
+		PercentRenderer.renderPercent(g, player1, 590, 20, false);
+		PercentRenderer.renderPercent(g, player2, 710, 20, true);
 		
 		g.setColor(Color.green);
 		if (player1.getShield() < 20)
 			g.setColor(Color.decode("1547309"));
-		g.fillRect(390 + (200 - 2*player1.getShield()), 45, 2*player1.getShield(), 20);
+		g.fillRect(390 + (200 - 2*player1.getShield()), 50, 2*player1.getShield(), 20);
 		g.setColor(Color.green);
 		if (player2.getShield() < 20)
 			g.setColor(Color.decode("1547309"));
-		g.fillRect(690, 45, 2*player2.getShield(), 20);
+		g.fillRect(690, 50, 2*player2.getShield(), 20);
 		
 		g.setColor(Color.decode("2799606"));
-		g.fillRect(490 + (100 - 10*player1.getMagic()), 70, 10*player1.getMagic(), 20);
-		g.fillRect(690, 70, 10*player2.getMagic(), 20);
+		g.fillRect(490 + (100 - 10*player1.getMagic()), 75, 10*player1.getMagic(), 20);
+		g.fillRect(690, 75, 10*player2.getMagic(), 20);
 		
 		g.setColor(Color.black);
 		
-		g.drawRect(390, 45, 200, 20);
-		g.drawRect(690, 45, 200, 20);
+		g.drawRect(390, 50, 200, 20);
+		g.drawRect(690, 50, 200, 20);
 		
-		g.drawRect(490, 70, 100, 20);
-		g.drawRect(690, 70, 100, 20);
+		g.drawRect(490, 75, 100, 20);
+		g.drawRect(690, 75, 100, 20);
 		
 		for (int x = 10; x <= 90; x += 10) {
 			
-			g.drawLine(490 + x, 70, 490 + x, 90);
+			g.drawLine(490 + x, 75, 490 + x, 95);
 		}
 		
 		for (int x = 10; x <= 90; x += 10) {
 			
-			g.drawLine(690 + x, 70, 690 + x, 90);
+			g.drawLine(690 + x, 75, 690 + x, 95);
 		}
 		
 		
@@ -1098,6 +1102,7 @@ public class GameState extends State {
 			
 			if (trainingBotOn) {
 				botBehaviorButton.drawButton(g);
+				hitsToEscapeEditor.render(g);
 				
 				switch (botBehavior) {
 					case 0:

@@ -328,6 +328,10 @@ public class Assets {
 	public static BufferedImage dojoSmall;
 	public static BufferedImage shipSmall;
 	public static BufferedImage logo;
+	public static BufferedImage[] lowDigits = new BufferedImage[11];
+	public static BufferedImage[] midDigits = new BufferedImage[11];
+	public static BufferedImage[] highDigits = new BufferedImage[11];
+	public static BufferedImage[] ultraDigits = new BufferedImage[11];
 	
 
 
@@ -389,7 +393,10 @@ public class Assets {
 		SpriteSheet targetSheet = new SpriteSheet(ImageLauncher.loadImage("/textures/Target.png"));
 		SpriteSheet trapSheet = new SpriteSheet(ImageLauncher.loadImage("/textures/BearTrap.png"));
 		
-
+		SpriteSheet lowDigitsSheet = new SpriteSheet(ImageLauncher.loadImage("/textures/LowDigits.png"));
+		SpriteSheet midDigitsSheet = new SpriteSheet(ImageLauncher.loadImage("/textures/MidDigits.png"));
+		SpriteSheet highDigitsSheet = new SpriteSheet(ImageLauncher.loadImage("/textures/HighDigits.png"));
+		SpriteSheet ultraDigitsSheet = new SpriteSheet(ImageLauncher.loadImage("/textures/UltraDigits.png"));
 		
 		countdown[0] = countdownSheet.crop(0, 0, 32, 32);
 		countdown[1] = countdownSheet.crop(32, 0, 32, 32);
@@ -425,6 +432,17 @@ public class Assets {
 		bearTrapOpen[1] = trapSheet.crop(0, 32, 32, 32);
 		bearTrapClosed[0] = trapSheet.crop(32, 0, 32, 32);
 		bearTrapClosed[1] = trapSheet.crop(32, 32, 32, 32);
+		
+		for (int i = 0; i < 10; i++) {
+			lowDigits[i] = lowDigitsSheet.crop(i*288, 0, 288, 416);
+			midDigits[i] = midDigitsSheet.crop(i*288, 0, 288, 416);
+			highDigits[i] = highDigitsSheet.crop(i*288, 0, 288, 416);
+			ultraDigits[i] = ultraDigitsSheet.crop(i*288, 0, 288, 416);
+		}
+		lowDigits[10] = lowDigitsSheet.crop(0, 416, 288, 416);
+		midDigits[10] = midDigitsSheet.crop(0, 416, 288, 416);
+		highDigits[10] = highDigitsSheet.crop(0, 416, 288, 416);
+		ultraDigits[10] = ultraDigitsSheet.crop(0, 416, 288, 416);
 		
 		
 		hitEffect = ImageLauncher.loadImage("/textures/HitEffect.png");

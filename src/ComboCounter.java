@@ -139,4 +139,8 @@ public class ComboCounter {
 		
 		
 	}
+	
+	public int getCount() {
+		return comboCounter;
+	}
 }
