@@ -9,6 +9,7 @@ public class CharacterSelectState extends State {
 	private int skinChoice, p1Skin, p2Skin;
 	private int map = 0;
 	private boolean rendered;
+	private InputDelayEditor p1DelayEditor, p2DelayEditor;
 	
 	
 	
@@ -32,6 +33,8 @@ public class CharacterSelectState extends State {
 		skin1Button = new Button(game, 660, 90, 70, 40, Color.black, "SKIN 2", Assets.font15, null, false);
 		mapLeftButton = new Button(game, 462, 300, 40, 40, Color.lightGray, null, null, Assets.leftArrow, true);
 		mapRightButton = new Button(game, 778, 300, 40, 40, Color.lightGray, null, null, Assets.rightArrow, true);
+		p1DelayEditor = new InputDelayEditor(game, 290, 665);
+		p2DelayEditor = new InputDelayEditor(game, 860, 665);
 		playerChoosing = 1;
 		skinChoice = 0;
 		rendered = false;
@@ -40,6 +43,9 @@ public class CharacterSelectState extends State {
 	
 	@Override
 	public void tick() {
+		
+		p1DelayEditor.tick();
+		p2DelayEditor.tick();
 		
 		if (playerChoosing < 3) {
 		
@@ -213,7 +219,8 @@ public class CharacterSelectState extends State {
 			
 			Text.drawString(g, "JOGADOR 1", 137, 425, true, Color.white, Assets.font20);
 			Text.drawString(g, "JOGADOR 2", 1142, 425, true, Color.white, Assets.font20);
-			
+			p1DelayEditor.render(g);
+			p2DelayEditor.render(g);
 	
 			
 			
@@ -400,7 +407,18 @@ public class CharacterSelectState extends State {
 		
 		return p2Char;
 	}
+	
+	public int getPlayer1InputDelay() {
+		return p1DelayEditor.getDelay();
+	}
+	
+	public int getPlayer2InputDelay() {
+		return p2DelayEditor.getDelay();
+	}
 
+	public void forceRerender() {
+		rendered = false;
+	}
 	
 
 }

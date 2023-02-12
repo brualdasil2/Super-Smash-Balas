@@ -146,8 +146,8 @@ public class GameState extends State {
 		if (mode <= 2) {
 			
 			
-			player1 = new SmashPlayer(game, 1, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer1Char(), 240, floorY - 200, "JOGADOR 1");
-			player2 = new SmashPlayer(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), 840, floorY - 200, "JOGADOR 2");
+			player1 = new SmashPlayer(game, 1, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer1Char(), 240, floorY - 200, "JOGADOR 1", ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer1InputDelay());
+			player2 = new SmashPlayer(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), 840, floorY - 200, "JOGADOR 2", ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2InputDelay());
 			//player2 = new SmashBrunoBotHard(game, 2, new Bruno(1), 840, floorY - 200);
 			//player2 = new SmashCarolBotHard(game, 2, new Carol(1), 840, floorY - 200);
 			//player2 = new SmashLacerdaBotHard(game, 2, new Lacerda(1), 840, floorY - 200);
