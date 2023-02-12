@@ -19,17 +19,35 @@ public class SmashPlayer extends Player {
 	private int shieldDropFrames = 0;
 	private boolean jumping = false;
 	private double prevX, prevY ;
+
 	private boolean keyPressingLeft = false, keyPressingRight = false, wasPressingShield = false;
 	private int airdashSpeed;
 	private int wavedashCounter = 0, wavedashSpeed = 0;
 	private boolean wavedashingRight = false, wavedashingLeft = false;
 	private boolean wasTouchingWall = false;
 
+	PlayerInputs inputs;
+	BufferPlayerInputs delayedInputsBuffer;
+	private boolean updatedInputs = false;
+
+
 	public SmashPlayer(Game game, int playerNumb, Character character, double x, double y, String name) {
 		super(game, playerNumb, character, x, y, name);
 		this.percent = 0;
 		this.health = 1000;
 		this.character.resetAttackCounters();
+
+		inputs = new PlayerInputs(game);
+		delayedInputsBuffer = new BufferPlayerInputs(0);
+	}
+	public SmashPlayer(Game game, int playerNumb, Character character, double x, double y, String name, int inputDelay) {
+		super(game, playerNumb, character, x, y, name);
+		this.percent = 0;
+		this.health = 1000;
+		this.character.resetAttackCounters();
+
+		inputs = new PlayerInputs(game);
+		delayedInputsBuffer = new BufferPlayerInputs(inputDelay);
 	}
 
 	private double knockbackMultiplier() {
@@ -67,41 +85,18 @@ public class SmashPlayer extends Player {
 			}
 		}
 	}
-	
-	
+
 
 	protected void getInput() {
 
-		wasPressingShield = pressingShield;
-		
-		pressingJump = game.getKeyManager(playerNumb).jump;
-		pressingAttack = game.getKeyManager(playerNumb).attack;
-		pressingSpecial = game.getKeyManager(playerNumb).special;
-		pressingUp = game.getKeyManager(playerNumb).up;
-		pressingShield = game.getKeyManager(playerNumb).shield;
-		pressingAirdash = game.getKeyManager(playerNumb).airdash;
-		boolean wasPressingLeft = keyPressingLeft;
-		boolean wasPressingRight = keyPressingRight;
-		keyPressingLeft = game.getKeyManager(playerNumb).left;
-		keyPressingRight = game.getKeyManager(playerNumb).right;
-		
-		if (keyPressingLeft && keyPressingRight) {
-			if (wasPressingLeft && !wasPressingRight) {
-				pressingRight = true;
-				pressingLeft = false;
-			}
-			else if (wasPressingRight && !wasPressingLeft) {
-				pressingLeft = true;
-				pressingRight = false;
-			}
+		PlayerInputs thisFramePressedInputs = new PlayerInputs(game);
+		thisFramePressedInputs.setPlayerInputs(playerNumb);
+		PlayerInputs inputsToPlay =delayedInputsBuffer.shiftBuffer(thisFramePressedInputs);
+		if (inputsToPlay == null) {
+			return;
 		}
-		else {
-			pressingLeft = keyPressingLeft;
-			pressingRight = keyPressingRight;
-		}
-
-		
-		
+		this.inputs = inputsToPlay; 
+		updatedInputs = true;
 	}
 	
 	protected void getReplayInput(byte frameInputs) {
@@ -955,7 +950,20 @@ public class SmashPlayer extends Player {
 	}
 
 	public void tick() {
-
+		
+		if (updatedInputs) {
+			pressingJump = inputs.isPressingJump();
+			pressingAttack = inputs.isPressingAttack();
+			pressingSpecial = inputs.isPressingSpecial();
+			pressingUp = inputs.isPressingUp();
+			pressingShield = inputs.isPressingShield();
+			pressingAirdash = inputs.isPressingAirdash();
+			pressingLeft = inputs.isPressingLeft();
+			pressingRight = inputs.isPressingRight();
+			
+			updatedInputs = false;
+		}
+		
 		updateImage();
 
 		setStanding();
