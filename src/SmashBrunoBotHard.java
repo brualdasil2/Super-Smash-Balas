@@ -102,6 +102,18 @@ public class SmashBrunoBotHard extends SmashPlayer {
 		pressingShield = true;
 	}
 	
+	private void slowShield() {
+		
+		setFrames(40);
+		
+		if (frameCounter < 26) {
+			
+			pressingShield = true;
+		}
+		
+		
+	}
+	
 	private void stand() {
 		
 		setFrames(30);
@@ -406,6 +418,96 @@ public class SmashBrunoBotHard extends SmashPlayer {
 		}
 		
 	}
+	private void airdashRight() {
+		
+		setFrames(15);
+		
+		if (frameCounter == 14) {
+			pressingAirdash = true;
+			pressingRight = true;
+		}
+	}
+	private void airdashLeft() {
+		
+		setFrames(15);
+		
+		if (frameCounter == 14) {
+			pressingAirdash = true;
+			pressingLeft = true;
+		}
+	}
+	private void airdashUp() {
+		setFrames(15);
+		
+		if (frameCounter == 14) {
+			pressingAirdash = true;
+			pressingUp = true;
+		}
+	}
+	private void ijadFair() {
+		setFrames(20);
+		
+		if (frameCounter == 19) {
+			turnToOpponent();
+			pressingJump = true;
+		}
+		else if (frameCounter == 18) {
+			turnToOpponent();
+			pressingAirdash = true;
+			pressingAttack = true;
+		}
+		else {
+			pressingShield = true;
+		}
+	}
+	
+	private void ijadUpAir() {
+		setFrames(20);
+		
+		if (frameCounter == 19) {
+			turnToOpponent();
+			pressingJump = true;
+		}
+		else if (frameCounter == 18) {
+			turnToOpponent();
+			pressingAirdash = true;
+			pressingAttack = true;
+			pressingUp = true;
+		}
+		else {
+			pressingShield = true;
+		}
+	}
+	
+	private void ijadBair() {
+		setFrames(20);
+		
+		if (frameCounter == 19) {
+			turnAway();
+			pressingJump = true;
+		}
+		else if (frameCounter == 18) {
+			turnToOpponent();
+			pressingAirdash = true;
+			pressingAttack = true;
+		}
+		else {
+			pressingShield = true;
+		}
+	}
+	
+	private void adcUpAir() {
+		setFrames(3);
+		
+		if (frameCounter == 2) {
+			pressingJump = true;
+		}
+		else if (frameCounter == 1) {
+			pressingUp = true;
+			pressingAttack = true;
+			pressingAirdash = true;
+		}
+	}
 	
 
 	protected void getInput() {
@@ -422,10 +524,12 @@ public class SmashBrunoBotHard extends SmashPlayer {
 				doNothing();
 			if (rand > 1 && rand <= 4)
 				goToCenter();
-			if (rand > 4 && rand <= 7)
+			if (rand > 4 && rand <= 6)
 				jumpToCenter();
-			if (rand > 7 && rand <= 10)
+			if (rand > 6 && rand <= 9)
 				airdashToCenter();
+			if (rand > 9 && rand <= 10)
+				airdashUp();
 			
 		}
 		else if (opponentNear) {
@@ -508,8 +612,10 @@ public class SmashBrunoBotHard extends SmashPlayer {
 						setState(3);
 						randomize(10);
 	
-						if (rand <= 7) 
+						if (rand <= 5) 
 							shield();
+						else if (rand > 5 && rand <= 9)
+							slowShield();
 						else {
 							
 							dashAway();
@@ -553,14 +659,16 @@ public class SmashBrunoBotHard extends SmashPlayer {
 								jump();
 							if (rand > 20 && rand <= 25)
 								sideSpecial();
-							if (rand > 25 && rand <= 30)
+							if (rand > 25 && rand <= 27)
 								upSpecial();
+							if (rand > 27 && rand <= 30)
+								ijadFair();
 						}
 						
 						if (magic >= 2 && magic < 4) {
 							
 							setState(6);
-							randomize(25);
+							randomize(27);
 							
 							if (rand <= 4)
 								jab();
@@ -576,14 +684,16 @@ public class SmashBrunoBotHard extends SmashPlayer {
 								dashAway();
 							if (rand > 19 && rand <= 20)
 								jump();
-							if (rand > 20 && rand <= 25)
+							if (rand > 20 && rand <= 24)
 								sideSpecial();
+							if (rand > 24 && rand <= 27)
+								ijadFair();
 						}
 						
 						if (magic < 2) {
 							
 							setState(7);
-							randomize(20);
+							randomize(22);
 							
 							if (rand <= 4)
 								jab();
@@ -599,6 +709,8 @@ public class SmashBrunoBotHard extends SmashPlayer {
 								dashAway();
 							if (rand > 19 && rand <= 20)
 								jump();
+							if (rand > 20 && rand <= 22)
+								ijadFair();
 						}
 					}
 					
@@ -638,18 +750,20 @@ public class SmashBrunoBotHard extends SmashPlayer {
 						if (magic < 4) {
 							
 							setState(10);
-							randomize(2);
+							randomize(3);
 							
 							if (rand == 1)
 								upTilt();
 							if (rand == 2)
 								jumpUpAir();
+							if (rand == 3)
+								adcUpAir();
 						}
 					}
 					else {
 						
 						setState(11);
-						randomize(4);
+						randomize(6);
 						
 						if (rand <= 2)
 							jump();
@@ -657,6 +771,10 @@ public class SmashBrunoBotHard extends SmashPlayer {
 							dashRight();
 						if (rand > 3 && rand <= 4)
 							dashLeft();
+						if (rand > 4 && rand <= 5)
+							airdashRight();
+						if (rand > 5 && rand <= 6)
+							airdashLeft();
 					}
 				}
 			}
@@ -667,7 +785,12 @@ public class SmashBrunoBotHard extends SmashPlayer {
 			
 				setState(12);
 				
-				shield();
+				randomize(10);
+				
+				if (rand <= 5) 
+					shield();
+				else if (rand > 5 && rand <= 10)
+					slowShield();
 			}
 			else if (!opponentCandyComing) {
 				
@@ -684,7 +807,7 @@ public class SmashBrunoBotHard extends SmashPlayer {
 							else {
 							
 								setState(14);
-								randomize(15);
+								randomize(17);
 								
 								if (rand <= 4)
 									goToCenter();
@@ -700,13 +823,15 @@ public class SmashBrunoBotHard extends SmashPlayer {
 									sideSpecial();
 								if (rand > 12 && rand <= 15)
 									jumpSideSpecial();
+								if (rand > 15 && rand <= 17)
+									ijadFair();
 							}
 						}
 						
 						if (magic < 2) {
 							
 							setState(15);
-							randomize(10);
+							randomize(12);
 							
 							if (rand <= 4)
 								goToCenter();
@@ -718,6 +843,8 @@ public class SmashBrunoBotHard extends SmashPlayer {
 								jump();
 							if (rand > 7 && rand <= 10)
 								goToOpponent();
+							if (rand > 10 && rand <= 12)
+								ijadFair();
 						}
 					}
 					
@@ -820,7 +947,7 @@ public class SmashBrunoBotHard extends SmashPlayer {
 							else {
 							
 								setState(22);
-								randomize(13);
+								randomize(14);
 								
 								if (rand <= 3)
 									stand();
@@ -836,6 +963,8 @@ public class SmashBrunoBotHard extends SmashPlayer {
 									sideSpecial();
 								if (rand > 12 && rand <= 13)
 									jumpSideSpecial();
+								if (rand > 13 && rand <= 14)
+									ijadFair();
 							
 							}
 						}
@@ -843,7 +972,7 @@ public class SmashBrunoBotHard extends SmashPlayer {
 						if (magic < 2) {
 							
 							setState(23);
-							randomize(10);
+							randomize(11);
 							
 							if (rand <= 3)
 								stand();
@@ -855,7 +984,10 @@ public class SmashBrunoBotHard extends SmashPlayer {
 								jump();
 							if (rand > 8 && rand <= 10)
 								goToOpponent();
+							if (rand > 10 && rand <= 11)
+								ijadFair();
 						}
+						
 					}
 				}
 			}

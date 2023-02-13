@@ -540,9 +540,9 @@ public class SmashCarolBotHard extends SmashPlayer{
 				goToCenter();
 			if (rand > 4 && rand <= 6)
 				jumpToCenter();
-			if (rand > 6 && rand <= 9)
+			if (rand > 6 && rand <= 8)
 				airdashToCenter();
-			if (rand > 9 && rand <= 10)
+			if (rand > 8 && rand <= 10)
 				airdashUp();
 			
 		}

@@ -43,6 +43,7 @@ public class HitsToEscapeEditor {
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(x, y, 140, 50);
 		Text.drawString(g, "" + hits, x+70, y+25, true, Color.black, Assets.font25);
+		Text.drawString(g, "Hits para escapar", x, y+80, false, Color.black, Assets.font20);
 		smallPlusButton.drawButton(g);
 		smallMinusButton.drawButton(g);
 	}
