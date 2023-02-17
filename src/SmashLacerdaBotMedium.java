@@ -517,8 +517,10 @@ if (offStage) {
 							setState(1);
 							randomize(10);
 		
-							if (rand <= 4) 
+							if (rand <= 2) 
 								shield();
+							if (rand > 2 && rand <= 4)
+								slowShield();
 							if (rand > 4 && rand <= 6)
 								dashAway();
 							if (rand > 6 && rand <= 7)
@@ -730,9 +732,9 @@ if (offStage) {
 				
 				randomize(10);
 				
-				if (rand <= 3)
+				if (rand <= 2)
 					shield();
-				if (rand > 3 && rand <= 10)
+				if (rand > 2 && rand <= 10)
 					slowShield();
 			}
 			else if (!opponentCandyComing) {

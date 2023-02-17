@@ -544,6 +544,9 @@ public class Lacerda extends Character {
 		
 		
 		if (!chargingBomb) {
+			
+			//System.out.println(attackUF);
+			
 		
 			if (attackIF > sideSpecialRight.getFrames()[attackUF].getDuration()) {
 				
@@ -556,6 +559,12 @@ public class Lacerda extends Character {
 				if (attackIF == 1) {
 					
 					player.decreaseMagic(sideSpecialMagic);
+					if (bombKnockback < 20) {
+						
+						sideSpecialRight = AttackCreator.getLacerdaSideSpecial1Right(skin);
+						sideSpecialLeft = AttackCreator.getLacerdaSideSpecial1Left(skin);
+					}
+					
 				}
 				
 				if (attackIF == 3) {
@@ -590,9 +599,17 @@ public class Lacerda extends Character {
 		
 		if (chargingBomb) {
 			
+			System.out.println(bombKnockback);
+			
 			if (attackIF % 3 == 0) {
 				
 				bombKnockback++;
+				
+				if (bombKnockback < 20) {
+					
+					sideSpecialRight = AttackCreator.getLacerdaSideSpecial1Right(skin);
+					sideSpecialLeft = AttackCreator.getLacerdaSideSpecial1Left(skin);
+				}
 				
 				if (bombKnockback == 20) {
 					
@@ -606,13 +623,14 @@ public class Lacerda extends Character {
 					sideSpecialLeft = AttackCreator.getLacerdaSideSpecial3Left(skin);
 				}
 				
-				if (bombKnockback == 30) {
+				if (bombKnockback >= 30) {
 					
 					chargingBomb = false;
 					sideSpecialRight.setKnockbackXSpeed(bombKnockback);
 					sideSpecialRight.setKnockbackYSpeed(-bombKnockback);
 					sideSpecialLeft.setKnockbackXSpeed(-bombKnockback);
 					sideSpecialLeft.setKnockbackYSpeed(-bombKnockback);
+					bombKnockback = 15;
 				}
 			}
 			
@@ -623,6 +641,7 @@ public class Lacerda extends Character {
 				sideSpecialRight.setKnockbackYSpeed(-bombKnockback);
 				sideSpecialLeft.setKnockbackXSpeed(-bombKnockback);
 				sideSpecialLeft.setKnockbackYSpeed(-bombKnockback);
+				bombKnockback = 15;
 			}
 		}
 		

@@ -357,7 +357,7 @@ public class GameState extends State {
 				if (parryFreezeCounter == 0) {
 					
 					
-					screenRefreshManager.setChange(290, 20, 700, 70);
+					screenRefreshManager.setChange(290, 20, 700, 90);
 					
 					if (training) {
 						
@@ -941,32 +941,32 @@ public class GameState extends State {
 		g.setColor(Color.green);
 		if (player1.getShield() < 20)
 			g.setColor(Color.decode("1547309"));
-		g.fillRect(390 + (200 - 2*player1.getShield()), 50, 2*player1.getShield(), 20);
+		g.fillRect(390 + (200 - 2*player1.getShield()), 55, 2*player1.getShield(), 20);
 		g.setColor(Color.green);
 		if (player2.getShield() < 20)
 			g.setColor(Color.decode("1547309"));
-		g.fillRect(690, 50, 2*player2.getShield(), 20);
+		g.fillRect(690, 55, 2*player2.getShield(), 20);
 		
 		g.setColor(Color.decode("2799606"));
-		g.fillRect(490 + (100 - 10*player1.getMagic()), 75, 10*player1.getMagic(), 20);
-		g.fillRect(690, 75, 10*player2.getMagic(), 20);
+		g.fillRect(490 + (100 - 10*player1.getMagic()), 80, 10*player1.getMagic(), 20);
+		g.fillRect(690, 80, 10*player2.getMagic(), 20);
 		
 		g.setColor(Color.black);
 		
-		g.drawRect(390, 50, 200, 20);
-		g.drawRect(690, 50, 200, 20);
+		g.drawRect(390, 55, 200, 20);
+		g.drawRect(690, 55, 200, 20);
 		
-		g.drawRect(490, 75, 100, 20);
-		g.drawRect(690, 75, 100, 20);
+		g.drawRect(490, 80, 100, 20);
+		g.drawRect(690, 80, 100, 20);
 		
 		for (int x = 10; x <= 90; x += 10) {
 			
-			g.drawLine(490 + x, 75, 490 + x, 95);
+			g.drawLine(490 + x, 80, 490 + x, 100);
 		}
 		
 		for (int x = 10; x <= 90; x += 10) {
 			
-			g.drawLine(690 + x, 75, 690 + x, 95);
+			g.drawLine(690 + x, 80, 690 + x, 100);
 		}
 		
 		

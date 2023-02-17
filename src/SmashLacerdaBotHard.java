@@ -1081,7 +1081,7 @@ public class SmashLacerdaBotHard extends SmashPlayer{
 							
 							
 						    setState(22);
-							randomize(17);
+							randomize(15);
 							
 							if (rand <= 3)
 								stand();
@@ -1097,11 +1097,11 @@ public class SmashLacerdaBotHard extends SmashPlayer{
 								upSpecialRight();
 							if (rand > 11 && rand <= 12)
 								upSpecialLeft();
-							if (rand > 12 && rand <= 14)
+							if (rand > 12 && rand <= 13)
 								ijadFair();
-							if (rand > 14 && rand <= 15)
+							if (rand > 13 && rand <= 14)
 								ijadBair();
-							if (rand > 15 && rand <= 17)
+							if (rand > 14 && rand <= 15)
 								ijadUpAir();
 						
 							
@@ -1110,7 +1110,7 @@ public class SmashLacerdaBotHard extends SmashPlayer{
 						else {
 							
 							setState(23);
-							randomize(17);
+							randomize(13);
 							
 							if (rand <= 3)
 								stand();
@@ -1122,11 +1122,11 @@ public class SmashLacerdaBotHard extends SmashPlayer{
 								jump();
 							if (rand > 8 && rand <= 10)
 								goToOpponent();
-							if (rand > 10 && rand <= 12)
+							if (rand > 10 && rand <= 11)
 								ijadFair();
-							if (rand > 12 && rand <= 14)
+							if (rand > 11 && rand <= 12)
 								ijadBair();
-							if (rand > 14 && rand <= 17)
+							if (rand > 12 && rand <= 13)
 								ijadUpAir();
 						}
 					}

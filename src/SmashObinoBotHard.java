@@ -120,6 +120,17 @@ public class SmashObinoBotHard extends SmashPlayer{
 		pressingShield = true;
 	}
 	
+	private void slowShield() {
+		
+		setFrames(40);
+		
+		if (frameCounter < 26) {
+			
+			pressingShield = true;
+		}
+		
+		
+	}
 	private void stand() {
 		
 		setFrames(30);
@@ -456,6 +467,97 @@ public class SmashObinoBotHard extends SmashPlayer{
 		}
 		
 	}
+private void airdashRight() {
+		
+		setFrames(15);
+		
+		if (frameCounter == 14) {
+			pressingAirdash = true;
+			pressingRight = true;
+		}
+	}
+	private void airdashLeft() {
+		
+		setFrames(15);
+		
+		if (frameCounter == 14) {
+			pressingAirdash = true;
+			pressingLeft = true;
+		}
+	}
+	private void airdashUp() {
+		setFrames(15);
+		
+		if (frameCounter == 14) {
+			pressingAirdash = true;
+			pressingUp = true;
+		}
+	}
+	
+	private void ijadFair() {
+		setFrames(20);
+		
+		if (frameCounter == 19) {
+			turnToOpponent();
+			pressingJump = true;
+		}
+		else if (frameCounter == 18) {
+			turnToOpponent();
+			pressingAirdash = true;
+			pressingAttack = true;
+		}
+		else {
+			pressingShield = true;
+		}
+	}
+	
+	private void ijadUpAir() {
+		setFrames(20);
+		
+		if (frameCounter == 19) {
+			turnToOpponent();
+			pressingJump = true;
+		}
+		else if (frameCounter == 18) {
+			turnToOpponent();
+			pressingAirdash = true;
+			pressingAttack = true;
+			pressingUp = true;
+		}
+		else {
+			pressingShield = true;
+		}
+	}
+	
+	private void ijadBair() {
+		setFrames(20);
+		
+		if (frameCounter == 19) {
+			turnAway();
+			pressingJump = true;
+		}
+		else if (frameCounter == 18) {
+			turnToOpponent();
+			pressingAirdash = true;
+			pressingAttack = true;
+		}
+		else {
+			pressingShield = true;
+		}
+	}
+	
+	private void adcUpAir() {
+		setFrames(3);
+		
+		if (frameCounter == 2) {
+			pressingJump = true;
+		}
+		else if (frameCounter == 1) {
+			pressingUp = true;
+			pressingAttack = true;
+			pressingAirdash = true;
+		}
+	}
 	
 	
 
@@ -480,10 +582,13 @@ public class SmashObinoBotHard extends SmashPlayer{
 					doNothing();
 				if (rand > 1 && rand <= 4)
 					goToCenter();
-				if (rand > 4 && rand <= 7)
+				if (rand > 4 && rand <= 6)
 					jumpToCenter();
-				if (rand > 7 && rand <= 10)
+				if (rand > 6 && rand <= 8)
 					airdashToCenter();
+				if (rand > 8 && rand <= 10)
+					airdashUp();
+				
 				
 			}
 			else if (opponentNear) {
@@ -493,7 +598,7 @@ public class SmashObinoBotHard extends SmashPlayer{
 					if (!shieldStun && freezeFrames == 0 && (defended || parried)) {
 						
 						setState(1);
-						randomize(10);
+						randomize(13);
 	
 						
 						if (rand <= 5)
@@ -502,6 +607,8 @@ public class SmashObinoBotHard extends SmashPlayer{
 							dashAttack();
 						if (rand > 9 && rand <= 10)
 							upTilt();
+						if (rand > 10 && rand <= 13)
+							ijadUpAir();
 						
 					}
 					
@@ -555,9 +662,11 @@ public class SmashObinoBotHard extends SmashPlayer{
 						
 							setState(4);
 							randomize(10);
-		
-							if (rand <= 9) 
+							
+							if (rand <= 5) 
 								shield();
+							else if (rand > 5 && rand <= 9)
+								slowShield();
 							else {
 								
 								dashAway();
@@ -592,7 +701,7 @@ public class SmashObinoBotHard extends SmashPlayer{
 								if (magic >= 3) {
 									
 									setState(7);
-									randomize(25);
+									randomize(30);
 									
 									if (rand <= 3)
 										jab();
@@ -612,12 +721,18 @@ public class SmashObinoBotHard extends SmashPlayer{
 										sideSpecial();
 									if (rand > 23 && rand <= 25)
 										upSpecial();
+									if (rand > 25 && rand <= 27)
+										ijadFair();
+									if (rand > 27 && rand <= 29)
+										ijadBair();
+									if (rand > 29 && rand <= 30)
+										ijadUpAir();
 								}
 								
 								if (magic == 2) {
 									
 									setState(8);
-									randomize(25);
+									randomize(30);
 									
 									if (rand <= 3)
 										jab();
@@ -635,12 +750,18 @@ public class SmashObinoBotHard extends SmashPlayer{
 										jump();
 									if (rand > 20 && rand <= 25)
 										sideSpecial();
+									if (rand > 25 && rand <= 27)
+										ijadFair();
+									if (rand > 27 && rand <= 29)
+										ijadBair();
+									if (rand > 29 && rand <= 30)
+										ijadUpAir();
 								}
 								
 								if (magic < 2) {
 									
 									setState(9);
-									randomize(20);
+									randomize(25);
 									
 									if (rand <= 3)
 										jab();
@@ -656,6 +777,12 @@ public class SmashObinoBotHard extends SmashPlayer{
 										dashAway();
 									if (rand > 19 && rand <= 20)
 										jump();
+									if (rand > 20 && rand <= 22)
+										ijadFair();
+									if (rand > 22 && rand <= 24)
+										ijadBair();
+									if (rand > 24 && rand <= 25)
+										ijadUpAir();
 								}
 							}
 							
@@ -701,13 +828,15 @@ public class SmashObinoBotHard extends SmashPlayer{
 								
 								if (rand == 1)
 									upTilt();
-								if (rand > 1 && rand <= 5)
+								if (rand > 1 && rand <= 4)
 									jumpUpAir();
+								if (rand > 4 && rand <= 5)
+									adcUpAir();
 							}
 							else {
 								
 								setState(13);
-								randomize(4);
+								randomize(6);
 								
 								if (rand <= 2)
 									jump();
@@ -715,6 +844,10 @@ public class SmashObinoBotHard extends SmashPlayer{
 									dashRight();
 								if (rand > 3 && rand <= 4)
 									dashLeft();
+								if (rand > 4 && rand <= 5)
+									airdashRight();
+								if (rand > 5 && rand <= 6)
+									airdashLeft();
 							}
 						}
 					}
@@ -733,8 +866,12 @@ public class SmashObinoBotHard extends SmashPlayer{
 				if (opponentCandyComing) {
 				
 					setState(15);
+					randomize(10);
 					
-					shield();
+					if (rand <= 5) 
+						shield();
+					else if (rand > 5 && rand <= 10)
+						slowShield();
 				}
 				else if (!opponentCandyComing) {
 					
@@ -746,7 +883,7 @@ public class SmashObinoBotHard extends SmashPlayer{
 							if (!trapActive) {
 									
 								setState(16);
-								randomize(20);
+								randomize(23);
 								
 								if (rand <= 4)
 									goToCenter();
@@ -764,11 +901,17 @@ public class SmashObinoBotHard extends SmashPlayer{
 									neutralSpecial();
 								if (rand > 17 && rand <= 20)
 									upSpecial();
+								if (rand > 20 && rand <= 21)
+									ijadFair();
+								if (rand > 21 && rand <= 22)
+									ijadBair();
+								if (rand > 22 && rand <= 23)
+									ijadUpAir();
 							}
 							else if (trapActive) {
 								
 								setState(17);
-								randomize(17);
+								randomize(20);
 								
 								if (rand <= 4)
 									goToCenter();
@@ -784,6 +927,12 @@ public class SmashObinoBotHard extends SmashPlayer{
 									dashAttack();
 								if (rand > 13 && rand <= 17)
 									upSpecial();
+								if (rand > 17 && rand <= 18)
+									ijadFair();
+								if (rand > 18 && rand <= 19)
+									ijadBair();
+								if (rand > 19 && rand <= 20)
+									ijadUpAir();
 							}
 						}
 						
@@ -791,7 +940,7 @@ public class SmashObinoBotHard extends SmashPlayer{
 						if (magic < 3) {
 							
 							setState(18);
-							randomize(15);
+							randomize(18);
 							
 							if (rand <= 4)
 								goToCenter();
@@ -805,6 +954,12 @@ public class SmashObinoBotHard extends SmashPlayer{
 								goToOpponent();
 							if (rand > 10 && rand <= 15)
 								dashAttack();
+							if (rand > 15 && rand <= 16)
+								ijadFair();
+							if (rand > 16 && rand <= 17)
+								ijadBair();
+							if (rand > 17 && rand <= 18)
+								ijadUpAir();
 						}
 						
 					}
@@ -830,7 +985,7 @@ public class SmashObinoBotHard extends SmashPlayer{
 									
 									if (!trapActive) {
 										setState(20);
-										randomize(15);
+										randomize(18);
 										
 										if (rand <= 3)
 											stand();
@@ -848,11 +1003,17 @@ public class SmashObinoBotHard extends SmashPlayer{
 											neutralSpecial();
 										if (rand > 14 && rand <= 15)
 											upSpecial();
+										if (rand > 15 && rand <= 16)
+											ijadFair();
+										if (rand > 16 && rand <= 17)
+											ijadBair();
+										if (rand > 17 && rand <= 18)
+											ijadUpAir();
 									}
 									else if (trapActive) {
 										
 										setState(21);
-										randomize(12);
+										randomize(15);
 										
 										if (rand <= 3)
 											stand();
@@ -868,6 +1029,12 @@ public class SmashObinoBotHard extends SmashPlayer{
 											dashAttack();
 										if (rand > 11 && rand <= 12)
 											upSpecial();
+										if (rand > 12 && rand <= 13)
+											ijadFair();
+										if (rand > 13 && rand <= 14)
+											ijadBair();
+										if (rand > 14 && rand <= 15)
+											ijadUpAir();
 									}
 									
 								}
@@ -875,7 +1042,7 @@ public class SmashObinoBotHard extends SmashPlayer{
 								if (magic < 3) {
 									
 									setState(22);
-									randomize(12);
+									randomize(15);
 									
 									if (rand <= 3)
 										stand();
@@ -889,6 +1056,12 @@ public class SmashObinoBotHard extends SmashPlayer{
 										goToOpponent();
 									if (rand > 8 && rand <= 12)
 										dashAttack();
+									if (rand > 12 && rand <= 13)
+										ijadFair();
+									if (rand > 13 && rand <= 14)
+										ijadBair();
+									if (rand > 14 && rand <= 15)
+										ijadUpAir();
 								}
 							}
 						}

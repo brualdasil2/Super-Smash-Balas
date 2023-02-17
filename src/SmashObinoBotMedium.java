@@ -529,8 +529,10 @@ private void doNothing() {
 						setState(2);
 						randomize(10);
 	
-						if (rand <= 4) 
+						if (rand <= 2) 
 							shield();
+						if (rand > 2 && rand <= 4)
+							slowShield();
 						if (rand > 4 && rand <= 7)
 							dashAway();
 						if (rand > 7 && rand <= 9)
@@ -711,9 +713,9 @@ private void doNothing() {
 					
 					randomize(10);
 					
-					if (rand <= 3)
+					if (rand <= 2)
 						shield();
-					if (rand > 3 && rand <= 10)
+					if (rand > 2 && rand <= 10)
 						slowShield();
 				}
 				else if (!opponentCandyComing) {

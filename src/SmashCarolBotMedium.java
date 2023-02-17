@@ -507,8 +507,10 @@ offStageOnRight = (x + currentFrame.getWidth()/2 > GameState.smashStageRight);
 					setState(1);
 					randomize(10);
 
-					if (rand <= 4) 
+					if (rand <= 2) 
 						shield();
+					if (rand > 2 && rand <= 4)
+						slowShield();
 					if (rand > 4 && rand <= 7)
 						dashAway();
 					if (rand > 7 && rand <= 9)
