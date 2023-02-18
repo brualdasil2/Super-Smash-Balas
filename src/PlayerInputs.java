@@ -27,6 +27,7 @@ public class PlayerInputs {
 		boolean wasPressingRight = keyPressingRight;
 		keyPressingLeft = game.getKeyManager(playerNumb).left;
 		keyPressingRight = game.getKeyManager(playerNumb).right;
+
 		
 		if (keyPressingLeft && keyPressingRight) {
 			if (wasPressingLeft && !wasPressingRight) {

@@ -602,7 +602,7 @@ public class Lacerda extends Character {
 		
 		if (chargingBomb) {
 			
-			System.out.println(bombKnockback);
+			//System.out.println(bombKnockback);
 			
 			if (attackIF % 3 == 0) {
 				

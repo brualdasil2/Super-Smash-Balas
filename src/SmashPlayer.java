@@ -89,9 +89,8 @@ public class SmashPlayer extends Player {
 
 	protected void getInput() {
 
-		PlayerInputs thisFramePressedInputs = new PlayerInputs(game);
-		thisFramePressedInputs.setPlayerInputs(playerNumb);
-		PlayerInputs inputsToPlay =delayedInputsBuffer.shiftBuffer(thisFramePressedInputs);
+		inputs.setPlayerInputs(playerNumb);
+		PlayerInputs inputsToPlay = delayedInputsBuffer.shiftBuffer(inputs);
 		if (inputsToPlay == null) {
 			return;
 		}
