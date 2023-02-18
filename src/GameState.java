@@ -807,6 +807,7 @@ public class GameState extends State {
 						
 						if (mode != 3 && mode != 4) {
 							if (restartButton.buttonPressed()) {
+								SoundManager.clear();
 								hitEffectActive = false;
 								hitEffect.resetFrameCounter();
 								KOscreenTimer = 0;
@@ -824,6 +825,7 @@ public class GameState extends State {
 						}
 						
 						if (menuButton.buttonPressed()) {
+							SoundManager.clear();
 							hitEffectActive = false;
 							hitEffect.resetFrameCounter();
 							KOscreenTimer = 0;

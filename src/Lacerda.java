@@ -3,6 +3,7 @@ public class Lacerda extends Character {
 
 	private boolean chargingBomb = false;
 	private int bombKnockback = 15;
+	private int chargeBombKnockback = 15;
 	private boolean countering = false;
 	private int counterProjectileDamage = 0;
 	private int counterProjectileKnockbackXSpeed = 0;
@@ -57,6 +58,7 @@ public class Lacerda extends Character {
 	public void resetBomb() {
 		
 		bombKnockback = 15;
+		chargeBombKnockback = 15;
 		sideSpecialRight = AttackCreator.getLacerdaSideSpecial1Right(skin);
 		sideSpecialLeft = AttackCreator.getLacerdaSideSpecial1Left(skin);
 		sideSpecialRight.setKnockbackXSpeed(bombKnockback);
@@ -563,6 +565,7 @@ public class Lacerda extends Character {
 						
 						sideSpecialRight = AttackCreator.getLacerdaSideSpecial1Right(skin);
 						sideSpecialLeft = AttackCreator.getLacerdaSideSpecial1Left(skin);
+						chargeBombKnockback = bombKnockback;
 					}
 					
 				}
@@ -580,11 +583,11 @@ public class Lacerda extends Character {
 				
 				if (attackIF == 1) {
 					
-					if (bombKnockback >= 25) {
+					if (chargeBombKnockback >= 25) {
 						
 						SoundManager.play("sounds/Explosion3.wav", false);
 					}
-					else if (bombKnockback >= 20) {
+					else if (chargeBombKnockback >= 20) {
 						
 						SoundManager.play("sounds/Explosion2.wav", false);
 					}
@@ -622,6 +625,8 @@ public class Lacerda extends Character {
 					sideSpecialRight = AttackCreator.getLacerdaSideSpecial3Right(skin);
 					sideSpecialLeft = AttackCreator.getLacerdaSideSpecial3Left(skin);
 				}
+				
+				chargeBombKnockback = bombKnockback;
 				
 				if (bombKnockback >= 30) {
 					
