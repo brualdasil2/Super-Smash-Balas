@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-/HitsToEscapeEditor.class
-/PercentRenderer.class
-/InputDelayEditor.class
-=======
-/PlayerInputs.class
-/BufferPlayerInputs.class
->>>>>>> rollback
-/SoundManager$1.class
+/SimulationState.class
+/NeuralTrainer.class
+/Brain.class
+/QuickSort.class

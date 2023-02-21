@@ -45,7 +45,7 @@ public class Game implements Runnable {
 	
 	
 	
-	private void init() {
+	public void init() {
 		
 		display = new Display(title, width, height);
 		

@@ -17,6 +17,7 @@ public class SoundManager {
 	
 	 public static synchronized void play(String path, boolean loop)
 	    {
+		 /*
 		 Future<?> future = executor.submit(() -> {
 		 		try {
                     Clip clip = AudioSystem.getClip();
@@ -35,6 +36,7 @@ public class SoundManager {
                 }
 		 	});		 	
 		 futures.add(future);
+		 */
 	    }
 	 
 	 public static void clear() {

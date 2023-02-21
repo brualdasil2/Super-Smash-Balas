@@ -5,14 +5,15 @@ import java.awt.Graphics2D;
 
 public class SmashPlayer extends Player {
 
-	private int percent;
+	protected int percent;
 	private int leftBlastzone = -100;
 	private int rightBlastzone = 1380;
 	private int topBlastzone = -300;
 	private int bottomBlastzone = 920;
 	protected boolean pressingAirdash;
 	private int airdashDuration = 15;
-	private int airdashes = 1, airdashCounter = 0;
+	private int airdashes = 1;
+	protected int airdashCounter = 0;
 	private boolean airdashingRight = false, airdashingLeft = false, airdashingDown = false, airdashingUp = false;
 	private int MIN_HITSTUN = 20;
 	private int invisibleCounter = 0;
@@ -1357,6 +1358,10 @@ public class SmashPlayer extends Player {
 		
 		health = 1500;
 		percent = 0;
+	}
+	public void setOpponent(SmashPlayer opponent) {
+		
+		this.opponent = opponent;
 	}
 	public void restoreRound() {
 
