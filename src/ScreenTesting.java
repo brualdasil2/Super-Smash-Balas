@@ -11,18 +11,20 @@ public class ScreenTesting {
 	public static int frameWidth = 1280;
 	 	public static int frameHeight = 720;
 
-	 	
+	    
 	 	
 	
 	public static void main (String[] args) {
+		
+		
 		
 		//Launcher
 		Game game = new Game("Project Balas", frameWidth, frameHeight);	
 		game.start(); //Start thread
 		//game.init();
 		//NeuralTrainer trainer = new NeuralTrainer(game);
-		//trainer.genetic(100, 0);
-		
+		//trainer.genetic(1000, 19);
+	
 	}
 		
 	

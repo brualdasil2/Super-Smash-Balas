@@ -99,6 +99,95 @@ public class NeuralTrainer {
 		return p1Fitness;
 	}
 	
+	private int p1FitnessSimulatedVsPool(NeuralBot p1, NeuralBot p2) {
+		int p1Wins = 0;
+		int p2Wins = 0;
+		int p1Fitness = 0;
+		int totalTicks = 0;
+		int biggestTicks = 0;
+		for (int i = 0; i < 1; i++) {
+			simulator.init(p1, p2);
+			int ticksAtStart = totalTicks;
+			while(simulator.isFighting()) {
+				simulator.tick();
+				totalTicks++;
+				if (totalTicks - ticksAtStart > 30000) {
+					break;
+				}
+			}
+			int ticksAtEnd = totalTicks;
+			int ticksInThisGame = ticksAtEnd - ticksAtStart;
+			if (ticksInThisGame > biggestTicks) {
+				biggestTicks = ticksInThisGame;
+			}
+			int winner = simulator.getWinner();
+			//System.out.println("Winner: " + winner);
+			if (winner == 1) {
+				p1Wins++;
+			}
+			else if (winner == 2) {
+				p2Wins++;
+			}
+			p1Fitness += simulator.getP1DamageDealt();
+			p1Fitness += (p1.getScore() - p2.getScore())*50;
+			p1Fitness += (double)simulator.getP1CenterTicks()/(totalTicks - ticksAtStart)*100;
+		}
+		//System.out.println("P1 wins: " + p1Wins);
+		//System.out.println("P2 wins: " + p2Wins);
+		//System.out.println("Average ticks: " + (double)totalTicks/nGames);
+		//System.out.println("Most ticks: " + biggestTicks);
+		return p1Fitness;
+	}
+	
+	private int randomRecentGen(int thisGen) {
+		return thisGen - ((int)(Math.random()*(5)) + 2);
+	}
+	private int randomOldGen(int thisGen) {
+		return (int)(Math.random()*(thisGen-1-4)) + 1;
+	}
+	private int randomGen(int thisGen) {
+		return (int)(Math.random()*(thisGen-1)) + 1;
+	}
+	private int randomRank(int populationSize) {
+		return (int)(Math.random()*populationSize) + 1;
+	}
+	
+	private NeuralNetwork getFromPool(int thisGen, int populationSize) {
+		int randGen;
+		if (thisGen > 10) {
+			if (Math.random() > 0.5) {
+				randGen = randomRecentGen(thisGen);
+			}
+			else {
+				randGen = randomOldGen(thisGen);
+			}
+		}
+		else {
+			randGen = randomGen(thisGen);
+		}
+		int randRank = randomRank(populationSize);
+		System.out.println("Random gen from pool: " + randGen);
+		return NeuralNetwork.readFromFile("./neural_networks/gen" + randGen + "/rank" + randRank + ".json");
+	}
+	
+	private void calculateFitnessVsPool(Brain[] population, int thisGeneration) {
+		int totalGames = 0;
+		for (int j = 0; j < 10; j++) {
+			NeuralNetwork p2Network = getFromPool(thisGeneration, population.length);
+			for (int i = 0; i < population.length; i++) {
+				NeuralBot p1 = new NeuralBot(game, 1, new Bruno(0), 240, GameState.floorY - 200, population[i]);
+				Brain p2Brain = new Brain(p2Network);
+				NeuralBot p2 = new NeuralBot(game, 2, new Bruno(1), 840, GameState.floorY - 200, p2Brain);
+				int p1Fitness = p1FitnessSimulatedVsPool(p1, p2);
+				population[i].incrementFitness(p1Fitness);
+				totalGames++;
+				if (totalGames%10 == 0) {
+					System.out.println("Total games: " + totalGames);
+				}
+			}
+		}
+	}
+	
 	private void calculateFitnessVsBot(Brain[] population) {
 		int totalGames = 0;
 		for (int i = 0; i < population.length; i++) {
@@ -121,7 +210,7 @@ public class NeuralTrainer {
 				NeuralBot p2 = new NeuralBot(game, 2, new Bruno(1), 840, GameState.floorY - 200, population[j]);
 				int p1Fitness = p1FitnessSimulatedN(p1, p2, 1);
 				population[i].incrementFitness(p1Fitness);
-				population[j].incrementFitness(-p1Fitness);
+				//population[j].incrementFitness(-p1Fitness);
 				totalGames++;
 				if (totalGames%100 == 0) {
 					System.out.println("Total games: " + totalGames);
@@ -132,7 +221,7 @@ public class NeuralTrainer {
 	
 	private void initRandomPopulation(Brain[] population) {
 		for (int i = 0; i < population.length; i++) {
-			NeuralNetwork randomNetwork = new NeuralNetwork(45, 2, 16, 8);
+			NeuralNetwork randomNetwork = new NeuralNetwork(45, 4, 25, 27);
 			population[i] = new Brain(randomNetwork);
 		}
 	}
@@ -210,8 +299,24 @@ public class NeuralTrainer {
 		}
 		
 		for (int i = startGeneration; i < nGenerations; i++) {
+			if (i == 0) {
+				calculateFitness(population); 
+				QuickSort.quickSort(population, 0, populationSize-1);
+				Brain originalBestBrain = population[0];
+				Brain originalWorstBrain = population[populationSize-1];
+				System.out.println("Gen " + genNumber + " best fitness: " + originalBestBrain.getFitness());
+				System.out.println("Gen " + genNumber + " worst fitness: " + originalWorstBrain.getFitness());
+				int totalFitness = 0;
+				for (Brain b : population) {
+					totalFitness += b.getFitness();
+				}
+				System.out.println("Gen " + genNumber + " average fitness: " + (double)totalFitness/populationSize);
+				for (int k = 0; k < population.length; k++) {
+					population[k].getNetwork().writeToFile("./neural_networks/gen" + genNumber + "/rank" + (k+1));
+				}
+			}
 			if (i != startGeneration) {				
-				calculateFitnessVsBot(population); 
+				calculateFitnessVsPool(population, genNumber); 
 				QuickSort.quickSort(population, 0, populationSize-1);
 				Brain originalBestBrain = population[0];
 				Brain originalWorstBrain = population[populationSize-1];

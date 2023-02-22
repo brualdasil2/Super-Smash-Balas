@@ -3,7 +3,7 @@ public class SimulationState {
 	private Game game;
 	private SmashPlayer player1, player2;
 	private int winner;
-	private int p1DamageDealt, p2DamageDealt;
+	private int p1DamageDealt, p2DamageDealt, p1CenterTicks, p2CenterTicks;
 	private int maxScore = 4;
 	private MagicBall magicBall;
 	private boolean fighting;
@@ -23,6 +23,12 @@ public class SimulationState {
 		winner = 0;
 		p1DamageDealt = 0;
 		p2DamageDealt = 0;
+		p1CenterTicks = 0;
+		p2CenterTicks = 0;
+	}
+	
+	public int distanceToCenter(SmashPlayer p) {
+		return Math.abs((int)((p.x + p.currentAttack.getCollisionbox().getX() + p.currentAttack.getCollisionbox().getWidth()/2) - 640));
 	}
 	
 	public void tick() {
@@ -44,7 +50,7 @@ public class SimulationState {
 			fighting = false;
 			winner = -1;			
 		}
-		else { 
+		else {
 			if (player1.getHealth() <= 0) {
 				p2DamageDealt += player1.percent;
 				player1.restoreRound();
@@ -63,6 +69,13 @@ public class SimulationState {
 				winner = 2;
 				fighting = false;
 			}
+			
+			if (distanceToCenter(player1) < distanceToCenter(player2)) {
+				p1CenterTicks++;
+			}
+			else if (distanceToCenter(player1) > distanceToCenter(player2)) {
+				p2CenterTicks++;
+			}
 		}
 	}
 	
@@ -74,6 +87,12 @@ public class SimulationState {
 	}
 	public int getP2DamageDealt() {
 		return p2DamageDealt;
+	}
+	public int getP1CenterTicks() {
+		return p1CenterTicks;
+	}
+	public int getP2CenterTicks() {
+		return p2CenterTicks;
 	}
 	public boolean isFighting() {
 		return fighting;
