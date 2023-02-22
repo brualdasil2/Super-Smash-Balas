@@ -21,7 +21,7 @@ public class ScreenTesting {
 		game.start(); //Start thread
 		//game.init();
 		//NeuralTrainer trainer = new NeuralTrainer(game);
-		//trainer.genetic(50, 25);
+		//trainer.genetic(100, 0);
 		
 	}
 		
