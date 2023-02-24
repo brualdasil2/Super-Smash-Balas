@@ -3,7 +3,8 @@ public class SimulationState {
 	private Game game;
 	private SmashPlayer player1, player2;
 	private int winner;
-	private int p1DamageDealt, p2DamageDealt, p1CenterTicks, p2CenterTicks;
+	private int p1DamageDealt, p2DamageDealt, p1CenterTicks, p2CenterTicks, p1DamageOnCombo, p2DamageOnCombo, p1DamageOnPunish, p2DamageOnPunish, p1DamageShielded, p2DamageShielded;
+
 	private int maxScore = 4;
 	private MagicBall magicBall;
 	private boolean fighting;
@@ -25,6 +26,12 @@ public class SimulationState {
 		p2DamageDealt = 0;
 		p1CenterTicks = 0;
 		p2CenterTicks = 0;
+		p1DamageShielded = 0;
+		p2DamageShielded = 0;
+		p1DamageOnPunish = 0;
+		p2DamageOnPunish = 0;
+		p1DamageOnCombo = 0;
+		p2DamageOnCombo = 0;
 	}
 	
 	public int distanceToCenter(SmashPlayer p) {
@@ -52,12 +59,10 @@ public class SimulationState {
 		}
 		else {
 			if (player1.getHealth() <= 0) {
-				p2DamageDealt += player1.percent;
 				player1.restoreRound();
 				player2.increaseScore();
 			}
 			if (player2.getHealth() <= 0) {
-				p1DamageDealt += player2.percent;
 				player2.restoreRound();
 				player1.increaseScore();
 			}
@@ -83,16 +88,39 @@ public class SimulationState {
 		return winner;
 	}
 	public int getP1DamageDealt() {
-		return p1DamageDealt;
+		return player1.getDamageDealt();
 	}
 	public int getP2DamageDealt() {
-		return p2DamageDealt;
+		return player2.getDamageDealt();
 	}
 	public int getP1CenterTicks() {
 		return p1CenterTicks;
 	}
 	public int getP2CenterTicks() {
 		return p2CenterTicks;
+	}
+	public int getP1DamageOnCombo() {
+		return player1.getDamageOnCombo();
+	}
+
+	public int getP2DamageOnCombo() {
+		return player2.getDamageOnCombo();
+	}
+
+	public int getP1DamageOnPunish() {
+		return player1.getDamageOnPunish();
+	}
+
+	public int getP2DamageOnPunish() {
+		return player2.getDamageOnPunish();
+	}
+
+	public int getP1DamageShielded() {
+		return player1.getDamageShielded();
+	}
+
+	public int getP2DamageShielded() {
+		return player2.getDamageShielded();
 	}
 	public boolean isFighting() {
 		return fighting;

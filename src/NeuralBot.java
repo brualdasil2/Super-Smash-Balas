@@ -4,6 +4,8 @@ import basicneuralnetwork.NeuralNetwork;
 
 public class NeuralBot extends SmashPlayer {
 	
+	//public static int ATK = 0, DEF = 1, NEU = 2;
+	
 	//private int[] layerSizes = {29, 20, 16, 16, 8};
 	//private NeuralNetwork brain = new NeuralNetwork(29, 8, layerSizes);
 	private Brain brain;
@@ -17,6 +19,7 @@ public class NeuralBot extends SmashPlayer {
 		//brain = new NeuralNetwork(29, 2, 16, 8);
 		this.brain = brain;
 	}
+	
 	
 	public void setPlayerParams(int playerNumb) {
 		this.playerNumb = playerNumb;

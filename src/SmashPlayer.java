@@ -19,7 +19,10 @@ public class SmashPlayer extends Player {
 	private int invisibleCounter = 0;
 	private int shieldDropFrames = 0;
 	private boolean jumping = false;
-	private double prevX, prevY ;
+	private double prevX, prevY;
+	
+	protected int damageDealt = 0, damageOnPunish = 0, damageOnCombo = 0, damageShielded = 0;
+	protected int actionableFor = 0;
 
 	private boolean keyPressingLeft = false, keyPressingRight = false, wasPressingShield = false;
 	private int airdashSpeed;
@@ -574,6 +577,7 @@ public class SmashPlayer extends Player {
 								}
 
 								SoundManager.play("sounds/Parry.wav", false);
+								damageShielded += opponent.getCurrentAttack().getDamage();
 							}
 
 							else {
@@ -588,6 +592,7 @@ public class SmashPlayer extends Player {
 									shield = 100;
 								}
 								SoundManager.play("sounds/PunchShield.wav", false);
+								damageShielded += opponent.getCurrentAttack().getDamage();
 							}
 						}
 
@@ -620,6 +625,13 @@ public class SmashPlayer extends Player {
 								}
 								else {
 									SoundManager.play("sounds/PunchHit.wav", false);
+								}
+								((SmashPlayer)(opponent)).damageDealt += damage;
+								if (actionableFor <= 3) {
+									((SmashPlayer)(opponent)).damageOnCombo += damage;
+								}
+								if (attacking) {
+									((SmashPlayer)(opponent)).damageOnPunish += damage;
 								}
 							}
 
@@ -946,6 +958,17 @@ public class SmashPlayer extends Player {
 				wasTouchingWall = false;
 			}
 
+		}
+	}
+	
+	protected void countHitstun() {
+		
+		if (hitstunFrames > 0) {
+			hitstunFrames--;
+			actionableFor = 0;
+		}
+		else {
+			actionableFor++;
 		}
 	}
 
@@ -1413,5 +1436,29 @@ public class SmashPlayer extends Player {
 
 		setStanding();
 
+	}
+	
+	
+	
+	public void incDamageDealt(int damage) {
+		this.damageDealt += damage;
+	}
+	public void incDamageOnPunish(int damage) {
+		this.damageOnPunish += damage;
+	}
+	public void incDamageOnCombo(int damage) {
+		this.damageOnCombo += damage;
+	}
+	public int getDamageDealt() {
+		return damageDealt;
+	}
+	public int getDamageOnPunish() {
+		return damageOnPunish;
+	}
+	public int getDamageOnCombo() {
+		return damageOnCombo;
+	}
+	public int getDamageShielded() {
+		return damageShielded;
 	}
 }

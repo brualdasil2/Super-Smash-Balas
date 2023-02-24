@@ -17,13 +17,12 @@ public class ScreenTesting {
 	public static void main (String[] args) {
 		
 		
-		
 		//Launcher
 		Game game = new Game("Project Balas", frameWidth, frameHeight);	
 		game.start(); //Start thread
 		//game.init();
 		//NeuralTrainer trainer = new NeuralTrainer(game);
-		//trainer.genetic(1000, 19);
+		//trainer.genetic3Types(1000, 180);
 	
 	}
 		
