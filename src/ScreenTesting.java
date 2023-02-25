@@ -22,7 +22,7 @@ public class ScreenTesting {
 		game.start(); //Start thread
 		//game.init();
 		//NeuralTrainer trainer = new NeuralTrainer(game);
-		//trainer.genetic3Types(1000, 180);
+		//trainer.genetic3Types(1000, 20);
 	
 	}
 		

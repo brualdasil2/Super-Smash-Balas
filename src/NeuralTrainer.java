@@ -105,6 +105,7 @@ public class NeuralTrainer {
 		int p1Fitness = 0;
 		int totalTicks = 0;
 		int biggestTicks = 0;
+		boolean timedOut = false;
 		for (int i = 0; i < 1; i++) {
 			simulator.init(p1, p2);
 			int ticksAtStart = totalTicks;
@@ -112,6 +113,7 @@ public class NeuralTrainer {
 				simulator.tick();
 				totalTicks++;
 				if (totalTicks - ticksAtStart > 30000) {
+					timedOut = true;
 					break;
 				}
 			}
@@ -133,6 +135,7 @@ public class NeuralTrainer {
 			int punishWeight = 1;
 			int shieldWeight = 1;
 			int centerWeight = 1;
+			int closeWeight = 1;
 			
 			switch(type) {
 				case "ATK":
@@ -140,29 +143,36 @@ public class NeuralTrainer {
 					comboWeight = 15;
 					punishWeight = 10;
 					shieldWeight = 1;
-					centerWeight = 200;
+					closeWeight = 200;
+					centerWeight = 50;
 					break;
 				case "DEF":
 					damageWeight = 1;
 					comboWeight = 5;
 					punishWeight = 15;
 					shieldWeight = 15;
-					centerWeight = 80;
+					closeWeight = 50;
+					centerWeight = 200;
 					break;
 				case "NEU":
 					damageWeight = 1;
-					comboWeight = 5;
-					punishWeight = 3;
-					shieldWeight = 2;
+					comboWeight = 8;
+					punishWeight = 5;
+					shieldWeight = 3;
+					closeWeight = 100;
 					centerWeight = 100;
 					break;
 			}
 			p1Fitness += simulator.getP1DamageDealt()*damageWeight +
 					     simulator.getP1DamageOnCombo()*comboWeight +
 					     simulator.getP1DamageOnPunish()*punishWeight +
-					     simulator.getP1DamageShielded()*shieldWeight;
+					     simulator.getP1DamageShielded()*shieldWeight +
+					     (double)simulator.getCloseTicks()/(totalTicks - ticksAtStart)*closeWeight;
 			p1Fitness += (p1.getScore() - p2.getScore())*50;
 			p1Fitness += (double)simulator.getP1CenterTicks()/(totalTicks - ticksAtStart)*centerWeight;
+			if (timedOut) {
+				p1Fitness -= 2000;
+			}
 		}
 		//System.out.println("P1 wins: " + p1Wins);
 		//System.out.println("P2 wins: " + p2Wins);
@@ -279,7 +289,7 @@ public class NeuralTrainer {
 	
 	private void initRandomPopulation(Brain[] population) {
 		for (int i = 0; i < population.length; i++) {
-			NeuralNetwork randomNetwork = new NeuralNetwork(45, 4, 25, 27);
+			NeuralNetwork randomNetwork = new NeuralNetwork(11, 3, 20, 27);
 			population[i] = new Brain(randomNetwork);
 		}
 	}
@@ -409,8 +419,21 @@ public class NeuralTrainer {
 					selected = selectIndividuals(populations[p]);
 					Brain[] sons = new Brain[2];
 					sons = doubleCrossover(selected[0], selected[1]);
-					sons[0].getNetwork().mutate(0.1);
-					sons[1].getNetwork().mutate(0.1);
+					double mutationRate;
+					if (genNumber < 20) {
+						mutationRate = 0.3;
+					}
+					else if (genNumber < 50) {
+						mutationRate = 0.25;
+					}
+					else if (genNumber < 100) {
+						mutationRate = 0.2;
+					}
+					else {
+						mutationRate = 0.1;
+					}
+					sons[0].getNetwork().mutate(mutationRate);
+					sons[1].getNetwork().mutate(mutationRate);
 					newPopulation.add(sons[0]);
 					newPopulation.add(sons[1]);
 					//System.out.println("New pop is: " + newPopulation.size());

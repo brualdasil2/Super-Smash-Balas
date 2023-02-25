@@ -4,7 +4,7 @@ public class SimulationState {
 	private SmashPlayer player1, player2;
 	private int winner;
 	private int p1DamageDealt, p2DamageDealt, p1CenterTicks, p2CenterTicks, p1DamageOnCombo, p2DamageOnCombo, p1DamageOnPunish, p2DamageOnPunish, p1DamageShielded, p2DamageShielded;
-
+	private int closeTicks;
 	private int maxScore = 4;
 	private MagicBall magicBall;
 	private boolean fighting;
@@ -32,6 +32,7 @@ public class SimulationState {
 		p2DamageOnPunish = 0;
 		p1DamageOnCombo = 0;
 		p2DamageOnCombo = 0;
+		closeTicks = 0;
 	}
 	
 	public int distanceToCenter(SmashPlayer p) {
@@ -81,6 +82,9 @@ public class SimulationState {
 			else if (distanceToCenter(player1) > distanceToCenter(player2)) {
 				p2CenterTicks++;
 			}
+			if (Math.abs(player1.x - player2.x) <= 200) {
+				closeTicks++;
+			}
 		}
 	}
 	
@@ -121,6 +125,9 @@ public class SimulationState {
 
 	public int getP2DamageShielded() {
 		return player2.getDamageShielded();
+	}
+	public int getCloseTicks() {
+		return closeTicks;
 	}
 	public boolean isFighting() {
 		return fighting;

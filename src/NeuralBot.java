@@ -15,8 +15,7 @@ public class NeuralBot extends SmashPlayer {
 	
 	public NeuralBot(Game game, int playerNumb, Character character, double x, double y, Brain brain) {
 		
-		super(game, playerNumb, character, x, y, "BOT (N)");
-		//brain = new NeuralNetwork(29, 2, 16, 8);
+		super(game, playerNumb, character, x, y, "BOT (N)", 10);
 		this.brain = brain;
 	}
 	
@@ -78,15 +77,15 @@ public class NeuralBot extends SmashPlayer {
 		setFrames(5);
 	}
 	private void shortShield() {
-		setFrames(5);
-		pressingShield = true;
-	}
-	private void longShield() {
 		setFrames(15);
 		pressingShield = true;
 	}
+	private void longShield() {
+		setFrames(30);
+		pressingShield = true;
+	}
 	private void shortDashAway() {
-		setFrames(5);
+		setFrames(15);
 		if (opponentOnLeft)
 			pressingRight = true;
 		if (opponentOnRight)
@@ -94,7 +93,7 @@ public class NeuralBot extends SmashPlayer {
 	}
 	private void longDashAway() {
 		
-		setFrames(15);
+		setFrames(30);
 		
 		if (opponentOnLeft)
 			pressingRight = true;
@@ -102,7 +101,7 @@ public class NeuralBot extends SmashPlayer {
 			pressingLeft = true;
 	}
 	private void shortDashTo() {
-		setFrames(5);
+		setFrames(15);
 		if (opponentOnLeft) {
 			pressingLeft = true;
 		}
@@ -111,7 +110,7 @@ public class NeuralBot extends SmashPlayer {
 		}
 	}
 	private void longDashTo() {
-		setFrames(15);
+		setFrames(30);
 		if (opponentOnLeft) {
 			pressingLeft = true;
 		}
@@ -131,7 +130,8 @@ public class NeuralBot extends SmashPlayer {
 		if (opponentOnRight)
 			pressingLeft = true;
 	}
-	private void jump() {	
+	private void jump() {
+		setFrames(15);
 		pressingJump = true;
 	}
 	private void jumpTo() {	
@@ -313,57 +313,87 @@ public class NeuralBot extends SmashPlayer {
 		}
 	}
 	
+	private double distToSideBz() {
+		double distToLeft = Math.abs(x - leftBlastzone);
+		double distToRight = Math.abs(x - rightBlastzone);
+		return (Math.min(distToLeft, distToRight));
+	}
+	private double distToTopBz() {
+		return Math.abs(y - topBlastzone);
+	}
+	private double horDistToOp() {
+		return Math.abs(x - opponent.x);
+	}
+	private double verDistToOp() {
+		return Math.abs(y - opponent.y);
+	}
+	private double distToCenter() {
+		return Math.abs((int)((x + currentAttack.getCollisionbox().getX() + currentAttack.getCollisionbox().getWidth()/2) - 640));
+	}
+	private boolean justShielded() {
+		return framesSinceLastShield <= 20;
+	}
+	private int framesToPunish() {
+		if (!opponent.attacking) {
+			return 0;
+		}
+		AttackFrame attackFrames[] = opponent.getCurrentAttack().getFrames().clone();
+		int uF = opponent.character.attackUF;
+		int framesPunish = 0;
+		for (int i = uF; i < opponent.getCurrentAttack().getUniqueFrames(); i++) {
+			framesPunish += attackFrames[i].getDuration();
+		}
+		return (framesPunish - opponent.character.attackIF + 1); //+1 because of one extra frame to shield after
+	}
+	private boolean lowOnShield() {
+		return shield < 20;
+	}
+	
+	private void filterUnusableActions(double[] brainOutputs) {
+		int[] mustHaveAnyStamina = {1, 2};
+		int[] mustHaveSomeStamina = {9, 10, 11, 12, 13, 24, 25, 26};
+		int[] mustHave2Mana = {21, 23};
+		int mustHave4Mana = 22;
+		
+		if (shield < 5) {
+			for (int i : mustHaveAnyStamina) {
+				brainOutputs[i] = 0;
+			}
+		}
+		if (shield < 20) {
+			for (int i : mustHaveSomeStamina) {
+				brainOutputs[i] = 0;
+			}
+		}
+		if (magic < 2) {
+			for (int i : mustHave2Mana) {
+				brainOutputs[i] = 0;
+			}
+		}
+		if (magic < 4) {
+			brainOutputs[mustHave4Mana] = 0;
+		}
+	}
 	
 	protected void getInput() {
-		double[] brainInputs = new double[45];
+		double[] brainInputs = new double[11];
 		double[] brainOutputs = new double[27];
-		brainInputs[0] = x;
-		brainInputs[1] = y;
-		brainInputs[2] = xSpeed;
-		brainInputs[3] = ySpeed;
-		brainInputs[4] = percent;
-		brainInputs[5] = shield;
-		brainInputs[6] = airdashCounter;
-		brainInputs[7] = opponent.x;
-		brainInputs[8] = opponent.y;
-		brainInputs[9] = opponent.xSpeed;
-		brainInputs[10] = opponent.ySpeed;
-		brainInputs[11] = ((SmashPlayer)(opponent)).percent;
-		brainInputs[12] = opponent.shield;
-		brainInputs[13] = ((SmashPlayer)(opponent)).airdashCounter;
-		brainInputs[14] = opponent.jabbing ? 1 : 0;
-		brainInputs[15] = opponent.dashing ? 1 : 0;
-		brainInputs[16] = opponent.upTilting ? 1 : 0;
-		brainInputs[17] = opponent.fairing ? 1 : 0;
-		brainInputs[18] = opponent.bairing ? 1 : 0;
-		brainInputs[19] = opponent.upAiring ? 1 : 0;
-		brainInputs[20] = opponent.neutralSpecialing ? 1 : 0;
-		brainInputs[21] = opponent.sideSpecialing ? 1 : 0;
-		brainInputs[22] = opponent.upSpecialing ? 1 : 0;
-		brainInputs[23] = opponent.character.attackIF;
-		brainInputs[24] = opponent.character.attackUF;
-		brainInputs[25] = magic;
-		brainInputs[26] = opponent.magic;
-		brainInputs[27] = onAir ? 1 : 0;
-		brainInputs[28] = opponent.onAir ? 1 : 0;
-		brainInputs[29] = jabbing ? 1 : 0;
-		brainInputs[30] = dashing ? 1 : 0;
-		brainInputs[31] = upTilting ? 1 : 0;
-		brainInputs[32] = fairing ? 1 : 0;
-		brainInputs[33] = bairing ? 1 : 0;
-		brainInputs[34] = upAiring ? 1 : 0;
-		brainInputs[35] = neutralSpecialing ? 1 : 0;
-		brainInputs[36] = sideSpecialing ? 1 : 0;
-		brainInputs[37] = upSpecialing ? 1 : 0;
-		brainInputs[38] = character.attackIF;
-		brainInputs[39] = character.attackUF;
-		brainInputs[40] = opponent.hitstunFrames;
-		brainInputs[41] = jumps;
-		brainInputs[42] = opponent.jumps;
-		brainInputs[43] = shielding ? 1 : 0;
-		brainInputs[44] = opponent.shielding ? 1 : 0;
+		
+		brainInputs[0] = distToSideBz();
+		brainInputs[1] = distToTopBz();
+		brainInputs[2] = horDistToOp();
+		brainInputs[3] = verDistToOp();
+		brainInputs[4] = distToCenter();
+		brainInputs[5] = onAir ? 1 : 0;
+		brainInputs[6] = justShielded() ? 1 : 0;
+		brainInputs[7] = opponent.shielding ? 1 : 0;
+		brainInputs[8] = opponent.shield;
+		brainInputs[9] = framesToPunish();
+		brainInputs[10] = lowOnShield() ? 1 : 0;
 		
 		brainOutputs = brain.getNetwork().guess(brainInputs);
+		
+		filterUnusableActions(brainOutputs);
 		
 		if (frameCounter == 0) {
 			actionChosen = chooseRandomIndex(brainOutputs);

@@ -158,13 +158,13 @@ public class GameState extends State {
 			
 			
 			//player1 = new SmashPlayer(game, 1, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer1Char(), 240, floorY - 200, "JOGADOR 1", ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer1InputDelay());
-			//player2 = new SmashPlayer(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), 840, floorY - 200, "JOGADOR 2", ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2InputDelay());
-			NeuralNetwork p1Network = NeuralNetwork.readFromFile("./neural_networks/NEU/gen181/rank1.json");
-			NeuralNetwork p2Network = NeuralNetwork.readFromFile("./neural_networks/NEU/gen20/rank1.json");
+			player2 = new SmashPlayer(game, 2, ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2Char(), 840, floorY - 200, "JOGADOR 2", ((CharacterSelectState)(game.getCharacterSelectState())).getPlayer2InputDelay());
+			NeuralNetwork p1Network = NeuralNetwork.readFromFile("./neural_networks/NEU/gen135/rank1.json");
+			NeuralNetwork p2Network = NeuralNetwork.readFromFile("./neural_networks/NEU/gen135/rank2.json");
 			Brain p1Brain = new Brain(p1Network);
 			Brain p2Brain = new Brain(p2Network);
 			player1 = new NeuralBot(game, 1, new Bruno(0), 240, floorY - 200, p1Brain);
-			player2 = new NeuralBot(game, 2, new Bruno(1), 840, floorY - 200, p2Brain);
+			//player2 = new NeuralBot(game, 2, new Bruno(1), 840, floorY - 200, p2Brain);
 			//player2 = new SmashBrunoBotHard(game, 2, new Bruno(1), 840, floorY - 200);
 			
 

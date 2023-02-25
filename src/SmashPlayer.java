@@ -6,10 +6,10 @@ import java.awt.Graphics2D;
 public class SmashPlayer extends Player {
 
 	protected int percent;
-	private int leftBlastzone = -100;
-	private int rightBlastzone = 1380;
-	private int topBlastzone = -300;
-	private int bottomBlastzone = 920;
+	protected int leftBlastzone = -100;
+	protected int rightBlastzone = 1380;
+	protected int topBlastzone = -300;
+	protected int bottomBlastzone = 920;
 	protected boolean pressingAirdash;
 	private int airdashDuration = 15;
 	private int airdashes = 1;
@@ -20,6 +20,7 @@ public class SmashPlayer extends Player {
 	private int shieldDropFrames = 0;
 	private boolean jumping = false;
 	private double prevX, prevY;
+	protected int framesSinceLastShield = 0;
 	
 	protected int damageDealt = 0, damageOnPunish = 0, damageOnCombo = 0, damageShielded = 0;
 	protected int actionableFor = 0;
@@ -578,6 +579,7 @@ public class SmashPlayer extends Player {
 
 								SoundManager.play("sounds/Parry.wav", false);
 								damageShielded += opponent.getCurrentAttack().getDamage();
+								framesSinceLastShield = 0;
 							}
 
 							else {
@@ -593,6 +595,7 @@ public class SmashPlayer extends Player {
 								}
 								SoundManager.play("sounds/PunchShield.wav", false);
 								damageShielded += opponent.getCurrentAttack().getDamage();
+								framesSinceLastShield = 0;
 							}
 						}
 
@@ -992,6 +995,7 @@ public class SmashPlayer extends Player {
 		setStanding();
 
 		countHitstun();
+		framesSinceLastShield++;
 		
 		//System.out.println(hitstunFrames);
 
