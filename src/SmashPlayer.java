@@ -977,6 +977,8 @@ public class SmashPlayer extends Player {
 
 	public void tick() {
 		
+		wasPressingShield = pressingShield;
+		
 		if (updatedInputs) {
 			pressingJump = inputs.isPressingJump();
 			pressingAttack = inputs.isPressingAttack();

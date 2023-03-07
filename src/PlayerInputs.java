@@ -1,5 +1,5 @@
 
-public class PlayerInputs {
+public class PlayerInputs implements Cloneable {
 	private boolean pressingJump;
 	private boolean pressingAttack;
 	private boolean pressingSpecial;
@@ -11,6 +11,20 @@ public class PlayerInputs {
 	private boolean keyPressingLeft;
 	private boolean keyPressingRight;
 	private Game game;
+	
+	public Object clone()   
+	{  
+		//shallow copy  
+		try   
+		{  
+			return super.clone();  
+		}   
+		catch (CloneNotSupportedException e)   
+		{  
+			return null;  
+		}  
+	}  
+	
 	
 	public PlayerInputs(Game game) {
 		this.game = game;

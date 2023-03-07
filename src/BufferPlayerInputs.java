@@ -19,7 +19,8 @@ public class BufferPlayerInputs {
 		for (int i = 0; i < bufferSize-1; i++) {
 			buffer[i] = buffer[i+1];
 		}
-		buffer[bufferSize-1] = newInputs;
+		buffer[bufferSize-1] = (PlayerInputs)newInputs.clone();
+
 		return oldInputs;
 	}
 }

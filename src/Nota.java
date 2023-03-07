@@ -16,7 +16,7 @@ public class Nota extends Projectile {
 		hitboxes = new Hitbox[] {new Hitbox(37, 25, 28),
 								 new Hitbox(12, 52, 16)};
 		
-		damage = 10;
+		damage = 4;
 		knockbackXspeed = 10;
 		knockbackYspeed = -12;
 		freezeFrames = 7;

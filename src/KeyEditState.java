@@ -31,6 +31,8 @@ public class KeyEditState extends State {
 	private static int p2Up, p2Left, p2Shield, p2Right, p2Jump, p2Attack, p2Special;
 	
 	
+
+	
 	public KeyEditState(Game game) {
 		
 		super(game);	
@@ -38,19 +40,19 @@ public class KeyEditState extends State {
 		p1rightButton = new KeyEditButton(game, 300, 220, 100, 40, "D", KeyEvent.VK_D);
 		p1upButton = new KeyEditButton(game, 300, 270, 100, 40, "W", KeyEvent.VK_W);
 		p1shieldButton = new KeyEditButton(game, 300, 320, 100, 40, "S", KeyEvent.VK_S);
-		p1jumpButton = new KeyEditButton(game, 300, 470, 100, 40, "CAPS", KeyEvent.VK_CAPS_LOCK);
-		p1attackButton = new KeyEditButton(game, 300, 520, 100, 40, "SHIFT", KeyEvent.VK_SHIFT);
-		p1specialButton = new KeyEditButton(game, 300, 570, 100, 40, "CTRL", KeyEvent.VK_CONTROL);
-		p1airdashButton = new KeyEditButton(game, 300, 620, 100, 40, "Q", KeyEvent.VK_Q);
+		p1jumpButton = new KeyEditButton(game, 300, 470, 100, 40, "I", KeyEvent.VK_I);
+		p1attackButton = new KeyEditButton(game, 300, 520, 100, 40, "J", KeyEvent.VK_J);
+		p1specialButton = new KeyEditButton(game, 300, 570, 100, 40, "K", KeyEvent.VK_K);
+		p1airdashButton = new KeyEditButton(game, 300, 620, 100, 40, "L", KeyEvent.VK_L);
 
-		p2leftButton = new KeyEditButton(game, 890, 170, 100, 40, "J", KeyEvent.VK_J);
-		p2rightButton = new KeyEditButton(game, 890, 220, 100, 40, "L", KeyEvent.VK_L);
-		p2upButton = new KeyEditButton(game, 890, 270, 100, 40, "I", KeyEvent.VK_I);
-		p2shieldButton = new KeyEditButton(game, 890, 320, 100, 40, "K", KeyEvent.VK_K);
-		p2jumpButton = new KeyEditButton(game, 890, 470, 100, 40, "G", KeyEvent.VK_G);
-		p2attackButton = new KeyEditButton(game, 890, 520, 100, 40, "V", KeyEvent.VK_V);
-		p2specialButton = new KeyEditButton(game, 890, 570, 100, 40, "B", KeyEvent.VK_B);
-		p2airdashButton = new KeyEditButton(game, 890, 620, 100, 40, "Y", KeyEvent.VK_Y);
+		p2leftButton = new KeyEditButton(game, 890, 170, 100, 40, "<", KeyEvent.VK_LEFT);
+		p2rightButton = new KeyEditButton(game, 890, 220, 100, 40, ">", KeyEvent.VK_RIGHT);
+		p2upButton = new KeyEditButton(game, 890, 270, 100, 40, "^", KeyEvent.VK_UP);
+		p2shieldButton = new KeyEditButton(game, 890, 320, 100, 40, "v", KeyEvent.VK_DOWN);
+		p2jumpButton = new KeyEditButton(game, 890, 470, 100, 40, "5", KeyEvent.VK_NUMPAD5);
+		p2attackButton = new KeyEditButton(game, 890, 520, 100, 40, "1", KeyEvent.VK_NUMPAD1);
+		p2specialButton = new KeyEditButton(game, 890, 570, 100, 40, "2", KeyEvent.VK_NUMPAD2);
+		p2airdashButton = new KeyEditButton(game, 890, 620, 100, 40, "3", KeyEvent.VK_NUMPAD3);
 		
 		pauseButton = new KeyEditButton(game, 590, 370, 100, 40, "P", KeyEvent.VK_P);
 
