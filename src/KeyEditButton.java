@@ -18,6 +18,23 @@ public class KeyEditButton {
 	private Font font;
 	private boolean waitingKey;
 	
+	private String convertKeyToChar(int key) {
+		switch(key) {
+			case KeyEvent.VK_SPACE:
+				return "ESPAÇO";
+			case KeyEvent.VK_RIGHT:
+				return ">";
+			case KeyEvent.VK_LEFT:
+				return "<";
+			case KeyEvent.VK_UP:
+				return "^";
+			case KeyEvent.VK_DOWN:
+				return "v";
+			default:
+				return "NO_DISPLAY";
+		}
+	}
+	
 	public KeyEditButton(Game game, int x, int y, int width, int height, String initialKey, int initialKeyCode) {
 		
 		this.game = game;
@@ -53,8 +70,14 @@ public class KeyEditButton {
 		if (waitingKey) {
 			if (KeyManager.getLastKeyPressed() != null)
 				if (KeyManager.getLastKeyPressed().getKeyChar() + "" != key) {
-					key = ("" + KeyManager.getLastKeyPressed().getKeyChar()).toUpperCase();
 					keyCode = KeyManager.getLastKeyPressed().getKeyCode();
+					String keyText = convertKeyToChar(keyCode);
+					if (keyText == "NO_DISPLAY") {
+						key = ("" + KeyManager.getLastKeyPressed().getKeyChar()).toUpperCase();
+					}
+					else {
+						key = keyText;
+					}
 					KeyEditState.rerender();
 					waitingKey = false;
 					setColor(Color.gray);
