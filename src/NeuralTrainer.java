@@ -15,20 +15,18 @@ public class NeuralTrainer {
 	}
 
 	
-	private int p1FitnessSimulatedN(NeuralBot p1, NeuralBot p2, int nGames) {
-		int p1Wins = 0;
-		int p2Wins = 0;
+	private int playGameToLearn(NeuralBot p1, NeuralBot p2, int nGames) {
 		int p1Fitness = 0;
 		int totalTicks = 0;
 		int biggestTicks = 0;
 		for (int i = 0; i < nGames; i++) {
-			//System.out.println("Simulating game " + i);
-			//p1 = new NeuralBot(game, 1, new Bruno(0), 240, GameState.floorY - 200);
-			//p2 = new NeuralBot(game, 2, new Bruno(1), 840, GameState.floorY - 200);
 			simulator.init(p1, p2);
 			int ticksAtStart = totalTicks;
 			while(simulator.isFighting()) {
+				int currentState = p1.getCurrentState();
 				simulator.tick();
+				int newState = p1.getCurrentState();
+				//int reward = XX.
 				totalTicks++;
 				if (totalTicks - ticksAtStart > 30000) {
 					break;
@@ -38,14 +36,6 @@ public class NeuralTrainer {
 			int ticksInThisGame = ticksAtEnd - ticksAtStart;
 			if (ticksInThisGame > biggestTicks) {
 				biggestTicks = ticksInThisGame;
-			}
-			int winner = simulator.getWinner();
-			//System.out.println("Winner: " + winner);
-			if (winner == 1) {
-				p1Wins++;
-			}
-			else if (winner == 2) {
-				p2Wins++;
 			}
 			p1Fitness += simulator.getP1DamageDealt() - simulator.getP2DamageDealt();
 			p1Fitness += (p1.getScore() - p2.getScore())*50;

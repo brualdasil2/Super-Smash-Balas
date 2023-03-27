@@ -12,6 +12,7 @@ import basicneuralnetwork.NeuralNetwork;
 
 import com.github.chen0040.rl.actionselection.GibbsSoftMaxActionSelectionStrategy;
 import com.github.chen0040.rl.learning.qlearn.QAgent;
+import com.github.chen0040.rl.learning.qlearn.QLambdaLearner;
 import com.github.chen0040.rl.learning.qlearn.QLearner;
 
 public class ScreenTesting {
@@ -116,6 +117,11 @@ public class ScreenTesting {
 			else if (fartherFromGoal(oldScore, score)) {
 				reward = -2;
 			}
+			else {
+				if (score == 7) {
+					reward = 2;
+				};
+			}
 			System.out.println("New state is " + score + " Reward is " + reward);
 			agent.update(actionChosen, score, reward);
 		}
@@ -133,11 +139,11 @@ public class ScreenTesting {
 	
 	public static void main (String[] args) {
 		
-		testAgent();
+		//testAgent();
 		//runAgent();
 		//Launcher
-		//Game game = new Game("Project Balas", frameWidth, frameHeight);	
-		//game.start(); //Start thread
+		Game game = new Game("Project Balas", frameWidth, frameHeight);	
+		game.start(); //Start thread
 		//game.init();
 		//NeuralTrainer trainer = new NeuralTrainer(game);
 		//trainer.genetic3Types(1000, 20);

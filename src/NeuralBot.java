@@ -1,5 +1,7 @@
 import java.util.Random;
 
+import com.github.chen0040.rl.learning.qlearn.QLearner;
+
 import basicneuralnetwork.NeuralNetwork;
 
 public class NeuralBot extends SmashPlayer {
@@ -8,12 +10,12 @@ public class NeuralBot extends SmashPlayer {
 	
 	//private int[] layerSizes = {29, 20, 16, 16, 8};
 	//private NeuralNetwork brain = new NeuralNetwork(29, 8, layerSizes);
-	private Brain brain;
+	private QLearner brain;
 	private int frameCounter = 0;
 	private boolean opponentOnRight = false, opponentOnLeft = false;
 	private int actionChosen = 0;
 	
-	public NeuralBot(Game game, int playerNumb, Character character, double x, double y, Brain brain) {
+	public NeuralBot(Game game, int playerNumb, Character character, double x, double y, QLearner brain) {
 		
 		super(game, playerNumb, character, x, y, "BOT (N)", 10);
 		this.brain = brain;
@@ -375,29 +377,22 @@ public class NeuralBot extends SmashPlayer {
 		}
 	}
 	
+	public int getCurrentState() {
+		//int currentState = 0;
+		double myCenterX = x + currentAttack.getCollisionbox().getX() + currentAttack.getCollisionbox().getWidth()/2;
+		double myCenterY = y + currentAttack.getCollisionbox().getY() + currentAttack.getCollisionbox().getHeight()/2;
+		double myXInLine = myCenterX - leftBlastzone;
+		double xLineSize = rightBlastzone - leftBlastzone;
+		int myTileX = (int)((myXInLine/xLineSize)*8);
+		return 10;
+	}
+	
 	protected void getInput() {
-		double[] brainInputs = new double[11];
-		double[] brainOutputs = new double[27];
 		
-		brainInputs[0] = distToSideBz();
-		brainInputs[1] = distToTopBz();
-		brainInputs[2] = horDistToOp();
-		brainInputs[3] = verDistToOp();
-		brainInputs[4] = distToCenter();
-		brainInputs[5] = onAir ? 1 : 0;
-		brainInputs[6] = justShielded() ? 1 : 0;
-		brainInputs[7] = opponent.shielding ? 1 : 0;
-		brainInputs[8] = opponent.shield;
-		brainInputs[9] = framesToPunish();
-		brainInputs[10] = lowOnShield() ? 1 : 0;
 		
-		brainOutputs = brain.getNetwork().guess(brainInputs);
+		int currentState = getCurrentState();
 		
-		filterUnusableActions(brainOutputs);
-		
-		if (frameCounter == 0) {
-			actionChosen = chooseRandomIndex(brainOutputs);
-		}
+		actionChosen = brain.selectAction(currentState).getIndex();
 		
 		opponentOnLeft = (opponent.x - x < 0);
 		opponentOnRight = (opponent.x - x > 0);
