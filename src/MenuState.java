@@ -87,7 +87,7 @@ public class MenuState extends State{
 			g.clearRect(0, 0, 1280, 720);
 			//Text.drawString(g, "SUPER SMASH BALAS", 640, 300, true, Color.black, Assets.font30);
 			g.drawImage(Assets.logo, 440, 100, 400, 400, null);
-			Text.drawString(g, "Ver. 3.1", 10, 710, false, Color.black, Assets.font15);
+			Text.drawString(g, "Ver. 3.2", 10, 710, false, Color.black, Assets.font15);
 			pVpButton.drawButton(g);
 			botButton.drawButton(g);
 			keysButton.drawButton(g);

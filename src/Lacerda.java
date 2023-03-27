@@ -847,7 +847,10 @@ public class Lacerda extends Character {
 				player.decreaseMagic(upSpecialMagic);
 			}
 		}
-		
+		if (attackUF >= 7 && attackUF <= 10) {
+			player.xSpeed = 0;
+			player.ySpeed = -1;
+		}
 		if (attackUF == 9 && attackIF == 1) {
 			
 			SoundManager.play("sounds/SmokeBomb.wav", false);
@@ -867,9 +870,12 @@ public class Lacerda extends Character {
 				player.increaseY(upBdistance);
 				player.setYSpeed(1);
 			}
-			else {
+			else if (player.pressingUp && !(player.pressingRight || player.pressingLeft)){
 				
 				player.increaseY(-upBdistance);
+				player.setYSpeed(-1);
+			}
+			else {
 				player.setYSpeed(-1);
 			}
 			

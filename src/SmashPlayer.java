@@ -157,7 +157,7 @@ public class SmashPlayer extends Player {
 							}
 						} else {
 
-							if (!((upSpecialing && character instanceof Lacerda) || neutralSpecialing)) {
+							if (!((upSpecialing && character instanceof Lacerda && character.attackUF >= 7) || neutralSpecialing)) {
 
 								if (xSpeed < 0) {
 									if (frozen)
@@ -200,7 +200,7 @@ public class SmashPlayer extends Player {
 							}
 						} else {
 
-							if (!((upSpecialing && character instanceof Lacerda) || neutralSpecialing)) {
+							if (!((upSpecialing && character instanceof Lacerda && character.attackUF >= 7) || neutralSpecialing)) {
 
 								if (xSpeed > 0) {
 									if (frozen)
