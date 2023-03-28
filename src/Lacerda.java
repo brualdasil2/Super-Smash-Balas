@@ -849,7 +849,7 @@ public class Lacerda extends Character {
 		}
 		if (attackUF >= 7 && attackIF == 1) {
 			player.xSpeed = 0;
-			player.ySpeed = -1;
+			player.ySpeed = 0;
 			
 		}
 		if (attackUF == 9 && attackIF == 1) {
@@ -859,25 +859,25 @@ public class Lacerda extends Character {
 			if (player.pressingRight && !(player.pressingLeft || player.pressingShield)) {
 				
 				player.increaseX(upBdistance);
-				player.setYSpeed(-1);
+				player.setYSpeed(0);
 			}
 			else if (player.pressingLeft && !(player.pressingRight || player.pressingShield)) {
 				
 				player.increaseX(-upBdistance);
-				player.setYSpeed(-1);
+				player.setYSpeed(0);
 			}
 			else if (player.pressingShield && !(player.pressingRight || player.pressingLeft)) {
 				
 				player.increaseY(upBdistance);
-				player.setYSpeed(1);
+				player.setYSpeed(0);
 			}
 			else if (player.pressingUp && !(player.pressingRight || player.pressingLeft)){
 				
 				player.increaseY(-upBdistance);
-				player.setYSpeed(-1);
+				player.setYSpeed(0);
 			}
 			else {
-				player.setYSpeed(-1);
+				player.setYSpeed(-0);
 			}
 			
 		}
