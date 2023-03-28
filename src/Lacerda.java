@@ -847,9 +847,10 @@ public class Lacerda extends Character {
 				player.decreaseMagic(upSpecialMagic);
 			}
 		}
-		if (attackUF >= 7 && attackUF <= 10) {
+		if (attackUF >= 7 && attackIF == 1) {
 			player.xSpeed = 0;
 			player.ySpeed = -1;
+			
 		}
 		if (attackUF == 9 && attackIF == 1) {
 			

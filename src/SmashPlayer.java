@@ -1000,8 +1000,11 @@ public class SmashPlayer extends Player {
 		if (freezeFrames == 0) {
 
 			if (onAir) {
-				if (airdashCounter == 0)
-					gravity();
+				if (airdashCounter == 0) {
+					if (!(character instanceof Lacerda && character.attackUF >= 7 && character.attackUF <= 10)) {
+						gravity();
+					}
+				}
 
 			}
 
