@@ -856,6 +856,7 @@ public class Lacerda extends Character {
 			
 			SoundManager.play("sounds/SmokeBomb.wav", false);
 			
+			((SmashPlayer)(player)).tpCounter = 2;
 			if (player.pressingRight && !(player.pressingLeft || player.pressingShield)) {
 				
 				player.increaseX(upBdistance);
@@ -877,7 +878,7 @@ public class Lacerda extends Character {
 				player.setYSpeed(0);
 			}
 			else {
-				player.setYSpeed(-0);
+				player.setYSpeed(0);
 			}
 			
 		}

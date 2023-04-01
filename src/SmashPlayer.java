@@ -26,6 +26,8 @@ public class SmashPlayer extends Player {
 	private boolean wavedashingRight = false, wavedashingLeft = false;
 	private boolean wasTouchingWall = false;
 
+	protected int tpCounter = 0;
+	
 	PlayerInputs inputs;
 	BufferPlayerInputs delayedInputsBuffer;
 	private boolean updatedInputs = false;
@@ -983,6 +985,10 @@ public class SmashPlayer extends Player {
 		countParryFrames();
 
 		countInvincibleFrames();
+		
+		if (tpCounter > 0) {
+			tpCounter--;
+		}
 
 		if (frozen)
 			countFrozenFrames();
@@ -1026,14 +1032,16 @@ public class SmashPlayer extends Player {
 			y = GameState.floorY - currentFrame.getHeight();
 
 			// if fell on ground
-			if ((ySpeed != 0 && y + currentFrame.getHeight() < GameState.floorY + ySpeed + 20) || airdashCounter > 0) {
+			if (((ySpeed != 0 || tpCounter != 0) && y + currentFrame.getHeight() < GameState.floorY + ySpeed + 20) || airdashCounter > 0) {
+				//System.out.println("landed");
 				if (hitstunFrames == 0 && airdashCounter == 0) {
 
 					ySpeed = 0;
 					xSpeed = 0;
+				//	System.out.println(prevY);
 					if (prevY > GameState.floorY - currentFrame.getHeight() + 50) {
 						if (character instanceof Lacerda && upSpecialing) {
-							//System.out.println("LacerdaTP");
+						//	System.out.println("LacerdaTP");
 							y = prevY;
 							if (prevX < GameState.smashStageLeft) {
 								x = GameState.smashStageLeft - currentFrame.getWidth() + currentAttack.getCollisionbox().getX() - 1;
